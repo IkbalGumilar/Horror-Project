@@ -1,9 +1,11 @@
 {
   "dependencies": {
+    "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "2.11.4",
     "com.unity.feature.development": "1.0.2",
     "com.unity.inputsystem": "1.19.0",
     "com.unity.multiplayer.center": "1.0.1",
+    "com.unity.render-pipelines.universal": "17.4.0",
     "com.unity.sdk.linux-x86_64": "1.1.0",
     "com.unity.timeline": "1.8.11",
     "com.unity.toolchain.linux-x86_64-linux": "1.1.0",
