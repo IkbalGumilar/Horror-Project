@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bbd2c99b4774e9ba9a9a742ff927e0b, type: 3}
+  m_Name: HorrorLocalizationTable
+  m_EditorClassIdentifier: 
+  defaultLanguage: 1
+  entries:
+  - key: ui.language
+    english: Language
+    indonesian: Bahasa
+  - key: ui.start
+    english: Start
+    indonesian: Mulai
+  - key: ui.continue
+    english: Continue
+    indonesian: Lanjutkan
+  - key: ui.options
+    english: Options
+    indonesian: Pengaturan
+  - key: ui.quit
+    english: Quit
+    indonesian: Keluar
+  - key: ui.back
+    english: Back
+    indonesian: Kembali
+  - key: prompt.interact
+    english: Press E to interact
+    indonesian: Tekan E untuk berinteraksi
+  - key: prompt.locked
+    english: Locked
+    indonesian: Terkunci
+  - key: prompt.need_key
+    english: I need a key.
+    indonesian: Aku butuh kunci.
+  - key: item.flashlight
+    english: Flashlight
+    indonesian: Senter
+*** Add File: Assets/Localization/HorrorLocalizationTable.asset.meta
+fileFormatVersion: 2
+guid: 425f0942c0d14a08af4d9dd4c91d8e7a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
