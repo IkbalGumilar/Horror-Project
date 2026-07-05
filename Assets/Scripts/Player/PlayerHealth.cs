@@ -16,6 +16,9 @@ public sealed class PlayerHealth : MonoBehaviour
     [SerializeField] private float currentHealth = 100f;
     [SerializeField] private bool startFull = true;
 
+    [Header("Passive Healing")]
+    [SerializeField, Range(0f, 1f)] private float passiveHealPercentPerSecond = 0.001f;
+
     public event Action<float, float> HealthChanged;
     public event Action Died;
 
@@ -40,6 +43,16 @@ public sealed class PlayerHealth : MonoBehaviour
         }
 
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+    }
+
+    private void Update()
+    {
+        if (IsDead || currentHealth >= maxHealth || passiveHealPercentPerSecond <= 0f)
+        {
+            return;
+        }
+
+        Heal(maxHealth * passiveHealPercentPerSecond * Time.deltaTime);
     }
 
     public void TakeDamage(float amount)

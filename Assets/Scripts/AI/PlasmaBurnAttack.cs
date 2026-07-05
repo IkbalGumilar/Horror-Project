@@ -69,6 +69,12 @@ public sealed class PlasmaBurnAttack : MonoBehaviour
             return;
         }
 
+        if (IsBurningAttackActive && ghostEnemy != null && !ghostEnemy.HasLineOfSightToTarget)
+        {
+            CurrentDamagePerSecond = 0f;
+            return;
+        }
+
         float closeness = 1f - Mathf.Clamp01(distance / range);
         CurrentDamagePerSecond = Mathf.Lerp(minDamagePerSecond, maxDamagePerSecond, closeness);
 
