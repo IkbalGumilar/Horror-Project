@@ -63,7 +63,6 @@ Shader "Horror/Local Fog"
             {
                 float3 positionOS : POSITION;
                 float2 uv : TEXCOORD0;
-                half4 color : COLOR;
             };
 
             struct Varyings
@@ -73,7 +72,6 @@ Shader "Horror/Local Fog"
                 float4 screenPos : TEXCOORD1;
                 float3 positionOS : TEXCOORD2;
                 float eyeDepth : TEXCOORD3;
-                half4 color : COLOR;
             };
 
             float Hash21(float2 p)
@@ -106,7 +104,6 @@ Shader "Horror/Local Fog"
                 output.screenPos = ComputeScreenPos(output.positionCS);
                 output.positionOS = input.positionOS;
                 output.eyeDepth = -positionInputs.positionVS.z;
-                output.color = input.color;
                 return output;
             }
 
@@ -143,9 +140,9 @@ Shader "Horror/Local Fog"
                 float edgeMask = edgeX * edgeY;
 
                 float flicker = 1.0 + sin(_Time.y * 1.73 + noiseA * 6.2831) * _Flicker;
-                float alpha = _Color.a * _Density * noise * heightMask * edgeMask * depthFade * flicker * input.color.a;
+                float alpha = _Color.a * _Density * noise * heightMask * edgeMask * depthFade * flicker;
 
-                half4 col = _Color * input.color;
+                half4 col = _Color;
                 col.rgb *= lerp(0.65, 1.15, noise);
                 col.a = saturate(alpha);
                 return col;
@@ -195,7 +192,6 @@ Shader "Horror/Local Fog"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                fixed4 color : COLOR;
             };
 
             struct v2f
@@ -204,7 +200,6 @@ Shader "Horror/Local Fog"
                 float2 uv : TEXCOORD0;
                 float4 screenPos : TEXCOORD1;
                 float3 localPos : TEXCOORD2;
-                fixed4 color : COLOR;
             };
 
             float Hash21(float2 p)
@@ -236,7 +231,6 @@ Shader "Horror/Local Fog"
                 o.screenPos = ComputeScreenPos(o.pos);
                 COMPUTE_EYEDEPTH(o.screenPos.z);
                 o.localPos = v.vertex.xyz;
-                o.color = v.color;
                 return o;
             }
 
@@ -266,9 +260,9 @@ Shader "Horror/Local Fog"
                 float edgeMask = edgeX * edgeY;
 
                 float flicker = 1.0 + sin(_Time.y * 1.73 + noiseA * 6.2831) * _Flicker;
-                float alpha = _Color.a * _Density * noise * heightMask * edgeMask * depthFade * flicker * i.color.a;
+                float alpha = _Color.a * _Density * noise * heightMask * edgeMask * depthFade * flicker;
 
-                fixed4 col = _Color * i.color;
+                fixed4 col = _Color;
                 col.rgb *= lerp(0.65, 1.15, noise);
                 col.a = saturate(alpha);
                 return col;

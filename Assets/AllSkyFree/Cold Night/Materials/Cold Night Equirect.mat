@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HorrorLocalFog
-  m_Shader: {fileID: 4800000, guid: 853ab2b9e2424467b598cc226f0e9dd3, type: 3}
+  m_Name: Cold Night Equirect
+  m_Shader: {fileID: 103, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,21 +23,15 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
+    - _Tex:
+        m_Texture: {fileID: 8900000, guid: 97259d0c0ea9f491692be825da27978a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Density: 1.15
-    - _EdgeFade: 0.18
-    - _Flicker: 0.08
-    - _HeightFade: 1.25
-    - _NoiseScale: 1.7
-    - _NoiseStrength: 0.55
-    - _Softness: 4
+    - _Exposure: 1
+    - _Rotation: 0
     m_Colors:
-    - _Color: {r: 0.04, g: 0.05, b: 0.055, a: 0.72}
-    - _DriftSpeed: {r: 0.025, g: 0.008, b: 0, a: 0}
+    - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

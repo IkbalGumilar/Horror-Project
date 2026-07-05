@@ -44,12 +44,9 @@ MonoBehaviour:
   - key: item.flashlight
     english: Flashlight
     indonesian: Senter
-*** Add File: Assets/Localization/HorrorLocalizationTable.asset.meta
-fileFormatVersion: 2
-guid: 425f0942c0d14a08af4d9dd4c91d8e7a
-NativeFormatImporter:
-  externalObjects: {}
-  mainObjectFileID: 11400000
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  - key: canvas.safearea.deathpanel.deathtext
+    english: You Are Death
+    indonesian: Kamu Mati
+  - key: canvas.safearea.deathpanel.pressbuttontext
+    english: Press Any Button To Exit
+    indonesian: Tekan Tombol Apapun Untuk Keluar
