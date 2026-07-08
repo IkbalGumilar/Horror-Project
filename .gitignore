@@ -33,6 +33,7 @@ sysinfo.txt
 .agents/
 .agen/
 .codex/
+Note/
 
 # OS files
 .DS_Store

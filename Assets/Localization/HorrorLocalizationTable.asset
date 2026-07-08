@@ -50,3 +50,54 @@ MonoBehaviour:
   - key: canvas.safearea.deathpanel.pressbuttontext
     english: Press Any Button To Exit
     indonesian: Tekan Tombol Apapun Untuk Keluar
+  - key: speaker.player
+    english: Player
+    indonesian: Pemain
+  - key: speaker.old_villager
+    english: Old Villager
+    indonesian: Warga Tua
+  - key: subtitle.forest_warning
+    english: Do not enter the forest after sundown.
+    indonesian: Jangan masuk hutan setelah matahari turun.
+  - key: subtitle.ancient_script_seen
+    english: These symbols... I saw them near the forest.
+    indonesian: Simbol ini... pernah kulihat di dekat hutan.
+  - key: subtitle.player_first_see_banaspati
+    english: What is that fire...?
+    indonesian: Api apa itu...?
+  - key: subtitle.player_chased
+    english: It saw me. I have to run.
+    indonesian: Dia melihatku. Aku harus lari.
+  - key: subtitle.player_burn_hit
+    english: The heat is burning through me.
+    indonesian: Panasnya membakar tubuhku.
+  - key: subtitle.player_burn_hit_before_seeing_banaspati
+    english: Something is burning my body...
+    indonesian: Ada sesuatu yang membakar tubuhku...
+  - key: subtitle.player_burning_attack_hit
+    english: This fire is pulling me in.
+    indonesian: Api ini menarikku masuk.
+  - key: subtitle.player_low_stamina_chased
+    english: I cannot keep running like this.
+    indonesian: Aku tidak bisa terus berlari seperti ini.
+  - key: subtitle.player_death_burn
+    english: My body... is burning.
+    indonesian: Tubuhku... terbakar.
+  - key: subtitle.player_death_burning_attack
+    english: It is dragging me into the fire.
+    indonesian: Dia menyeretku ke dalam api.
+  - key: subtitle.player_death_chase
+    english: The fire... is lifting me.
+    indonesian: Api itu... mengangkatku.
+  - key: subtitle.player_scream_short
+    english: Aaaa....
+    indonesian: Aaaa....
+  - key: subtitle.player_scream_final_large
+    english: AAAAA......
+    indonesian: AAAAA......
+  - key: subtitle.player_scream_cutoff
+    english: A....
+    indonesian: A....
+  - key: subtitle.player_scream_air_burn
+    english: AAAAAaaaaaa...........
+    indonesian: AAAAAaaaaaa...........

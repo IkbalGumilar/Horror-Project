@@ -49,6 +49,12 @@ public sealed class PlayerDeathController : MonoBehaviour
     [SerializeField] private float deathFireStartSpeed = 3f;
     [SerializeField] private float deathFireEndSpeed = 6f;
 
+    [Header("Death Subtitles")]
+    [SerializeField] private string deathSubtitleSpeakerKey = "speaker.player";
+    [SerializeField] private float deathScreamDuration = 0.75f;
+    [SerializeField] private float deathBigScreamDuration = 1.4f;
+    [SerializeField] private float deathBigSubtitleScale = 1.65f;
+
     private bool deathStarted;
     private float[] deathPanelVisibleAlphas;
 
@@ -126,16 +132,32 @@ public sealed class PlayerDeathController : MonoBehaviour
         Quaternion startRotation = transform.rotation;
         Quaternion fallRotation = startRotation * Quaternion.AngleAxis(fallAngle, Vector3.forward);
         float elapsed = 0f;
+        bool firstScreamShown = false;
+        bool secondScreamShown = false;
 
         while (elapsed < deathDuration)
         {
             float t = Mathf.Clamp01(elapsed / Mathf.Max(0.001f, deathDuration));
+            if (!firstScreamShown && t >= 0.2f)
+            {
+                firstScreamShown = true;
+                ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+            }
+
+            if (!secondScreamShown && t >= 0.6f)
+            {
+                secondScreamShown = true;
+                ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+            }
+
             Quaternion rolling = Quaternion.AngleAxis(rollDegreesPerSecond * elapsed, Vector3.right);
             transform.rotation = Quaternion.Slerp(startRotation, fallRotation, t) * rolling;
             elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
+        ShowDeathSubtitle("subtitle.player_scream_final_large", deathBigScreamDuration, deathBigSubtitleScale);
+        yield return new WaitForSecondsRealtime(deathBigScreamDuration);
         yield return ShowDeathPanel();
     }
 
@@ -151,10 +173,24 @@ public sealed class PlayerDeathController : MonoBehaviour
         Vector3 sourceToPlayerOffset = -dragDirection * Mathf.Max(0f, capturedOffset);
         float sceneDuration = Mathf.Max(0.001f, burningSceneDuration);
         float elapsed = 0f;
+        bool firstScreamShown = false;
+        bool secondScreamShown = false;
 
         while (elapsed < sceneDuration)
         {
             float t = Mathf.Clamp01(elapsed / sceneDuration);
+            if (!firstScreamShown && t >= 0.2f)
+            {
+                firstScreamShown = true;
+                ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+            }
+
+            if (!secondScreamShown && t >= 0.55f)
+            {
+                secondScreamShown = true;
+                ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+            }
+
             Vector3 sourcePosition = Vector3.Lerp(startGhostPosition, targetGhostPosition, t);
             if (damageSource != null)
             {
@@ -175,6 +211,8 @@ public sealed class PlayerDeathController : MonoBehaviour
 
         transform.position = targetGhostPosition + sourceToPlayerOffset;
         LookCameraAtPlayer();
+        ShowDeathSubtitle("subtitle.player_scream_cutoff", deathScreamDuration, 1f);
+        yield return new WaitForSecondsRealtime(deathScreamDuration);
         yield return ShowDeathPanel();
     }
 
@@ -188,10 +226,17 @@ public sealed class PlayerDeathController : MonoBehaviour
         Vector3 targetPosition = new Vector3(startPosition.x, liftTargetHeight, startPosition.z);
         float burnDuration = Mathf.Max(0.001f, prolongedBurnDuration);
         float elapsed = 0f;
+        int liftScreamsShown = 0;
 
         while (elapsed < burnDuration)
         {
             float t = Mathf.Clamp01(elapsed / burnDuration);
+            if (liftScreamsShown < 3 && t >= (liftScreamsShown + 1) * 0.25f)
+            {
+                liftScreamsShown++;
+                ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+            }
+
             transform.position = Vector3.Lerp(startPosition, targetPosition, t);
             CarryDamageSourceNearPlayer(damageSource, transform.position);
             SetDeathFireSpeed(fireParticles, Mathf.Lerp(deathFireStartSpeed, deathFireEndSpeed, t));
@@ -201,6 +246,7 @@ public sealed class PlayerDeathController : MonoBehaviour
 
         transform.position = targetPosition;
         CarryDamageSourceNearPlayer(damageSource, transform.position);
+        ShowDeathSubtitle("subtitle.player_scream_air_burn", deathBigScreamDuration, deathBigSubtitleScale);
         DetachCamera();
         LookCameraAtPlayer();
 
@@ -225,6 +271,16 @@ public sealed class PlayerDeathController : MonoBehaviour
         CarryDamageSourceNearPlayer(damageSource, transform.position);
         LookCameraAtPlayer();
         yield return ShowDeathPanel();
+    }
+
+    private void ShowDeathSubtitle(string subtitleKey, float duration, float subtitleScale)
+    {
+        if (SubtitleController.Instance == null)
+        {
+            return;
+        }
+
+        SubtitleController.Instance.ShowLocalized(deathSubtitleSpeakerKey, subtitleKey, duration, subtitleScale);
     }
 
     private Transform GetDamageSourceTransform()
