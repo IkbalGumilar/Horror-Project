@@ -34,12 +34,20 @@ public sealed class PlayerDeathController : MonoBehaviour
     [SerializeField] private float rollDegreesPerSecond = 720f;
 
     [Header("Burning Attack Death")]
-    [SerializeField] private float carriedSpeed = 6f;
+    [SerializeField] private float capturedOffset = 0.5f;
+    [SerializeField] private float draggedDistance = 3f;
+    [SerializeField] private float burningSceneDuration = 3f;
     [SerializeField] private Vector3 carriedDirection = Vector3.forward;
 
     [Header("Prolonged Chase Death")]
-    [SerializeField] private float liftTargetHeight = 10f;
+    [SerializeField] private float liftTargetHeight = 20f;
     [SerializeField] private float liftLookAtSpeed = 12f;
+    [SerializeField] private float prolongedFireScaleMultiplier = 3f;
+    [SerializeField] private float prolongedBurnDuration = 3f;
+    [SerializeField] private float prolongedFallDuration = 3f;
+    [SerializeField] private Color deathFireColor = new Color(0.1f, 0.45f, 1f, 1f);
+    [SerializeField] private float deathFireStartSpeed = 3f;
+    [SerializeField] private float deathFireEndSpeed = 6f;
 
     private bool deathStarted;
     private float[] deathPanelVisibleAlphas;
@@ -134,42 +142,257 @@ public sealed class PlayerDeathController : MonoBehaviour
     private IEnumerator BurningAttackDeath()
     {
         DetachCamera();
-        Vector3 worldDirection = transform.TransformDirection(carriedDirection.normalized);
-        if (worldDirection.sqrMagnitude < 0.001f)
-        {
-            worldDirection = transform.forward;
-        }
-
-        float elapsed = 0f;
-        while (elapsed < deathDuration)
-        {
-            transform.position += worldDirection * carriedSpeed * Time.unscaledDeltaTime;
-            elapsed += Time.unscaledDeltaTime;
-            yield return null;
-        }
-
-        yield return ShowDeathPanel();
-    }
-
-    private IEnumerator ProlongedChaseDeath()
-    {
-        DetachCamera();
-        Vector3 startPosition = transform.position;
-        Vector3 targetPosition = new Vector3(startPosition.x, liftTargetHeight, startPosition.z);
+        Transform damageSource = GetDamageSourceTransform();
+        DisableDamageSourceControl(damageSource);
+        ParticleSystem[] fireParticles = PrepareDeathFire(damageSource, false);
+        Vector3 dragDirection = GetCarryDirection(damageSource).normalized;
+        Vector3 startGhostPosition = GetCapturedGhostPosition(damageSource, dragDirection);
+        Vector3 targetGhostPosition = startGhostPosition + dragDirection * Mathf.Max(0f, draggedDistance);
+        Vector3 sourceToPlayerOffset = -dragDirection * Mathf.Max(0f, capturedOffset);
+        float sceneDuration = Mathf.Max(0.001f, burningSceneDuration);
         float elapsed = 0f;
 
-        while (elapsed < deathDuration)
+        while (elapsed < sceneDuration)
         {
-            float t = Mathf.Clamp01(elapsed / Mathf.Max(0.001f, deathDuration));
-            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+            float t = Mathf.Clamp01(elapsed / sceneDuration);
+            Vector3 sourcePosition = Vector3.Lerp(startGhostPosition, targetGhostPosition, t);
+            if (damageSource != null)
+            {
+                damageSource.position = sourcePosition;
+            }
+
+            transform.position = sourcePosition + sourceToPlayerOffset;
+            SetDeathFireSpeed(fireParticles, Mathf.Lerp(deathFireStartSpeed, deathFireEndSpeed, t));
             LookCameraAtPlayer();
             elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
-        transform.position = targetPosition;
+        if (damageSource != null)
+        {
+            damageSource.position = targetGhostPosition;
+        }
+
+        transform.position = targetGhostPosition + sourceToPlayerOffset;
         LookCameraAtPlayer();
         yield return ShowDeathPanel();
+    }
+
+    private IEnumerator ProlongedChaseDeath()
+    {
+        Transform damageSource = GetDamageSourceTransform();
+        DisableDamageSourceControl(damageSource);
+        ParticleSystem[] fireParticles = PrepareDeathFire(damageSource, true);
+
+        Vector3 startPosition = transform.position;
+        Vector3 targetPosition = new Vector3(startPosition.x, liftTargetHeight, startPosition.z);
+        float burnDuration = Mathf.Max(0.001f, prolongedBurnDuration);
+        float elapsed = 0f;
+
+        while (elapsed < burnDuration)
+        {
+            float t = Mathf.Clamp01(elapsed / burnDuration);
+            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+            CarryDamageSourceNearPlayer(damageSource, transform.position);
+            SetDeathFireSpeed(fireParticles, Mathf.Lerp(deathFireStartSpeed, deathFireEndSpeed, t));
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        CarryDamageSourceNearPlayer(damageSource, transform.position);
+        DetachCamera();
+        LookCameraAtPlayer();
+
+        Vector3 fallStartPosition = transform.position;
+        Vector3 fallTargetPosition = new Vector3(fallStartPosition.x, 0f, fallStartPosition.z);
+        float fallDuration = Mathf.Max(0.001f, prolongedFallDuration);
+        elapsed = 0f;
+
+        while (elapsed < fallDuration)
+        {
+            float t = Mathf.Clamp01(elapsed / fallDuration);
+            float eased = t * t * (3f - 2f * t);
+            transform.position = Vector3.Lerp(fallStartPosition, fallTargetPosition, eased);
+            CarryDamageSourceNearPlayer(damageSource, transform.position);
+            SetDeathFireSpeed(fireParticles, deathFireEndSpeed);
+            LookCameraAtPlayer();
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        transform.position = fallTargetPosition;
+        CarryDamageSourceNearPlayer(damageSource, transform.position);
+        LookCameraAtPlayer();
+        yield return ShowDeathPanel();
+    }
+
+    private Transform GetDamageSourceTransform()
+    {
+        if (playerHealth == null || playerHealth.LastDamageSource == null)
+        {
+            return null;
+        }
+
+        return playerHealth.LastDamageSource.transform;
+    }
+
+    private void DisableDamageSourceControl(Transform damageSource)
+    {
+        if (damageSource == null)
+        {
+            return;
+        }
+
+        GhostNavMeshEnemy ghostEnemy = damageSource.GetComponent<GhostNavMeshEnemy>();
+        if (ghostEnemy != null)
+        {
+            ghostEnemy.enabled = false;
+        }
+
+        PlasmaBurnAttack burnAttack = damageSource.GetComponent<PlasmaBurnAttack>();
+        if (burnAttack != null)
+        {
+            burnAttack.enabled = false;
+        }
+    }
+
+    private Vector3 GetCapturedGhostPosition(Transform damageSource, Vector3 dragDirection)
+    {
+        if (damageSource != null)
+        {
+            return transform.position + dragDirection * Mathf.Max(0f, capturedOffset);
+        }
+
+        return transform.position;
+    }
+
+    private void CarryDamageSourceNearPlayer(Transform damageSource, Vector3 playerPosition)
+    {
+        if (damageSource == null)
+        {
+            return;
+        }
+
+        Vector3 direction = damageSource.position - playerPosition;
+        if (direction.sqrMagnitude < 0.001f)
+        {
+            direction = transform.forward;
+        }
+
+        direction.Normalize();
+        damageSource.position = playerPosition + direction * Mathf.Max(0f, capturedOffset);
+    }
+
+    private Vector3 GetCarryDirection(Transform damageSource)
+    {
+        if (damageSource != null)
+        {
+            Vector3 directionFromSource = transform.position - damageSource.position;
+            directionFromSource.y = 0f;
+            if (directionFromSource.sqrMagnitude > 0.001f)
+            {
+                return directionFromSource.normalized;
+            }
+
+            Vector3 sourceForward = damageSource.forward;
+            sourceForward.y = 0f;
+            if (sourceForward.sqrMagnitude > 0.001f)
+            {
+                return sourceForward.normalized;
+            }
+        }
+
+        Vector3 fallbackDirection = transform.TransformDirection(carriedDirection.normalized);
+        fallbackDirection.y = 0f;
+        if (fallbackDirection.sqrMagnitude > 0.001f)
+        {
+            return fallbackDirection.normalized;
+        }
+
+        return transform.forward.normalized;
+    }
+
+    private ParticleSystem[] PrepareDeathFire(Transform damageSource, bool scaleRootParticles)
+    {
+        if (damageSource == null)
+        {
+            return null;
+        }
+
+        ParticleSystem[] particleSystems = damageSource.GetComponentsInChildren<ParticleSystem>(true);
+        for (int i = 0; i < particleSystems.Length; i++)
+        {
+            ParticleSystem particleSystem = particleSystems[i];
+            if (particleSystem == null)
+            {
+                continue;
+            }
+
+            ParticleSystem.MainModule main = particleSystem.main;
+            main.startColor = deathFireColor;
+            main.simulationSpeed = Mathf.Max(0.01f, deathFireStartSpeed);
+
+            ParticleSystemRenderer particleRenderer = particleSystem.GetComponent<ParticleSystemRenderer>();
+            if (particleRenderer != null)
+            {
+                Material material = particleRenderer.material;
+                if (material != null)
+                {
+                    if (material.HasProperty("_BaseColor"))
+                    {
+                        material.SetColor("_BaseColor", deathFireColor);
+                    }
+                    else if (material.HasProperty("_Color"))
+                    {
+                        material.SetColor("_Color", deathFireColor);
+                    }
+                }
+            }
+
+            if (scaleRootParticles && !HasParticleSystemAncestor(particleSystem.transform, damageSource))
+            {
+                particleSystem.transform.localScale *= Mathf.Max(0.01f, prolongedFireScaleMultiplier);
+            }
+        }
+
+        return particleSystems;
+    }
+
+    private void SetDeathFireSpeed(ParticleSystem[] particleSystems, float speed)
+    {
+        if (particleSystems == null)
+        {
+            return;
+        }
+
+        float safeSpeed = Mathf.Max(0.01f, speed);
+        for (int i = 0; i < particleSystems.Length; i++)
+        {
+            if (particleSystems[i] == null)
+            {
+                continue;
+            }
+
+            ParticleSystem.MainModule main = particleSystems[i].main;
+            main.simulationSpeed = safeSpeed;
+        }
+    }
+
+    private bool HasParticleSystemAncestor(Transform particleTransform, Transform root)
+    {
+        Transform parent = particleTransform.parent;
+        while (parent != null && parent != root)
+        {
+            if (parent.GetComponent<ParticleSystem>() != null)
+            {
+                return true;
+            }
+
+            parent = parent.parent;
+        }
+
+        return false;
     }
 
     private void DisablePlayerControl()

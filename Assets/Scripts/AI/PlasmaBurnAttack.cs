@@ -5,6 +5,7 @@ public sealed class PlasmaBurnAttack : MonoBehaviour
     [Header("References")]
     [SerializeField] private GhostNavMeshEnemy ghostEnemy;
     [SerializeField] private PlayerHealth targetHealth;
+    [SerializeField] private PlayerDamageFeedback targetDamageFeedback;
     [SerializeField] private string targetTag = "Player";
 
     [Header("Passive Burn")]
@@ -16,10 +17,16 @@ public sealed class PlasmaBurnAttack : MonoBehaviour
     [SerializeField] private bool burningAttackActive;
     [SerializeField] private bool activateWhenChasing = true;
     [SerializeField] private float burningAttackMultiplier = 2.5f;
-    [SerializeField] private float prolongedChaseDeathThreshold = 5f;
+    [SerializeField] private float prolongedChaseDeathThreshold = 3f;
+    [SerializeField] private bool currentBurningAttackActive;
+    [SerializeField] private bool currentBurningDamageBoostActive;
+    [SerializeField] private float currentAppliedDamageMultiplier = 1f;
 
-    public bool IsBurningAttackActive => burningAttackActive || (activateWhenChasing && ghostEnemy != null && ghostEnemy.IsChasing);
-    public float EffectiveRange => passiveRange * (IsBurningAttackActive ? burningAttackMultiplier : 1f);
+    [Header("Death Scene Trigger")]
+    [SerializeField] private Vector3 directDeathMaxOffset = Vector3.one;
+
+    public bool IsBurningAttackActive => currentBurningAttackActive;
+    public float EffectiveRange => GetEffectiveRange(IsBurningAttackActive);
     public float CurrentDamagePerSecond { get; private set; }
 
     private void OnValidate()
@@ -28,6 +35,9 @@ public sealed class PlasmaBurnAttack : MonoBehaviour
         minDamagePerSecond = Mathf.Max(0f, minDamagePerSecond);
         maxDamagePerSecond = Mathf.Max(minDamagePerSecond, maxDamagePerSecond);
         burningAttackMultiplier = Mathf.Max(1f, burningAttackMultiplier);
+        directDeathMaxOffset.x = Mathf.Max(0f, directDeathMaxOffset.x);
+        directDeathMaxOffset.y = Mathf.Max(0f, directDeathMaxOffset.y);
+        directDeathMaxOffset.z = Mathf.Max(0f, directDeathMaxOffset.z);
     }
 
     private void Reset()
@@ -50,26 +60,29 @@ public sealed class PlasmaBurnAttack : MonoBehaviour
 
     private void Update()
     {
-        if (targetHealth == null)
+        if (targetHealth == null || targetDamageFeedback == null)
         {
             ResolveTarget();
         }
 
         if (targetHealth == null || targetHealth.IsDead)
         {
+            currentBurningAttackActive = false;
+            currentBurningDamageBoostActive = false;
+            currentAppliedDamageMultiplier = 1f;
             CurrentDamagePerSecond = 0f;
             return;
         }
 
-        float range = Mathf.Max(0.001f, EffectiveRange);
+        UpdateBurningAttackState();
+        bool burningDamageBoostActive = IsBurningAttackActive;
+        bool canApplyDirectBurningAttack = CanApplyDirectBurningAttack();
+        currentBurningDamageBoostActive = burningDamageBoostActive;
+        currentAppliedDamageMultiplier = burningDamageBoostActive ? burningAttackMultiplier : 1f;
+
+        float range = Mathf.Max(0.001f, GetEffectiveRange(burningDamageBoostActive));
         float distance = Vector3.Distance(transform.position, targetHealth.transform.position);
         if (distance > range)
-        {
-            CurrentDamagePerSecond = 0f;
-            return;
-        }
-
-        if (IsBurningAttackActive && ghostEnemy != null && !ghostEnemy.HasLineOfSightToTarget)
         {
             CurrentDamagePerSecond = 0f;
             return;
@@ -78,17 +91,24 @@ public sealed class PlasmaBurnAttack : MonoBehaviour
         float closeness = 1f - Mathf.Clamp01(distance / range);
         CurrentDamagePerSecond = Mathf.Lerp(minDamagePerSecond, maxDamagePerSecond, closeness);
 
-        if (IsBurningAttackActive)
+        if (burningDamageBoostActive)
         {
-            CurrentDamagePerSecond *= burningAttackMultiplier;
+            CurrentDamagePerSecond *= currentAppliedDamageMultiplier;
         }
 
-        targetHealth.TakeDamage(CurrentDamagePerSecond * Time.deltaTime, GetDamageType(), gameObject);
+        PlayerDamageType damageType = GetDamageType(canApplyDirectBurningAttack);
+        if (targetDamageFeedback != null)
+        {
+            targetDamageFeedback.ReceiveBurnDamage(CurrentDamagePerSecond, damageType, gameObject);
+        }
+
+        targetHealth.TakeDamage(CurrentDamagePerSecond * Time.deltaTime, damageType, gameObject);
     }
 
     public void SetBurningAttackActive(bool active)
     {
         burningAttackActive = active;
+        UpdateBurningAttackState();
     }
 
     public void ActivateBurningAttack()
@@ -101,19 +121,58 @@ public sealed class PlasmaBurnAttack : MonoBehaviour
         SetBurningAttackActive(false);
     }
 
-    private PlayerDamageType GetDamageType()
+    private float GetEffectiveRange(bool canApplyBurningAttack)
     {
-        if (ghostEnemy != null && ghostEnemy.ChaseDuration >= prolongedChaseDeathThreshold)
+        return passiveRange * (canApplyBurningAttack ? burningAttackMultiplier : 1f);
+    }
+
+    private bool CanApplyDirectBurningAttack()
+    {
+        if (!IsBurningAttackActive)
+        {
+            return false;
+        }
+
+        return ghostEnemy == null || ghostEnemy.HasLineOfSightToTarget;
+    }
+
+    private void UpdateBurningAttackState()
+    {
+        currentBurningAttackActive = burningAttackActive || (activateWhenChasing && ghostEnemy != null && ghostEnemy.IsChasing);
+    }
+
+    private PlayerDamageType GetDamageType(bool canApplyBurningAttack)
+    {
+        bool canTriggerDirectDeathScene = IsWithinDirectDeathOffset();
+        if (canTriggerDirectDeathScene && ghostEnemy != null && ghostEnemy.ChaseDuration >= prolongedChaseDeathThreshold)
         {
             return PlayerDamageType.ProlongedChaseBurn;
         }
 
-        return IsBurningAttackActive ? PlayerDamageType.BurningAttack : PlayerDamageType.PassiveBurn;
+        return canTriggerDirectDeathScene && canApplyBurningAttack ? PlayerDamageType.BurningAttack : PlayerDamageType.PassiveBurn;
+    }
+
+    private bool IsWithinDirectDeathOffset()
+    {
+        if (targetHealth == null)
+        {
+            return false;
+        }
+
+        Vector3 offset = targetHealth.transform.position - transform.position;
+        return Mathf.Abs(offset.x) <= directDeathMaxOffset.x
+            && Mathf.Abs(offset.y) <= directDeathMaxOffset.y
+            && Mathf.Abs(offset.z) <= directDeathMaxOffset.z;
     }
 
     private void ResolveTarget()
     {
-        if (targetHealth != null || string.IsNullOrWhiteSpace(targetTag))
+        if (targetHealth != null && targetDamageFeedback == null)
+        {
+            targetDamageFeedback = targetHealth.GetComponent<PlayerDamageFeedback>();
+        }
+
+        if ((targetHealth != null && targetDamageFeedback != null) || string.IsNullOrWhiteSpace(targetTag))
         {
             return;
         }
@@ -121,7 +180,15 @@ public sealed class PlasmaBurnAttack : MonoBehaviour
         GameObject targetObject = GameObject.FindGameObjectWithTag(targetTag);
         if (targetObject != null)
         {
-            targetHealth = targetObject.GetComponent<PlayerHealth>();
+            if (targetHealth == null)
+            {
+                targetHealth = targetObject.GetComponent<PlayerHealth>();
+            }
+
+            if (targetDamageFeedback == null)
+            {
+                targetDamageFeedback = targetObject.GetComponent<PlayerDamageFeedback>();
+            }
         }
     }
 }
