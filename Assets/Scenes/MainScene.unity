@@ -417,6 +417,7 @@ GameObject:
   - component: {fileID: 168590661}
   - component: {fileID: 168590666}
   - component: {fileID: 168590667}
+  - component: {fileID: 168590668}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -590,6 +591,31 @@ MonoBehaviour:
   currentBurningDamageBoostActive: 0
   currentAppliedDamageMultiplier: 1
   directDeathMaxOffset: {x: 2, y: 2, z: 2}
+--- !u!114 &168590668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168590660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb2f61ed0344f47a78e87e1630809c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GhostAudioController
+  ghostEnemy: {fileID: 168590666}
+  burnAttack: {fileID: 168590667}
+  loopSource: {fileID: 0}
+  oneShotSource: {fileID: 0}
+  idleLoop: {fileID: 0}
+  chaseLoop: {fileID: 0}
+  burningAttackLoop: {fileID: 0}
+  spottedClip: {fileID: 0}
+  lostTargetClip: {fileID: 0}
+  closeAttackClip: {fileID: 0}
+  loopVolume: 0.7
+  oneShotVolume: 0.85
+  closeAttackCooldown: 2
 --- !u!1 &402748905
 GameObject:
   m_ObjectHideFlags: 0
@@ -7539,6 +7565,7 @@ GameObject:
   - component: {fileID: 2004439922}
   - component: {fileID: 2004439923}
   - component: {fileID: 2004439924}
+  - component: {fileID: 2004439925}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7663,6 +7690,7 @@ MonoBehaviour:
   crouchActionName: Crouch
   cameraController: {fileID: 2004439917}
   playerStamina: {fileID: 2004439920}
+  playerAudio: {fileID: 2004439925}
   walkSpeed: 5
   sprintSpeed: 7
   crouchSpeed: 2.5
@@ -7852,6 +7880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathController
   playerHealth: {fileID: 2004439921}
+  playerAudio: {fileID: 2004439925}
   playerCamera: {fileID: 963194228}
   disableOnDeath:
   - {fileID: 2004439915}
@@ -7904,6 +7933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDamageFeedback
   playerHealth: {fileID: 2004439921}
+  playerAudio: {fileID: 2004439925}
   hitOverlay: {fileID: 2400000103}
   fireBall: {fileID: 1973982534}
   minHitAlpha: 0.1
@@ -7929,6 +7959,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSituationSubtitleBarks
   playerHealth: {fileID: 2004439921}
   playerStamina: {fileID: 2004439920}
+  playerAudio: {fileID: 2004439925}
   ghostEnemy: {fileID: 168590666}
   viewOrigin: {fileID: 963194228}
   ghostSightDistance: 35
@@ -7945,6 +7976,49 @@ MonoBehaviour:
   chaseDuration: 2.5
   damageDuration: 2.5
   lowStaminaDuration: 2.5
+--- !u!114 &2004439925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004439910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7ba2116b1f41e093de3705650a92e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAudioController
+  oneShotSource: {fileID: 0}
+  breathSource: {fileID: 0}
+  burnLoopSource: {fileID: 0}
+  walkFootstepClips: []
+  sprintFootstepClips: []
+  crouchFootstepClips: []
+  walkStepInterval: 0.55
+  sprintStepInterval: 0.36
+  crouchStepInterval: 0.75
+  footstepVolume: 0.75
+  normalBreathLoop: {fileID: 0}
+  tiredBreathLoop: {fileID: 0}
+  tiredStaminaThreshold: 0.3
+  breathFadeSpeed: 6
+  normalBreathVolume: 0.18
+  tiredBreathVolume: 0.45
+  passiveDamageClip: {fileID: 0}
+  burningAttackDamageClip: {fileID: 0}
+  burnDamageLoop: {fileID: 0}
+  damageClipCooldown: 1
+  damageClipVolume: 0.8
+  burnLoopVolume: 0.45
+  firstSeeGhostClip: {fileID: 0}
+  chasePanicClip: {fileID: 0}
+  lowStaminaPanicClip: {fileID: 0}
+  fearReactionVolume: 0.75
+  shortScreamClip: {fileID: 0}
+  finalScreamClip: {fileID: 0}
+  cutoffScreamClip: {fileID: 0}
+  airBurnScreamClip: {fileID: 0}
+  screamVolume: 1
 --- !u!1 &2038158304
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
     [Header("References")]
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerStamina playerStamina;
+    [SerializeField] private PlayerAudioController playerAudio;
     [SerializeField] private GhostNavMeshEnemy ghostEnemy;
     [SerializeField] private Transform viewOrigin;
 
@@ -53,6 +54,11 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
             playerStamina = GetComponent<PlayerStamina>();
         }
 
+        if (playerAudio == null)
+        {
+            playerAudio = GetComponent<PlayerAudioController>();
+        }
+
         if (viewOrigin == null && Camera.main != null)
         {
             viewOrigin = Camera.main.transform;
@@ -89,13 +95,17 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
     {
         if (deathBarkShown || ghostEnemy == null)
         {
+            playerAudio?.SetBeingChased(false);
             return;
         }
+
+        playerAudio?.SetBeingChased(ghostEnemy.IsChasing);
 
         if (!hasSeenGhost && PlayerCanSeeGhost())
         {
             hasSeenGhost = true;
             ShowBark("subtitle.player_first_see_banaspati", firstSightDuration, true);
+            playerAudio?.PlayFirstSeeGhost();
             return;
         }
 
@@ -107,6 +117,7 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
             if (ShowBark("subtitle.player_low_stamina_chased", lowStaminaDuration, false))
             {
                 nextLowStaminaBarkTime = Time.time + lowStaminaBarkCooldown;
+                playerAudio?.PlayLowStaminaPanic();
             }
         }
 
@@ -115,6 +126,7 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
             if (ShowBark("subtitle.player_chased", chaseDuration, false))
             {
                 nextChaseBarkTime = Time.time + chaseBarkCooldown;
+                playerAudio?.PlayChasePanic();
             }
         }
     }

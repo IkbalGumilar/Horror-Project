@@ -5,6 +5,7 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private PlayerAudioController playerAudio;
     [SerializeField] private Graphic hitOverlay;
     [SerializeField] private ParticleSystem fireBall;
 
@@ -51,6 +52,11 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         if (playerHealth == null)
         {
             playerHealth = GetComponent<PlayerHealth>();
+        }
+
+        if (playerAudio == null)
+        {
+            playerAudio = GetComponent<PlayerAudioController>();
         }
 
         previousHealth = playerHealth != null ? playerHealth.CurrentHealth : 0f;
@@ -110,6 +116,7 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         float normalizedDamage = Mathf.Clamp01(damagePerSecond / damageForMaxAlpha);
         targetAlpha = Mathf.Max(targetAlpha, Mathf.Lerp(minHitAlpha, maxHitAlpha, normalizedDamage));
         SetOverlayAlpha(targetAlpha);
+        playerAudio?.SetBurnLoopActive(true);
     }
 
     private void HandleHealthChanged(float currentHealth, float maxHealth)
@@ -125,6 +132,7 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         float normalizedDamage = Mathf.Clamp01(damage / Mathf.Max(0.001f, damageForMaxAlpha));
         targetAlpha = Mathf.Max(targetAlpha, Mathf.Lerp(minHitAlpha, maxHitAlpha, normalizedDamage));
         SetOverlayAlpha(targetAlpha);
+        playerAudio?.PlayDamage(playerHealth != null ? playerHealth.LastDamageType : PlayerDamageType.Unknown);
     }
 
     private void SetOverlayAlpha(float alpha)
@@ -168,6 +176,7 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         {
             activeBurnDamagePerSecond = 0f;
             activeBurnSource = null;
+            playerAudio?.SetBurnLoopActive(false);
         }
     }
 

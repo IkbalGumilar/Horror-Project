@@ -10,6 +10,7 @@ public sealed class PlayerDeathController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private PlayerAudioController playerAudio;
     [SerializeField] private Transform playerCamera;
     [SerializeField] private MonoBehaviour[] disableOnDeath;
     [SerializeField] private CharacterController characterController;
@@ -77,6 +78,11 @@ public sealed class PlayerDeathController : MonoBehaviour
             playerHealth = GetComponent<PlayerHealth>();
         }
 
+        if (playerAudio == null)
+        {
+            playerAudio = GetComponent<PlayerAudioController>();
+        }
+
         if (characterController == null)
         {
             characterController = GetComponent<CharacterController>();
@@ -142,12 +148,14 @@ public sealed class PlayerDeathController : MonoBehaviour
             {
                 firstScreamShown = true;
                 ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+                playerAudio?.PlayShortScream();
             }
 
             if (!secondScreamShown && t >= 0.6f)
             {
                 secondScreamShown = true;
                 ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+                playerAudio?.PlayShortScream();
             }
 
             Quaternion rolling = Quaternion.AngleAxis(rollDegreesPerSecond * elapsed, Vector3.right);
@@ -157,6 +165,7 @@ public sealed class PlayerDeathController : MonoBehaviour
         }
 
         ShowDeathSubtitle("subtitle.player_scream_final_large", deathBigScreamDuration, deathBigSubtitleScale);
+        playerAudio?.PlayFinalScream();
         yield return new WaitForSecondsRealtime(deathBigScreamDuration);
         yield return ShowDeathPanel();
     }
@@ -183,12 +192,14 @@ public sealed class PlayerDeathController : MonoBehaviour
             {
                 firstScreamShown = true;
                 ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+                playerAudio?.PlayShortScream();
             }
 
             if (!secondScreamShown && t >= 0.55f)
             {
                 secondScreamShown = true;
                 ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+                playerAudio?.PlayShortScream();
             }
 
             Vector3 sourcePosition = Vector3.Lerp(startGhostPosition, targetGhostPosition, t);
@@ -212,6 +223,7 @@ public sealed class PlayerDeathController : MonoBehaviour
         transform.position = targetGhostPosition + sourceToPlayerOffset;
         LookCameraAtPlayer();
         ShowDeathSubtitle("subtitle.player_scream_cutoff", deathScreamDuration, 1f);
+        playerAudio?.PlayCutoffScream();
         yield return new WaitForSecondsRealtime(deathScreamDuration);
         yield return ShowDeathPanel();
     }
@@ -235,6 +247,7 @@ public sealed class PlayerDeathController : MonoBehaviour
             {
                 liftScreamsShown++;
                 ShowDeathSubtitle("subtitle.player_scream_short", deathScreamDuration, 1f);
+                playerAudio?.PlayShortScream();
             }
 
             transform.position = Vector3.Lerp(startPosition, targetPosition, t);
@@ -247,6 +260,7 @@ public sealed class PlayerDeathController : MonoBehaviour
         transform.position = targetPosition;
         CarryDamageSourceNearPlayer(damageSource, transform.position);
         ShowDeathSubtitle("subtitle.player_scream_air_burn", deathBigScreamDuration, deathBigSubtitleScale);
+        playerAudio?.PlayAirBurnScream();
         DetachCamera();
         LookCameraAtPlayer();
 

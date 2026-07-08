@@ -15,6 +15,7 @@ public sealed class FPSPlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] private FPSCameraController cameraController;
     [SerializeField] private PlayerStamina playerStamina;
+    [SerializeField] private PlayerAudioController playerAudio;
 
     [Header("Movement")]
     [SerializeField] private float walkSpeed = 3.2f;
@@ -113,6 +114,11 @@ public sealed class FPSPlayerController : MonoBehaviour
         {
             playerStamina = GetComponent<PlayerStamina>();
         }
+
+        if (playerAudio == null)
+        {
+            playerAudio = GetComponent<PlayerAudioController>();
+        }
     }
 
     private void ResolveInputActions()
@@ -163,6 +169,10 @@ public sealed class FPSPlayerController : MonoBehaviour
         verticalVelocity += gravity * Time.deltaTime;
         Vector3 velocity = currentHorizontalVelocity + Vector3.up * verticalVelocity;
         characterController.Move(velocity * Time.deltaTime);
+        playerAudio?.UpdateFootsteps(HorizontalSpeed, isGrounded, isSprinting, isCrouching);
+
+        float normalizedStamina = playerStamina != null ? playerStamina.NormalizedStamina : 1f;
+        playerAudio?.UpdateBreathing(normalizedStamina, isSprinting, false);
     }
 
     private void UpdateCrouch()
