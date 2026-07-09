@@ -65,21 +65,60 @@ MonoBehaviour:
   - key: subtitle.player_first_see_banaspati
     english: What is that fire...?
     indonesian: Api apa itu...?
+  - key: subtitle.player_first_see_banaspati_2
+    english: That thing is alive.
+    indonesian: Benda itu hidup.
+  - key: subtitle.player_first_see_banaspati_3
+    english: No... that is not normal.
+    indonesian: Tidak... itu tidak normal.
   - key: subtitle.player_chased
     english: It saw me. I have to run.
     indonesian: Dia melihatku. Aku harus lari.
+  - key: subtitle.player_chased_2
+    english: Damn it, it is coming.
+    indonesian: Sial, dia mendekat.
+  - key: subtitle.player_chased_3
+    english: Fuck, run. Run!
+    indonesian: Anjing, lari. Lari!
+  - key: subtitle.player_chased_4
+    english: Do not look back. Just run.
+    indonesian: Jangan lihat belakang. Lari saja.
   - key: subtitle.player_burn_hit
     english: The heat is burning through me.
     indonesian: Panasnya membakar tubuhku.
+  - key: subtitle.player_burn_hit_2
+    english: Damn it, that heat hurts.
+    indonesian: Sial, panasnya sakit.
+  - key: subtitle.player_burn_hit_3
+    english: Fuck, my skin is burning.
+    indonesian: Anjing, kulitku terbakar.
   - key: subtitle.player_burn_hit_before_seeing_banaspati
     english: Something is burning my body...
     indonesian: Ada sesuatu yang membakar tubuhku...
+  - key: subtitle.player_burn_hit_before_seeing_banaspati_2
+    english: What the hell is burning me...?
+    indonesian: Apa yang membakarku...?
+  - key: subtitle.player_burn_hit_before_seeing_banaspati_3
+    english: The air is burning my skin.
+    indonesian: Udaranya membakar kulitku.
   - key: subtitle.player_burning_attack_hit
     english: This fire is pulling me in.
     indonesian: Api ini menarikku masuk.
+  - key: subtitle.player_burning_attack_hit_2
+    english: Fuck, it is dragging me.
+    indonesian: Anjing, dia menyeretku.
+  - key: subtitle.player_burning_attack_hit_3
+    english: I cannot break free.
+    indonesian: Aku tidak bisa lepas.
   - key: subtitle.player_low_stamina_chased
     english: I cannot keep running like this.
     indonesian: Aku tidak bisa terus berlari seperti ini.
+  - key: subtitle.player_low_stamina_chased_2
+    english: My legs are giving up.
+    indonesian: Kakiku mulai menyerah.
+  - key: subtitle.player_low_stamina_chased_3
+    english: Damn it, I need air.
+    indonesian: Sial, aku butuh napas.
   - key: subtitle.player_death_burn
     english: My body... is burning.
     indonesian: Tubuhku... terbakar.

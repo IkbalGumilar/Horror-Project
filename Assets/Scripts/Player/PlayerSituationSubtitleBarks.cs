@@ -27,6 +27,14 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
     [SerializeField] private float damageDuration = 2.5f;
     [SerializeField] private float lowStaminaDuration = 2.5f;
 
+    [Header("Subtitle Keys")]
+    [SerializeField] private string[] firstSightKeys = { "subtitle.player_first_see_banaspati" };
+    [SerializeField] private string[] chaseKeys = { "subtitle.player_chased" };
+    [SerializeField] private string[] lowStaminaChaseKeys = { "subtitle.player_low_stamina_chased" };
+    [SerializeField] private string[] passiveDamageBeforeSeeingKeys = { "subtitle.player_burn_hit_before_seeing_banaspati" };
+    [SerializeField] private string[] passiveDamageAfterSeeingKeys = { "subtitle.player_burn_hit" };
+    [SerializeField] private string[] burningAttackDamageKeys = { "subtitle.player_burning_attack_hit" };
+
     private bool hasSeenGhost;
     private bool deathBarkShown;
     private float nextAnyBarkTime = -999f;
@@ -104,7 +112,7 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
         if (!hasSeenGhost && PlayerCanSeeGhost())
         {
             hasSeenGhost = true;
-            ShowBark("subtitle.player_first_see_banaspati", firstSightDuration, true);
+            ShowBark(PickRandomKey(firstSightKeys, "subtitle.player_first_see_banaspati"), firstSightDuration, true);
             playerAudio?.PlayFirstSeeGhost();
             return;
         }
@@ -114,7 +122,7 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
             && playerStamina.NormalizedStamina <= lowStaminaThreshold
             && Time.time >= nextLowStaminaBarkTime)
         {
-            if (ShowBark("subtitle.player_low_stamina_chased", lowStaminaDuration, false))
+            if (ShowBark(PickRandomKey(lowStaminaChaseKeys, "subtitle.player_low_stamina_chased"), lowStaminaDuration, false))
             {
                 nextLowStaminaBarkTime = Time.time + lowStaminaBarkCooldown;
                 playerAudio?.PlayLowStaminaPanic();
@@ -123,7 +131,7 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
 
         if (ghostEnemy.IsChasing && Time.time >= nextChaseBarkTime)
         {
-            if (ShowBark("subtitle.player_chased", chaseDuration, false))
+            if (ShowBark(PickRandomKey(chaseKeys, "subtitle.player_chased"), chaseDuration, false))
             {
                 nextChaseBarkTime = Time.time + chaseBarkCooldown;
                 playerAudio?.PlayChasePanic();
@@ -170,15 +178,34 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
     {
         if (playerHealth != null && playerHealth.LastDamageType == PlayerDamageType.BurningAttack)
         {
-            return "subtitle.player_burning_attack_hit";
+            return PickRandomKey(burningAttackDamageKeys, "subtitle.player_burning_attack_hit");
         }
 
         if (!hasSeenGhost)
         {
-            return "subtitle.player_burn_hit_before_seeing_banaspati";
+            return PickRandomKey(passiveDamageBeforeSeeingKeys, "subtitle.player_burn_hit_before_seeing_banaspati");
         }
 
-        return "subtitle.player_burn_hit";
+        return PickRandomKey(passiveDamageAfterSeeingKeys, "subtitle.player_burn_hit");
+    }
+
+    private string PickRandomKey(string[] keys, string fallbackKey)
+    {
+        if (keys == null || keys.Length == 0)
+        {
+            return fallbackKey;
+        }
+
+        for (int attempt = 0; attempt < keys.Length; attempt++)
+        {
+            string key = keys[Random.Range(0, keys.Length)];
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                return key;
+            }
+        }
+
+        return fallbackKey;
     }
 
     private void HandleDeathStarted()

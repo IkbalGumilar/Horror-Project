@@ -788,6 +788,10 @@ MonoBehaviour:
   defaultDuration: 3.5
   fadeDuration: 0.2
   hideOnAwake: 1
+  censorProfanity: 0
+  censoredWords:
+  - anjing
+  - fuck
 --- !u!1 &476547303
 GameObject:
   m_ObjectHideFlags: 0
@@ -7976,6 +7980,31 @@ MonoBehaviour:
   chaseDuration: 2.5
   damageDuration: 2.5
   lowStaminaDuration: 2.5
+  firstSightKeys:
+  - subtitle.player_first_see_banaspati
+  - subtitle.player_first_see_banaspati_2
+  - subtitle.player_first_see_banaspati_3
+  chaseKeys:
+  - subtitle.player_chased
+  - subtitle.player_chased_2
+  - subtitle.player_chased_3
+  - subtitle.player_chased_4
+  lowStaminaChaseKeys:
+  - subtitle.player_low_stamina_chased
+  - subtitle.player_low_stamina_chased_2
+  - subtitle.player_low_stamina_chased_3
+  passiveDamageBeforeSeeingKeys:
+  - subtitle.player_burn_hit_before_seeing_banaspati
+  - subtitle.player_burn_hit_before_seeing_banaspati_2
+  - subtitle.player_burn_hit_before_seeing_banaspati_3
+  passiveDamageAfterSeeingKeys:
+  - subtitle.player_burn_hit
+  - subtitle.player_burn_hit_2
+  - subtitle.player_burn_hit_3
+  burningAttackDamageKeys:
+  - subtitle.player_burning_attack_hit
+  - subtitle.player_burning_attack_hit_2
+  - subtitle.player_burning_attack_hit_3
 --- !u!114 &2004439925
 MonoBehaviour:
   m_ObjectHideFlags: 0

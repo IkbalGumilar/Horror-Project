@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 
@@ -23,6 +24,10 @@ public sealed class SubtitleController : MonoBehaviour
     [SerializeField] private float defaultDuration = 3.5f;
     [SerializeField] private float fadeDuration = 0.2f;
     [SerializeField] private bool hideOnAwake = true;
+
+    [Header("Profanity Filter")]
+    [SerializeField] private bool censorProfanity;
+    [SerializeField] private string[] censoredWords = { "anjing", "fuck" };
 
     private Coroutine activeRoutine;
     private string currentSpeakerKey;
@@ -233,7 +238,7 @@ public sealed class SubtitleController : MonoBehaviour
                 subtitleText.fontSize = defaultSubtitleFontSize * currentSubtitleFontScale;
             }
 
-            subtitleText.text = text;
+            subtitleText.text = ApplyProfanityFilter(text);
         }
     }
 
@@ -283,5 +288,61 @@ public sealed class SubtitleController : MonoBehaviour
         }
 
         return fallbackLocalizationTable != null ? fallbackLocalizationTable.defaultLanguage : GameLanguage.Indonesian;
+    }
+
+    private string ApplyProfanityFilter(string text)
+    {
+        if (!censorProfanity || string.IsNullOrEmpty(text) || censoredWords == null)
+        {
+            return text;
+        }
+
+        string filteredText = text;
+        for (int i = 0; i < censoredWords.Length; i++)
+        {
+            string word = censoredWords[i];
+            if (string.IsNullOrWhiteSpace(word))
+            {
+                continue;
+            }
+
+            string pattern = $@"(?<!\p{{L}}){Regex.Escape(word)}(?!\p{{L}})";
+            filteredText = Regex.Replace(
+                filteredText,
+                pattern,
+                match => CensorMatchedWord(match.Value),
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        }
+
+        return filteredText;
+    }
+
+    private string CensorMatchedWord(string word)
+    {
+        if (string.IsNullOrEmpty(word))
+        {
+            return string.Empty;
+        }
+
+        if (word.Length <= 2)
+        {
+            return new string('*', word.Length);
+        }
+
+        if (word.Length == 3)
+        {
+            return word[0] + new string('*', word.Length - 1);
+        }
+
+        if (word.Length == 4)
+        {
+            return word[0] + new string('*', 2) + word[3];
+        }
+
+        int visibleEdgeLength = word.Length >= 6 ? 2 : 1;
+        int hiddenLength = Mathf.Max(1, word.Length - visibleEdgeLength * 2);
+        return word.Substring(0, visibleEdgeLength)
+            + new string('*', hiddenLength)
+            + word.Substring(word.Length - visibleEdgeLength, visibleEdgeLength);
     }
 }
