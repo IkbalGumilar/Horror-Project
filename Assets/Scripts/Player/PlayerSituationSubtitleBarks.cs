@@ -2,6 +2,8 @@ using UnityEngine;
 
 public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
 {
+    private const int SightHitBufferSize = 32;
+
     [Header("References")]
     [SerializeField] private PlayerHealth playerHealth;
     [SerializeField] private PlayerStamina playerStamina;
@@ -43,6 +45,7 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
     private float nextLowStaminaBarkTime = -999f;
     private float previousHealth;
     private Collider[] ownColliders;
+    private readonly RaycastHit[] sightHits = new RaycastHit[SightHitBufferSize];
 
     private void Reset()
     {
@@ -235,26 +238,40 @@ public sealed class PlayerSituationSubtitleBarks : MonoBehaviour
             return false;
         }
 
-        RaycastHit[] hits = Physics.RaycastAll(origin, normalizedDirection, distance, sightBlockMask, QueryTriggerInteraction.Ignore);
-        if (hits == null || hits.Length == 0)
+        int hitCount = Physics.RaycastNonAlloc(
+            origin,
+            normalizedDirection,
+            sightHits,
+            distance,
+            sightBlockMask,
+            QueryTriggerInteraction.Ignore);
+        if (hitCount == 0)
         {
             return true;
         }
 
-        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-        for (int i = 0; i < hits.Length; i++)
+        Collider closestCollider = null;
+        float closestDistance = float.PositiveInfinity;
+        for (int i = 0; i < hitCount; i++)
         {
-            Collider hitCollider = hits[i].collider;
-            if (hitCollider == null || IsOwnCollider(hitCollider))
+            RaycastHit hit = sightHits[i];
+            Collider hitCollider = hit.collider;
+            if (hitCollider == null || IsOwnCollider(hitCollider) || hit.distance >= closestDistance)
             {
                 continue;
             }
 
-            Transform hitTransform = hitCollider.transform;
-            return hitTransform == ghostEnemy.transform || hitTransform.IsChildOf(ghostEnemy.transform);
+            closestDistance = hit.distance;
+            closestCollider = hitCollider;
         }
 
-        return true;
+        if (closestCollider == null)
+        {
+            return true;
+        }
+
+        Transform hitTransform = closestCollider.transform;
+        return hitTransform == ghostEnemy.transform || hitTransform.IsChildOf(ghostEnemy.transform);
     }
 
     private bool IsOwnCollider(Collider hitCollider)

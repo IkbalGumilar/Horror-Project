@@ -23,15 +23,93 @@ MonoBehaviour:
   - key: ui.continue
     english: Continue
     indonesian: Lanjutkan
+  - key: ui.new_game
+    english: New Game
+    indonesian: Permainan Baru
   - key: ui.options
     english: Options
     indonesian: Pengaturan
   - key: ui.quit
-    english: Quit
+    english: Quit Game
     indonesian: Keluar
+  - key: ui.credits
+    english: Credits
+    indonesian: Kredit
   - key: ui.back
     english: Back
     indonesian: Kembali
+  - key: ui.apply
+    english: Apply
+    indonesian: Terapkan
+  - key: ui.setting
+    english: Setting
+    indonesian: Pengaturan
+  - key: ui.video
+    english: Video
+    indonesian: Video
+  - key: ui.audio
+    english: Audio
+    indonesian: Audio
+  - key: ui.control
+    english: Control
+    indonesian: Kontrol
+  - key: ui.gameplay
+    english: gameplay
+    indonesian: Gameplay
+  - key: ui.accessibility
+    english: Accessibility
+    indonesian: Aksesibilitas
+  - key: ui.on
+    english: On
+    indonesian: Nyala
+  - key: ui.off
+    english: Off
+    indonesian: Mati
+  - key: ui.default
+    english: Default
+    indonesian: Bawaan
+  - key: settings.master_volume
+    english: Master Volume
+    indonesian: Volume Utama
+  - key: settings.music_volume
+    english: Music Volume
+    indonesian: Volume Musik
+  - key: settings.sound_effect
+    english: Sound Effect
+    indonesian: Efek Suara
+  - key: settings.ambient_volume
+    english: Ambient Volume
+    indonesian: Volume Ambien
+  - key: settings.audio_output
+    english: Audio Output
+    indonesian: Keluaran Audio
+  - key: settings.dynamic_range
+    english: Dybamic Range
+    indonesian: Rentang Dinamis
+  - key: settings.graphics_quality
+    english: Graphics Quality
+    indonesian: Kualitas Grafis
+  - key: settings.resolution
+    english: Resolution
+    indonesian: Resolusi
+  - key: settings.full_screen
+    english: Full Screen
+    indonesian: Layar Penuh
+  - key: settings.v_sync
+    english: V-Sync
+    indonesian: V-Sync
+  - key: settings.fps_limit
+    english: FPS Limit
+    indonesian: Batas FPS
+  - key: settings.bloom
+    english: Bloom
+    indonesian: Bloom
+  - key: settings.motion_blur
+    english: Motion Blur
+    indonesian: Buram Gerak
+  - key: settings.brightness
+    english: Brightness
+    indonesian: Kecerahan
   - key: prompt.interact
     english: Press E to interact
     indonesian: Tekan E untuk berinteraksi

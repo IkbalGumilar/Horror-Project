@@ -43,12 +43,17 @@ public sealed class GhostNavMeshEnemy : MonoBehaviour
     private Collider[] ownColliders;
     private Collider[] targetColliders;
     private readonly Collider[] detectionHits = new Collider[16];
+    private readonly RaycastHit[] lineOfSightHits = new RaycastHit[32];
+    private readonly RaycastHit[] obstacleHits = new RaycastHit[32];
+    private readonly Vector3[] avoidanceCandidates = new Vector3[9];
+    private int lastLineOfSightFrame = -1;
+    private bool cachedLineOfSight;
 
     public bool IsChasing { get; private set; }
     public bool IsInAttackRange { get; private set; }
     public float ChaseDuration { get; private set; }
     public bool HasSpottedTarget => hasSpottedTarget;
-    public bool HasLineOfSightToTarget => TargetCanBeSeen();
+    public bool HasLineOfSightToTarget => GetLineOfSightToTarget();
 
     private void Awake()
     {
@@ -74,7 +79,7 @@ public sealed class GhostNavMeshEnemy : MonoBehaviour
         {
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
             bool targetInDetectionSphere = TargetIsInDetectionSphere(distanceToTarget);
-            bool canSeeTarget = TargetCanBeSeen();
+            bool canSeeTarget = GetLineOfSightToTarget();
 
             if (!hasSpottedTarget && targetInDetectionSphere && (!requireLineOfSightForChase || canSeeTarget))
             {
@@ -186,6 +191,18 @@ public sealed class GhostNavMeshEnemy : MonoBehaviour
         IsChasing = false;
         IsInAttackRange = false;
         stuckTimer = 0f;
+    }
+
+    private bool GetLineOfSightToTarget()
+    {
+        if (lastLineOfSightFrame == Time.frameCount)
+        {
+            return cachedLineOfSight;
+        }
+
+        lastLineOfSightFrame = Time.frameCount;
+        cachedLineOfSight = TargetCanBeSeen();
+        return cachedLineOfSight;
     }
 
     private Vector3 ClampAboveGround(Vector3 position)
@@ -307,25 +324,34 @@ public sealed class GhostNavMeshEnemy : MonoBehaviour
             return true;
         }
 
-        RaycastHit[] hits = Physics.RaycastAll(origin, direction / distance, distance, lineOfSightMask, QueryTriggerInteraction.Ignore);
-        if (hits == null || hits.Length == 0)
+        int hitCount = Physics.RaycastNonAlloc(
+            origin,
+            direction / distance,
+            lineOfSightHits,
+            distance,
+            lineOfSightMask,
+            QueryTriggerInteraction.Ignore);
+        if (hitCount == 0)
         {
             return true;
         }
 
-        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-        for (int i = 0; i < hits.Length; i++)
+        Collider closestCollider = null;
+        float closestDistance = float.PositiveInfinity;
+        for (int i = 0; i < hitCount; i++)
         {
-            Collider hitCollider = hits[i].collider;
-            if (hitCollider == null || IsOwnCollider(hitCollider))
+            RaycastHit hit = lineOfSightHits[i];
+            Collider hitCollider = hit.collider;
+            if (hitCollider == null || IsOwnCollider(hitCollider) || hit.distance >= closestDistance)
             {
                 continue;
             }
 
-            return IsTargetCollider(hitCollider);
+            closestDistance = hit.distance;
+            closestCollider = hitCollider;
         }
 
-        return true;
+        return closestCollider == null || IsTargetCollider(closestCollider);
     }
 
     private Vector3 FindOpenDirection(Vector3 desiredDirection, float checkDistance)
@@ -343,24 +369,21 @@ public sealed class GhostNavMeshEnemy : MonoBehaviour
 
         right.Normalize();
         Vector3 up = Vector3.up;
-        Vector3[] candidates =
-        {
-            (desiredDirection + right).normalized,
-            (desiredDirection - right).normalized,
-            (desiredDirection + up).normalized,
-            (desiredDirection - up).normalized,
-            (desiredDirection + right + up).normalized,
-            (desiredDirection - right + up).normalized,
-            right,
-            -right,
-            up
-        };
+        avoidanceCandidates[0] = (desiredDirection + right).normalized;
+        avoidanceCandidates[1] = (desiredDirection - right).normalized;
+        avoidanceCandidates[2] = (desiredDirection + up).normalized;
+        avoidanceCandidates[3] = (desiredDirection - up).normalized;
+        avoidanceCandidates[4] = (desiredDirection + right + up).normalized;
+        avoidanceCandidates[5] = (desiredDirection - right + up).normalized;
+        avoidanceCandidates[6] = right;
+        avoidanceCandidates[7] = -right;
+        avoidanceCandidates[8] = up;
 
         Vector3 bestDirection = Vector3.zero;
         float bestScore = -1f;
-        for (int i = 0; i < candidates.Length; i++)
+        for (int i = 0; i < avoidanceCandidates.Length; i++)
         {
-            Vector3 candidate = candidates[i];
+            Vector3 candidate = avoidanceCandidates[i];
             if (candidate.sqrMagnitude < 0.001f || IsMovementBlocked(candidate, checkDistance))
             {
                 continue;
@@ -384,22 +407,23 @@ public sealed class GhostNavMeshEnemy : MonoBehaviour
             return false;
         }
 
-        RaycastHit[] hits = Physics.SphereCastAll(
+        int hitCount = Physics.SphereCastNonAlloc(
             transform.position,
             Mathf.Max(0.01f, obstacleProbeRadius),
             direction.normalized,
+            obstacleHits,
             checkDistance,
             obstacleMask,
             QueryTriggerInteraction.Ignore);
 
-        if (hits == null || hits.Length == 0)
+        if (hitCount == 0)
         {
             return false;
         }
 
-        for (int i = 0; i < hits.Length; i++)
+        for (int i = 0; i < hitCount; i++)
         {
-            Collider hitCollider = hits[i].collider;
+            Collider hitCollider = obstacleHits[i].collider;
             if (hitCollider == null || IsOwnCollider(hitCollider) || IsTargetCollider(hitCollider))
             {
                 continue;
