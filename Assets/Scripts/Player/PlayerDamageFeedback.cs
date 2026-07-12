@@ -22,6 +22,12 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
     [SerializeField] private float lingeringGraceDuration = 0.1f;
     [SerializeField] private float minimumVisibleStartSize = 0.001f;
 
+    [Header("Controller Vibration")]
+    [SerializeField, Range(0f, 1f)] private float vibrationLowFrequency = 0.25f;
+    [SerializeField, Range(0f, 1f)] private float vibrationHighFrequency = 0.6f;
+    [SerializeField, Min(0f)] private float vibrationDuration = 0.12f;
+    [SerializeField, Min(0f)] private float vibrationCooldown = 0.15f;
+
     private float previousHealth;
     private float targetAlpha;
     private float fireBallStartSize;
@@ -29,6 +35,7 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
     private float lastBurnReceiveTime = float.NegativeInfinity;
     private PlayerDamageType activeBurnDamageType = PlayerDamageType.PassiveBurn;
     private GameObject activeBurnSource;
+    private float nextVibrationTime;
 
     private void Reset()
     {
@@ -133,6 +140,12 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         targetAlpha = Mathf.Max(targetAlpha, Mathf.Lerp(minHitAlpha, maxHitAlpha, normalizedDamage));
         SetOverlayAlpha(targetAlpha);
         playerAudio?.PlayDamage(playerHealth != null ? playerHealth.LastDamageType : PlayerDamageType.Unknown);
+
+        if (Time.unscaledTime >= nextVibrationTime)
+        {
+            GameControlSettings.PlayVibration(vibrationLowFrequency, vibrationHighFrequency, vibrationDuration);
+            nextVibrationTime = Time.unscaledTime + vibrationCooldown;
+        }
     }
 
     private void SetOverlayAlpha(float alpha)

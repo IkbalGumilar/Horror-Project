@@ -182,14 +182,17 @@ public sealed class FPSCameraController : MonoBehaviour
     private void UpdateLook(Vector2 lookInput)
     {
         bool usingMouse = lookAction != null && lookAction.activeControl != null && lookAction.activeControl.device is Mouse;
-        float sensitivity = usingMouse ? mouseSensitivity : gamepadSensitivity * Time.deltaTime;
+        float baseSensitivity = usingMouse ? mouseSensitivity : gamepadSensitivity * Time.deltaTime;
+        float yawSensitivity = baseSensitivity * GameControlSettings.YawSensitivityMultiplier;
+        float pitchSensitivity = baseSensitivity * GameControlSettings.PitchSensitivityMultiplier;
+        float pitchDirection = usingMouse && GameControlSettings.ReverseMouse ? -1f : 1f;
 
         if (!isQuickTurning)
         {
-            yaw += lookInput.x * sensitivity;
+            yaw += lookInput.x * yawSensitivity;
         }
 
-        pitch = Mathf.Clamp(pitch - lookInput.y * sensitivity, minPitch, maxPitch);
+        pitch = Mathf.Clamp(pitch - lookInput.y * pitchSensitivity * pitchDirection, minPitch, maxPitch);
         if (cameraPivot != null)
         {
             cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);

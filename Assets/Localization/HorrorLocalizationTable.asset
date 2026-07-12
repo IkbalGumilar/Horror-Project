@@ -84,8 +84,26 @@ MonoBehaviour:
     english: Audio Output
     indonesian: Keluaran Audio
   - key: settings.dynamic_range
-    english: Dybamic Range
+    english: Dynamic Range
     indonesian: Rentang Dinamis
+  - key: settings.dynamic_night
+    english: Night
+    indonesian: Malam
+  - key: settings.dynamic_standard
+    english: Standard
+    indonesian: Standar
+  - key: settings.dynamic_wide
+    english: Wide
+    indonesian: Lebar
+  - key: settings.system_default
+    english: System Default
+    indonesian: Bawaan Sistem
+  - key: settings.output_mono
+    english: Mono
+    indonesian: Mono
+  - key: settings.output_stereo
+    english: Stereo
+    indonesian: Stereo
   - key: settings.graphics_quality
     english: Graphics Quality
     indonesian: Kualitas Grafis
@@ -110,6 +128,66 @@ MonoBehaviour:
   - key: settings.brightness
     english: Brightness
     indonesian: Kecerahan
+  - key: settings.contrast
+    english: Contrast
+    indonesian: Kontras
+  - key: settings.head_bob_intensity
+    english: Intensity Head Bob
+    indonesian: Intensitas Goyangan Kepala
+  - key: settings.autosave
+    english: Autosave
+    indonesian: Simpan Otomatis
+  - key: settings.tutorial
+    english: Tutorial
+    indonesian: Tutorial
+  - key: settings.horizontal_sensitivity
+    english: Sensitivity Horizontal
+    indonesian: Sensitivitas Horizontal
+  - key: settings.vertical_sensitivity
+    english: Sensitivity Vertical
+    indonesian: Sensitivitas Vertikal
+  - key: settings.subtitle_size
+    english: Size Subtitle
+    indonesian: Ukuran Subtitel
+  - key: settings.subtitle_name
+    english: Name Subtitle
+    indonesian: Nama Subtitel
+  - key: settings.subtitle_background
+    english: Subtitle Background
+    indonesian: Latar Subtitel
+  - key: settings.subtitle
+    english: Subtitle
+    indonesian: Subtitel
+  - key: settings.vibration
+    english: Vibrate
+    indonesian: Getaran
+  - key: settings.crosshair
+    english: Crosshair
+    indonesian: Bidik Silang
+  - key: settings.reverse_mouse
+    english: Reverse Mouse
+    indonesian: Balik Arah Mouse
+  - key: settings.difficulty
+    english: Difficulty
+    indonesian: Kesulitan
+  - key: settings.camera_shake
+    english: Camera Shake
+    indonesian: Guncangan Kamera
+  - key: settings.run
+    english: Run
+    indonesian: Lari
+  - key: settings.run_hold
+    english: Hold
+    indonesian: Tahan
+  - key: settings.run_toggle
+    english: Toggle
+    indonesian: Beralih
+  - key: settings.blink
+    english: Blink blink
+    indonesian: Kedipan
+  - key: settings.unlimited
+    english: Unlimited
+    indonesian: Tanpa Batas
   - key: prompt.interact
     english: Press E to interact
     indonesian: Tekan E untuk berinteraksi

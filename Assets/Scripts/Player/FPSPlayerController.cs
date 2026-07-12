@@ -51,6 +51,7 @@ public sealed class FPSPlayerController : MonoBehaviour
     private float lastMoveY;
     private bool isCrouching;
     private bool isSprinting;
+    private bool sprintToggled;
 
     public Vector3 HorizontalVelocity => currentHorizontalVelocity;
     public float HorizontalSpeed => currentHorizontalVelocity.magnitude;
@@ -146,7 +147,8 @@ public sealed class FPSPlayerController : MonoBehaviour
 
         isCrouching = IsCrouchPressed();
         bool hasStamina = playerStamina == null || playerStamina.CanSprint;
-        isSprinting = sprintAction != null && sprintAction.IsPressed() && moveInput.y > 0.1f && !isCrouching && hasStamina;
+        bool sprintRequested = ReadSprintRequested(hasStamina);
+        isSprinting = sprintRequested && moveInput.y > 0.1f && !isCrouching && hasStamina;
         float targetSpeed = isCrouching ? crouchSpeed : isSprinting ? sprintSpeed : walkSpeed;
         if (playerStamina != null)
         {
@@ -189,6 +191,32 @@ public sealed class FPSPlayerController : MonoBehaviour
     private bool IsCrouchPressed()
     {
         return crouchAction != null && crouchAction.IsPressed();
+    }
+
+    private bool ReadSprintRequested(bool hasStamina)
+    {
+        if (sprintAction == null)
+        {
+            return false;
+        }
+
+        if (GameControlSettings.RunMode == RunInputMode.Hold)
+        {
+            sprintToggled = false;
+            return sprintAction.IsPressed();
+        }
+
+        if (sprintAction.WasPressedThisFrame())
+        {
+            sprintToggled = !sprintToggled;
+        }
+
+        if (!hasStamina || isCrouching)
+        {
+            sprintToggled = false;
+        }
+
+        return sprintToggled;
     }
 
     private void ApplyControllerDimensions(float height)

@@ -310,6 +310,16 @@ public sealed class SettingsMenuTransition : MonoBehaviour
             tab.button.onClick.AddListener(tab.Click);
             ConfigureTabEvents(line.gameObject, tab.button, i);
             tab.CachePanel(FindFirstChildByNames(children, tab.panelNames));
+
+            if (tab.panel != null && tab.panel.name == "Audio Menu" && tab.panel.GetComponent<AudioSettingsController>() == null)
+            {
+                tab.panel.AddComponent<AudioSettingsController>();
+            }
+
+            if (tab.panel != null && tab.panel.name == "Control Menu" && tab.panel.GetComponent<ControlSettingsController>() == null)
+            {
+                tab.panel.AddComponent<ControlSettingsController>();
+            }
         }
 
         ActivateDefaultSettingsTab(animate: false);

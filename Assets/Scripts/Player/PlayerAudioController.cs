@@ -155,7 +155,7 @@ public sealed class PlayerAudioController : MonoBehaviour
                 burnLoopSource.Play();
             }
 
-            burnLoopSource.volume = burnLoopVolume;
+            burnLoopSource.volume = burnLoopVolume * GameAudioManager.SfxVolume;
         }
         else if (burnLoopSource.isPlaying)
         {
@@ -196,6 +196,7 @@ public sealed class PlayerAudioController : MonoBehaviour
             targetVolume = 0f;
         }
 
+        targetVolume *= GameAudioManager.SfxVolume;
         breathSource.volume = Mathf.MoveTowards(breathSource.volume, targetVolume, breathFadeSpeed * Time.unscaledDeltaTime);
     }
 
@@ -217,7 +218,7 @@ public sealed class PlayerAudioController : MonoBehaviour
             return;
         }
 
-        oneShotSource.PlayOneShot(clip, volume);
+        oneShotSource.PlayOneShot(clip, volume * GameAudioManager.SfxVolume);
     }
 
     private AudioSource EnsureAudioSource(AudioSource source, string sourceName, bool loop)

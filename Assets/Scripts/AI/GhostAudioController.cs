@@ -99,7 +99,7 @@ public sealed class GhostAudioController : MonoBehaviour
         {
             loopSource.clip = clip;
             loopSource.loop = true;
-            loopSource.volume = loopVolume;
+            loopSource.volume = loopVolume * GameAudioManager.SfxVolume;
             loopSource.Play();
             return;
         }
@@ -109,7 +109,7 @@ public sealed class GhostAudioController : MonoBehaviour
             loopSource.Play();
         }
 
-        loopSource.volume = loopVolume;
+        loopSource.volume = loopVolume * GameAudioManager.SfxVolume;
     }
 
     private void PlayOneShot(AudioClip clip)
@@ -119,7 +119,7 @@ public sealed class GhostAudioController : MonoBehaviour
             return;
         }
 
-        oneShotSource.PlayOneShot(clip, oneShotVolume);
+        oneShotSource.PlayOneShot(clip, oneShotVolume * GameAudioManager.SfxVolume);
     }
 
     private AudioSource EnsureAudioSource(AudioSource source, string sourceName, bool loop)
