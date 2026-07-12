@@ -2,6 +2,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public sealed class SubtitleController : MonoBehaviour
 {
@@ -19,6 +20,14 @@ public sealed class SubtitleController : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TMP_Text speakerNameText;
     [SerializeField] private TMP_Text subtitleText;
+    [SerializeField] private Graphic backgroundGraphic;
+
+    [Header("Accessibility Size Multipliers")]
+    [SerializeField] private float verySmallSize = 0.65f;
+    [SerializeField] private float smallSize = 0.8f;
+    [SerializeField] private float mediumSize = 1f;
+    [SerializeField] private float largeSize = 1.25f;
+    [SerializeField] private float veryLargeSize = 1.5f;
 
     [Header("Timing")]
     [SerializeField] private float defaultDuration = 3.5f;
@@ -38,6 +47,7 @@ public sealed class SubtitleController : MonoBehaviour
     private float defaultSpeakerFontSize;
     private float defaultSubtitleFontSize;
     private float currentSubtitleFontScale = 1f;
+    private float defaultBackgroundAlpha = 1f;
 
     private void Awake()
     {
@@ -69,6 +79,19 @@ public sealed class SubtitleController : MonoBehaviour
             defaultSubtitleFontSize = subtitleText.fontSize;
         }
 
+        if (backgroundGraphic == null)
+        {
+            Transform background = FindDescendant(transform, "Background");
+            backgroundGraphic = background != null ? background.GetComponent<Graphic>() : null;
+        }
+
+        if (backgroundGraphic != null)
+        {
+            defaultBackgroundAlpha = backgroundGraphic.color.a;
+        }
+
+        ApplyAccessibilitySettings();
+
         if (hideOnAwake)
         {
             HideImmediate();
@@ -78,11 +101,14 @@ public sealed class SubtitleController : MonoBehaviour
     private void OnEnable()
     {
         LocalizationManager.LanguageChanged += RefreshLocalizedText;
+        GameAccessibilitySettings.Changed += ApplyAccessibilitySettings;
+        ApplyAccessibilitySettings();
     }
 
     private void OnDisable()
     {
         LocalizationManager.LanguageChanged -= RefreshLocalizedText;
+        GameAccessibilitySettings.Changed -= ApplyAccessibilitySettings;
     }
 
     public void Show(string speakerName, string text)
@@ -168,6 +194,13 @@ public sealed class SubtitleController : MonoBehaviour
             StopCoroutine(activeRoutine);
         }
 
+        if (!GameAccessibilitySettings.SubtitlesEnabled)
+        {
+            activeRoutine = null;
+            HideImmediate();
+            return;
+        }
+
         activeRoutine = StartCoroutine(ShowRoutine(Mathf.Max(0f, duration)));
     }
 
@@ -221,25 +254,75 @@ public sealed class SubtitleController : MonoBehaviour
 
     private void SetText(string speakerName, string text)
     {
+        float accessibilityScale = GetAccessibilityFontScale();
         if (speakerNameText != null)
         {
             if (defaultSpeakerFontSize > 0f)
             {
-                speakerNameText.fontSize = defaultSpeakerFontSize;
+                speakerNameText.fontSize = defaultSpeakerFontSize * accessibilityScale;
             }
 
             speakerNameText.text = speakerName;
+            speakerNameText.gameObject.SetActive(GameAccessibilitySettings.SpeakerNameEnabled);
         }
 
         if (subtitleText != null)
         {
             if (defaultSubtitleFontSize > 0f)
             {
-                subtitleText.fontSize = defaultSubtitleFontSize * currentSubtitleFontScale;
+                subtitleText.fontSize = defaultSubtitleFontSize * currentSubtitleFontScale * accessibilityScale;
             }
 
             subtitleText.text = ApplyProfanityFilter(text);
         }
+    }
+
+    private void ApplyAccessibilitySettings()
+    {
+        if (!GameAccessibilitySettings.SubtitlesEnabled)
+        {
+            HideImmediate();
+        }
+
+        if (speakerNameText != null)
+        {
+            speakerNameText.gameObject.SetActive(GameAccessibilitySettings.SpeakerNameEnabled);
+        }
+
+        if (backgroundGraphic != null)
+        {
+            Color color = backgroundGraphic.color;
+            color.a = GameAccessibilitySettings.SubtitleBackgroundEnabled ? defaultBackgroundAlpha : 0f;
+            backgroundGraphic.color = color;
+        }
+
+        RefreshLocalizedText();
+    }
+
+    private float GetAccessibilityFontScale()
+    {
+        switch (GameAccessibilitySettings.SubtitleSize)
+        {
+            case 0: return Mathf.Max(0.01f, verySmallSize);
+            case 1: return Mathf.Max(0.01f, smallSize);
+            case 3: return Mathf.Max(0.01f, largeSize);
+            case 4: return Mathf.Max(0.01f, veryLargeSize);
+            default: return Mathf.Max(0.01f, mediumSize);
+        }
+    }
+
+    private static Transform FindDescendant(Transform root, string objectName)
+    {
+        Transform[] descendants = root.GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < descendants.Length; i++)
+        {
+            if (descendants[i].name == objectName)
+            {
+                return descendants[i];
+            }
+        }
+
+        return null;
     }
 
     private void RefreshLocalizedText()

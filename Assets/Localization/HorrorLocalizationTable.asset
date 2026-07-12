@@ -170,6 +170,15 @@ MonoBehaviour:
   - key: settings.difficulty
     english: Difficulty
     indonesian: Kesulitan
+  - key: settings.difficulty_easy
+    english: Easy
+    indonesian: Mudah
+  - key: settings.difficulty_normal
+    english: Normal
+    indonesian: Normal
+  - key: settings.difficulty_hard
+    english: Hard
+    indonesian: Sulit
   - key: settings.camera_shake
     english: Camera Shake
     indonesian: Guncangan Kamera
@@ -185,6 +194,30 @@ MonoBehaviour:
   - key: settings.blink
     english: Blink blink
     indonesian: Kedipan
+  - key: settings.size_very_small
+    english: Very Small
+    indonesian: Sangat Kecil
+  - key: settings.size_small
+    english: Small
+    indonesian: Kecil
+  - key: settings.size_medium
+    english: Medium
+    indonesian: Sedang
+  - key: settings.size_large
+    english: Large
+    indonesian: Besar
+  - key: settings.size_very_large
+    english: Very Large
+    indonesian: Sangat Besar
+  - key: settings.level_low
+    english: Low
+    indonesian: Kecil
+  - key: settings.level_medium
+    english: Medium
+    indonesian: Sedang
+  - key: settings.level_high
+    english: High
+    indonesian: Besar
   - key: settings.unlimited
     english: Unlimited
     indonesian: Tanpa Batas

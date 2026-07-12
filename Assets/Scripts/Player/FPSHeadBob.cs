@@ -55,7 +55,7 @@ public sealed class FPSHeadBob : MonoBehaviour
 
         if (shouldBob)
         {
-            Vector2 amplitude = GetCurrentAmplitude();
+            Vector2 amplitude = GetCurrentAmplitude() * GameGameplaySettings.HeadBobIntensity;
             float frequency = GetCurrentFrequency();
             bobTimer += Time.deltaTime * frequency;
 

@@ -320,6 +320,18 @@ public sealed class SettingsMenuTransition : MonoBehaviour
             {
                 tab.panel.AddComponent<ControlSettingsController>();
             }
+
+            if (tab.panel != null && tab.panel.name == "Gameplay Menu" && tab.panel.GetComponent<GameplaySettingsController>() == null)
+            {
+                tab.panel.AddComponent<GameplaySettingsController>();
+            }
+
+            if (tab.panel != null
+                && (tab.panel.name == "Accessibility Menu" || tab.panel.name == "Accesibility Menu")
+                && tab.panel.GetComponent<AccessibilitySettingsController>() == null)
+            {
+                tab.panel.AddComponent<AccessibilitySettingsController>();
+            }
         }
 
         ActivateDefaultSettingsTab(animate: false);
