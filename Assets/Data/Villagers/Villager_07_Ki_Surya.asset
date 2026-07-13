@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0950d97e58ef473489c40fbc38f36789, type: 3}
+  m_Name: Villager_07_Ki_Surya
+  m_EditorClassIdentifier:
+  villagerId: villager_07
+  displayNameKey: villager_07.name
+  occupationKey: villager_07.occupation
+  descriptionKey: villager_07.description
+  age: 78
+  portrait: {fileID: 0}
+  storyCritical: 1
+  canTrade: 0
+  shopId: 
+  startingAffinity: 0
+  firstConversation:
+    lines:
+    - speaker: 0
+      localizationKey: dialogue.villager_07.first.1
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_07.first.2
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_07.first.3
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_07.first.4
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+  repeatConversation:
+    lines:
+    - speaker: 0
+      localizationKey: dialogue.villager_07.repeat.1
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_07.repeat.2
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+  voicePitchRange: {x: 0.95, y: 1.05}

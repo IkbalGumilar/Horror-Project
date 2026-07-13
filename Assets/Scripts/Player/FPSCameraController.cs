@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 
 public sealed class FPSCameraController : MonoBehaviour
 {
+    [Header("Shared Profile")]
+    [SerializeField] private FPSControlProfile controlProfile;
+
     [Header("Input")]
     [SerializeField] private InputActionAsset inputActions;
     [SerializeField] private string playerMapName = "Player";
@@ -37,6 +40,8 @@ public sealed class FPSCameraController : MonoBehaviour
     private float turnTargetYaw;
     private float turnElapsed;
     private bool isQuickTurning;
+    private bool initialized;
+    private bool lookSuppressed;
 
     public bool IsQuickTurning => isQuickTurning;
     public Transform CameraPivot => cameraPivot;
@@ -54,16 +59,49 @@ public sealed class FPSCameraController : MonoBehaviour
 
     private void Awake()
     {
+        if (enabled)
+        {
+            Initialize();
+        }
+    }
+
+    private void Initialize()
+    {
+        if (initialized)
+        {
+            return;
+        }
+
+        ApplyControlProfile();
         ResolveReferences();
         ResolveInputActions();
 
         yaw = yawRoot.eulerAngles.y;
         pitch = cameraPivot != null ? NormalizeAngle(cameraPivot.localEulerAngles.x) : 0f;
         SetCameraHeight(cameraHeight, true);
+        initialized = true;
+    }
+
+    private void ApplyControlProfile()
+    {
+        if (controlProfile == null)
+        {
+            return;
+        }
+
+        mouseSensitivity = controlProfile.MouseSensitivity;
+        gamepadSensitivity = controlProfile.GamepadSensitivity;
+        minPitch = controlProfile.MinPitch;
+        maxPitch = controlProfile.MaxPitch;
+        lockCursorOnEnable = controlProfile.LockCursorOnEnable;
+        cameraHeight = controlProfile.CameraHeight;
+        heightLerpSpeed = controlProfile.HeightLerpSpeed;
+        quickTurnDuration = controlProfile.QuickTurnDuration;
     }
 
     private void OnEnable()
     {
+        Initialize();
         lookAction?.Enable();
         if (lockCursorOnEnable)
         {
@@ -79,8 +117,33 @@ public sealed class FPSCameraController : MonoBehaviour
 
     private void Update()
     {
+        if (lookSuppressed)
+        {
+            return;
+        }
+
         Vector2 lookInput = lookAction != null ? lookAction.ReadValue<Vector2>() : Vector2.zero;
         UpdateLook(lookInput);
+    }
+
+    public void SetLookSuppressed(bool suppressed)
+    {
+        lookSuppressed = suppressed;
+        if (suppressed)
+        {
+            isQuickTurning = false;
+        }
+    }
+
+    public void SetYawImmediate(float targetYaw)
+    {
+        Initialize();
+        yaw = targetYaw;
+        isQuickTurning = false;
+        if (yawRoot != null)
+        {
+            yawRoot.rotation = Quaternion.Euler(0f, yaw, 0f);
+        }
     }
 
     public void StartQuickTurn()

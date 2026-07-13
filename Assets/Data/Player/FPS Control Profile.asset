@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e723f06720d247cfaa9de9fc7f32f8a1, type: 3}
+  m_Name: FPS Control Profile
+  m_EditorClassIdentifier: Assembly-CSharp::FPSControlProfile
+  walkSpeed: 5
+  sprintSpeed: 7
+  crouchSpeed: 2.5
+  acceleration: 20
+  gravity: -19.6
+  groundedStickForce: -2
+  jumpHeight: 2
+  standingHeight: 2
+  crouchingHeight: 1.15
+  standingCameraHeight: 1
+  crouchingCameraHeight: 0.5
+  crouchLerpSpeed: 12
+  enableQuickTurn: 1
+  backTapThreshold: -0.75
+  doubleBackTapWindow: 0.28
+  quickTurnDuration: 0.18
+  mouseSensitivity: 0.12
+  gamepadSensitivity: 145
+  minPitch: -50
+  maxPitch: 50
+  lockCursorOnEnable: 1
+  cameraHeight: 1
+  heightLerpSpeed: 12
+  walkAmplitude: {x: 0, y: 0.1}
+  sprintAmplitude: {x: 0, y: 0.1}
+  crouchAmplitude: {x: 0, y: 0.01}
+  walkFrequency: 5
+  sprintFrequency: 6
+  crouchFrequency: 4
+  movementThreshold: 0.05
+  bobPositionLerpSpeed: 12
+  interactionRadius: 3
+  interactionMinimumAlpha: 150
+  interactionMaximumAlpha: 255
+  interactionBlinkCyclesPerSecond: 2.5

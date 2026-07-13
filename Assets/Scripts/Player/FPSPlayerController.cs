@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public sealed class FPSPlayerController : MonoBehaviour
 {
+    [Header("Shared Profile")]
+    [SerializeField] private FPSControlProfile controlProfile;
+
     [Header("Input")]
     [SerializeField] private InputActionAsset inputActions;
     [SerializeField] private string playerMapName = "Player";
@@ -52,12 +55,15 @@ public sealed class FPSPlayerController : MonoBehaviour
     private bool isCrouching;
     private bool isSprinting;
     private bool sprintToggled;
+    private bool initialized;
+    private bool movementSuppressed;
 
     public Vector3 HorizontalVelocity => currentHorizontalVelocity;
     public float HorizontalSpeed => currentHorizontalVelocity.magnitude;
     public bool IsGrounded => characterController != null && characterController.isGrounded;
     public bool IsCrouching => isCrouching;
     public bool IsSprinting => isSprinting;
+    public InputActionAsset InputActions => inputActions;
 
     private void Reset()
     {
@@ -67,15 +73,55 @@ public sealed class FPSPlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if (enabled)
+        {
+            Initialize();
+        }
+    }
+
+    private void Initialize()
+    {
+        if (initialized)
+        {
+            return;
+        }
+
+        ApplyControlProfile();
         characterController = GetComponent<CharacterController>();
         ResolveReferences();
         ResolveInputActions();
         ApplyControllerDimensions(standingHeight);
         cameraController?.SetCameraHeight(standingCameraHeight, true);
+        initialized = true;
+    }
+
+    private void ApplyControlProfile()
+    {
+        if (controlProfile == null)
+        {
+            return;
+        }
+
+        walkSpeed = controlProfile.WalkSpeed;
+        sprintSpeed = controlProfile.SprintSpeed;
+        crouchSpeed = controlProfile.CrouchSpeed;
+        acceleration = controlProfile.Acceleration;
+        gravity = controlProfile.Gravity;
+        groundedStickForce = controlProfile.GroundedStickForce;
+        jumpHeight = controlProfile.JumpHeight;
+        standingHeight = controlProfile.StandingHeight;
+        crouchingHeight = controlProfile.CrouchingHeight;
+        standingCameraHeight = controlProfile.StandingCameraHeight;
+        crouchingCameraHeight = controlProfile.CrouchingCameraHeight;
+        crouchLerpSpeed = controlProfile.CrouchLerpSpeed;
+        enableQuickTurn = controlProfile.EnableQuickTurn;
+        backTapThreshold = controlProfile.BackTapThreshold;
+        doubleBackTapWindow = controlProfile.DoubleBackTapWindow;
     }
 
     private void OnEnable()
     {
+        Initialize();
         moveAction?.Enable();
         jumpAction?.Enable();
         sprintAction?.Enable();
@@ -92,11 +138,53 @@ public sealed class FPSPlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (movementSuppressed)
+        {
+            UpdateSuppressedMovement();
+            return;
+        }
+
         Vector2 moveInput = moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
 
         UpdateQuickTurnDetection(moveInput.y);
         UpdateMovement(moveInput);
         UpdateCrouch();
+    }
+
+    public void SetMovementSuppressed(bool suppressed)
+    {
+        movementSuppressed = suppressed;
+        if (!suppressed)
+        {
+            return;
+        }
+
+        currentHorizontalVelocity = Vector3.zero;
+        isSprinting = false;
+        sprintToggled = false;
+        lastMoveY = 0f;
+    }
+
+    private void UpdateSuppressedMovement()
+    {
+        currentHorizontalVelocity = Vector3.zero;
+        isSprinting = false;
+
+        if (characterController == null || !characterController.enabled)
+        {
+            return;
+        }
+
+        if (characterController.isGrounded && verticalVelocity < 0f)
+        {
+            verticalVelocity = groundedStickForce;
+        }
+
+        verticalVelocity += gravity * Time.deltaTime;
+        characterController.Move(Vector3.up * verticalVelocity * Time.deltaTime);
+
+        float normalizedStamina = playerStamina != null ? playerStamina.NormalizedStamina : 1f;
+        playerAudio?.UpdateBreathing(normalizedStamina, false, false);
     }
 
     private void ResolveReferences()

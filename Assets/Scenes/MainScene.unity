@@ -7495,6 +7495,7 @@ GameObject:
   - component: {fileID: 2004439923}
   - component: {fileID: 2004439924}
   - component: {fileID: 2004439925}
+  - component: {fileID: 3200000200}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7611,6 +7612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f2da62cb3243c18f4f22a30c2ca6ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPSPlayerController
+  controlProfile: {fileID: 11400000, guid: 7d5dd01ca1294aefbdc5d0b59832a285, type: 2}
   inputActions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   playerMapName: Player
   moveActionName: Move
@@ -7672,6 +7674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d4c6d9163a4b56a5d808ef3136fc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPSCameraController
+  controlProfile: {fileID: 11400000, guid: 7d5dd01ca1294aefbdc5d0b59832a285, type: 2}
   inputActions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   playerMapName: Player
   lookActionName: Look
@@ -7700,6 +7703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2101a461d4104e7cbfbf2bf1ce5e516b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPSHeadBob
+  controlProfile: {fileID: 11400000, guid: 7d5dd01ca1294aefbdc5d0b59832a285, type: 2}
   playerController: {fileID: 2004439915}
   cameraController: {fileID: 2004439917}
   bobTarget: {fileID: 963194228}
@@ -18256,6 +18260,37 @@ MonoBehaviour:
   loopMusic: 1
   ambientClip: {fileID: 0}
   loopAmbient: 1
+--- !u!114 &3200000200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004439910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d96a71739c83402a8f2daacbf71e9a84, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerVillagerInteraction
+  controlProfile: {fileID: 11400000, guid: 7d5dd01ca1294aefbdc5d0b59832a285, type: 2}
+  inputActions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
+  playerMapName: Player
+  interactActionName: Interact
+  detectionOrigin: {fileID: 2004439914}
+  interactionRadius: 3
+  promptRoot: {fileID: 0}
+  minimumAlpha: 150
+  maximumAlpha: 255
+  blinkCyclesPerSecond: 2.5
+  playerController: {fileID: 2004439915}
+  cameraController: {fileID: 2004439917}
+  playerStamina: {fileID: 2004439920}
+  postConversationDelay: 0.5
+  faceNpcTurnSpeed: 360
+  conversationDistance: 3
+  approachMoveSpeed: 2
+  distanceTolerance: 0.05
+  facingTolerance: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

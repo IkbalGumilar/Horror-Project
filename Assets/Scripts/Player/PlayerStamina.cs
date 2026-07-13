@@ -49,6 +49,12 @@ public sealed class PlayerStamina : MonoBehaviour
     public bool IsExhausted => exhausted;
     public float MovementSpeedMultiplier => exhausted ? exhaustedMoveSpeedMultiplier : 1f;
 
+    public void ShowControlReadyIndicator()
+    {
+        RefreshUI();
+        ShowHud();
+    }
+
     private void Reset()
     {
         playerController = GetComponent<FPSPlayerController>();

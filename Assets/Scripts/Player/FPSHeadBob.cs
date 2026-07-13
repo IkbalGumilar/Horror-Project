@@ -2,6 +2,9 @@ using UnityEngine;
 
 public sealed class FPSHeadBob : MonoBehaviour
 {
+    [Header("Shared Profile")]
+    [SerializeField] private FPSControlProfile controlProfile;
+
     [Header("References")]
     [SerializeField] private FPSPlayerController playerController;
     [SerializeField] private FPSCameraController cameraController;
@@ -27,12 +30,31 @@ public sealed class FPSHeadBob : MonoBehaviour
 
     private void Awake()
     {
+        ApplyControlProfile();
         ResolveReferences();
         CacheBaseLocalPosition();
     }
 
+    private void ApplyControlProfile()
+    {
+        if (controlProfile == null)
+        {
+            return;
+        }
+
+        walkAmplitude = controlProfile.WalkAmplitude;
+        sprintAmplitude = controlProfile.SprintAmplitude;
+        crouchAmplitude = controlProfile.CrouchAmplitude;
+        walkFrequency = controlProfile.WalkFrequency;
+        sprintFrequency = controlProfile.SprintFrequency;
+        crouchFrequency = controlProfile.CrouchFrequency;
+        movementThreshold = controlProfile.MovementThreshold;
+        positionLerpSpeed = controlProfile.BobPositionLerpSpeed;
+    }
+
     private void OnEnable()
     {
+        ApplyControlProfile();
         ResolveReferences();
         CacheBaseLocalPosition();
     }
