@@ -129,6 +129,7 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
         }
 
         talkingVillager = nearbyVillager;
+        talkingVillager.SetMovementLocked(true);
         preparingConversation = true;
         SetConversationControlsLocked(true);
         nearbyVillager = null;
@@ -328,6 +329,7 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
         }
 
         talkingVillager.Completed -= OnConversationCompleted;
+        talkingVillager.SetMovementLocked(false);
         talkingVillager = null;
         preparingConversation = false;
     }

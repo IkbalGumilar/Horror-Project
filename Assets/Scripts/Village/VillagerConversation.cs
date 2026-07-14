@@ -22,9 +22,11 @@ public sealed class VillagerConversation : MonoBehaviour
 
     private Coroutine conversationRoutine;
     private int completedConversationCount;
+    private bool movementLocked;
 
     public VillagerData Data => data;
     public bool IsTalking => conversationRoutine != null;
+    public bool MovementLocked => movementLocked || IsTalking || (data != null && data.CanTrade);
     public bool HasCompletedFirstConversation => completedConversationCount > 0;
     public string DisplayName => data != null ? LocalizationManager.Get(data.DisplayNameKey) : string.Empty;
     public string Occupation => data != null ? LocalizationManager.Get(data.OccupationKey) : string.Empty;
@@ -92,6 +94,11 @@ public sealed class VillagerConversation : MonoBehaviour
 
         conversationRoutine = StartCoroutine(PlayConversation(sequence));
         return true;
+    }
+
+    public void SetMovementLocked(bool locked)
+    {
+        movementLocked = locked;
     }
 
     public void StopConversation()

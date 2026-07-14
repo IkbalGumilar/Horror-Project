@@ -26,6 +26,16 @@ public sealed class VillagePopulationSpawner : MonoBehaviour
     [SerializeField] private int randomSeed = 173;
     [SerializeField] private List<VillageVillagerSpawnEntry> villagers = new List<VillageVillagerSpawnEntry>();
 
+    [Header("Wandering")]
+    [SerializeField] private bool enableWandering = true;
+    [SerializeField, Min(0f)] private float wanderRadius = 8f;
+    [SerializeField, Min(0f)] private float wanderSpeed = 1.2f;
+    [SerializeField, Min(0f)] private float wanderTurnSpeed = 180f;
+    [SerializeField] private Vector2 idleDurationRange = new Vector2(1.5f, 4f);
+    [SerializeField, Min(0f)] private float obstacleRadius = 0.45f;
+    [SerializeField, Min(0f)] private float obstacleCheckDistance = 0.8f;
+    [SerializeField] private LayerMask obstacleMask = ~0;
+
     private readonly List<GameObject> spawnedVillagers = new List<GameObject>();
 
     private void Awake()
@@ -78,6 +88,7 @@ public sealed class VillagePopulationSpawner : MonoBehaviour
             }
 
             conversation.Initialize(entry.Data);
+            ConfigureWandering(villager, conversation, entry.Data);
             villager.SetActive(templateWasActive);
             spawnedVillagers.Add(villager);
         }
@@ -94,6 +105,35 @@ public sealed class VillagePopulationSpawner : MonoBehaviour
         }
 
         spawnedVillagers.Clear();
+    }
+
+    private void ConfigureWandering(
+        GameObject villager,
+        VillagerConversation conversation,
+        VillagerData data)
+    {
+        VillagerWanderController wanderController = villager.GetComponent<VillagerWanderController>();
+        bool canWander = enableWandering && data != null && !data.CanTrade;
+        if (wanderController == null && canWander)
+        {
+            wanderController = villager.AddComponent<VillagerWanderController>();
+        }
+
+        if (wanderController == null)
+        {
+            return;
+        }
+
+        wanderController.Initialize(
+            conversation,
+            wanderRadius,
+            wanderSpeed,
+            wanderTurnSpeed,
+            idleDurationRange,
+            obstacleRadius,
+            obstacleCheckDistance,
+            obstacleMask);
+        wanderController.enabled = canWander;
     }
 
     private static bool TryGetTerrainHeight(Vector3 worldPosition, out float height)
