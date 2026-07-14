@@ -257,8 +257,13 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
         float facingError = directionToNpc.sqrMagnitude > 0.0001f
             ? Vector3.Angle(transform.forward, directionToNpc.normalized)
             : 0f;
+        float lookError = cameraController != null
+            ? cameraController.GetLookAngleTo(talkingVillager.ConversationLookPosition)
+            : facingError;
 
-        if (distanceError <= distanceTolerance && facingError <= facingTolerance)
+        if (distanceError <= distanceTolerance
+            && facingError <= facingTolerance
+            && lookError <= facingTolerance)
         {
             StartAlignedConversation();
         }
@@ -305,7 +310,9 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
 
         if (cameraController != null)
         {
-            cameraController.SetYawImmediate(nextRotation.eulerAngles.y);
+            cameraController.LookAtPoint(
+                talkingVillager.ConversationLookPosition,
+                faceNpcTurnSpeed * Time.unscaledDeltaTime);
         }
         else
         {

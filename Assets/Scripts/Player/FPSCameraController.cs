@@ -146,6 +146,48 @@ public sealed class FPSCameraController : MonoBehaviour
         }
     }
 
+    public void LookAtPoint(Vector3 worldPosition, float maxDegreesDelta)
+    {
+        Initialize();
+        Transform viewTransform = playerCamera != null ? playerCamera.transform : cameraPivot;
+        if (viewTransform == null || yawRoot == null || cameraPivot == null)
+        {
+            return;
+        }
+
+        Vector3 direction = worldPosition - viewTransform.position;
+        if (direction.sqrMagnitude <= 0.0001f)
+        {
+            return;
+        }
+
+        float targetYaw = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+        float horizontalDistance = new Vector2(direction.x, direction.z).magnitude;
+        float targetPitch = -Mathf.Atan2(direction.y, horizontalDistance) * Mathf.Rad2Deg;
+
+        yaw = Mathf.MoveTowardsAngle(yaw, targetYaw, maxDegreesDelta);
+        pitch = Mathf.MoveTowardsAngle(pitch, Mathf.Clamp(targetPitch, minPitch, maxPitch), maxDegreesDelta);
+        isQuickTurning = false;
+
+        yawRoot.rotation = Quaternion.Euler(0f, yaw, 0f);
+        cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+    }
+
+    public float GetLookAngleTo(Vector3 worldPosition)
+    {
+        Initialize();
+        Transform viewTransform = playerCamera != null ? playerCamera.transform : cameraPivot;
+        if (viewTransform == null)
+        {
+            return 0f;
+        }
+
+        Vector3 direction = worldPosition - viewTransform.position;
+        return direction.sqrMagnitude > 0.0001f
+            ? Vector3.Angle(viewTransform.forward, direction.normalized)
+            : 0f;
+    }
+
     public void StartQuickTurn()
     {
         if (isQuickTurning)

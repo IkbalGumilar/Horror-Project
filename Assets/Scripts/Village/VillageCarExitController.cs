@@ -55,8 +55,6 @@ public sealed class VillageCarExitController : MonoBehaviour
             yield return AnimatePlayerExit();
         }
 
-        DisableFirstPersonObstructions();
-
         SetPlayerControlEnabled(true);
     }
 
@@ -108,26 +106,6 @@ public sealed class VillageCarExitController : MonoBehaviour
             {
                 enableCollidersAfterExit[i].enabled = enabled;
             }
-        }
-    }
-
-    private void DisableFirstPersonObstructions()
-    {
-        if (playerRoot == null)
-        {
-            return;
-        }
-
-        Renderer playerVisual = playerRoot.GetComponent<Renderer>();
-        if (playerVisual != null)
-        {
-            playerVisual.enabled = false;
-        }
-
-        CapsuleCollider legacyCollider = playerRoot.GetComponent<CapsuleCollider>();
-        if (legacyCollider != null)
-        {
-            legacyCollider.enabled = false;
         }
     }
 

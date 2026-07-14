@@ -144,7 +144,6 @@ public sealed class VillageProceduralRoad : MonoBehaviour
 
         Vector3[] vertices = new Vector3[centerline.Count * 2];
         Vector2[] uvs = new Vector2[vertices.Length];
-        Color32[] colors = new Color32[vertices.Length];
         int[] triangles = new int[(centerline.Count - 1) * 6];
         float travelledDistance = 0f;
 
@@ -166,8 +165,6 @@ public sealed class VillageProceduralRoad : MonoBehaviour
             vertices[i * 2 + 1] = transform.InverseTransformPoint(rightPoint);
             uvs[i * 2] = new Vector2(0f, travelledDistance / Mathf.Max(1f, roadWidth));
             uvs[i * 2 + 1] = new Vector2(1f, travelledDistance / Mathf.Max(1f, roadWidth));
-            colors[i * 2] = Color.white;
-            colors[i * 2 + 1] = Color.white;
         }
 
         int triangle = 0;
@@ -184,10 +181,8 @@ public sealed class VillageProceduralRoad : MonoBehaviour
 
         generatedMesh.vertices = vertices;
         generatedMesh.uv = uvs;
-        generatedMesh.colors32 = colors;
         generatedMesh.triangles = triangles;
         generatedMesh.RecalculateNormals();
-        generatedMesh.RecalculateTangents();
         generatedMesh.RecalculateBounds();
 
         MeshFilter meshFilter = GetComponent<MeshFilter>();

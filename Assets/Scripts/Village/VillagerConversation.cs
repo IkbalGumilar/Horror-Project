@@ -13,6 +13,9 @@ public sealed class VillagerConversation : MonoBehaviour
     [SerializeField] private VillagerData data;
     [SerializeField] private AudioSource voiceSource;
 
+    [Header("Interaction")]
+    [SerializeField] private Transform conversationLookTarget;
+
     [Header("Events")]
     [SerializeField] private UnityEvent conversationStarted;
     [SerializeField] private UnityEvent conversationCompleted;
@@ -25,6 +28,19 @@ public sealed class VillagerConversation : MonoBehaviour
     public bool HasCompletedFirstConversation => completedConversationCount > 0;
     public string DisplayName => data != null ? LocalizationManager.Get(data.DisplayNameKey) : string.Empty;
     public string Occupation => data != null ? LocalizationManager.Get(data.OccupationKey) : string.Empty;
+    public Vector3 ConversationLookPosition
+    {
+        get
+        {
+            if (conversationLookTarget != null)
+            {
+                return conversationLookTarget.position;
+            }
+
+            Renderer visual = GetComponentInChildren<Renderer>();
+            return visual != null ? visual.bounds.center : transform.position;
+        }
+    }
 
     public event Action<VillagerConversation> Started;
     public event Action<VillagerConversation> Completed;
