@@ -52850,6 +52850,7 @@ MonoBehaviour:
   carMover: {fileID: 2143154198}
   carExitController: {fileID: 3400000041}
   carInteractable: {fileID: 3400010301}
+  cameraController: {fileID: 3300000102}
   seatLocalPosition: {x: 0, y: 0.66999996, z: 0.947}
   seatLocalEulerAngles: {x: 0, y: 0, z: 0}
   entryDuration: 1.25

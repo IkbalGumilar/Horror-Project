@@ -10,6 +10,7 @@ public sealed class CityCarDepartureController : MonoBehaviour
     [SerializeField] private CityRoadVehicleMover carMover;
     [SerializeField] private CityCarExitController carExitController;
     [SerializeField] private WorldInteractable carInteractable;
+    [SerializeField] private FPSCameraController cameraController;
 
     [Header("Entry")]
     [SerializeField] private Vector3 seatLocalPosition = new Vector3(0f, 0.67f, 0.947f);
@@ -43,6 +44,7 @@ public sealed class CityCarDepartureController : MonoBehaviour
     private bool hasCapturedSeatPose;
     private Vector3 capturedSeatLocalPosition;
     private Quaternion capturedSeatLocalRotation;
+    private float capturedSeatPitch;
     private Coroutine departureSequenceRoutine;
 
     private void Awake()
@@ -63,10 +65,16 @@ public sealed class CityCarDepartureController : MonoBehaviour
         }
 
         Transform playerRoot = carExitController != null ? carExitController.PlayerRoot : null;
+        if (cameraController == null && playerRoot != null)
+        {
+            cameraController = playerRoot.GetComponent<FPSCameraController>();
+        }
+
         if (playerRoot != null && playerRoot.parent == transform)
         {
             capturedSeatLocalPosition = playerRoot.localPosition;
             capturedSeatLocalRotation = playerRoot.localRotation;
+            capturedSeatPitch = GetRelativePitch(playerRoot, cameraTransform);
             hasCapturedSeatPose = true;
         }
 
@@ -129,6 +137,9 @@ public sealed class CityCarDepartureController : MonoBehaviour
 
         carExitController.SetPlayerControlEnabled(false);
 
+        float startPitch = cameraController != null
+            ? cameraController.CurrentPitch
+            : capturedSeatPitch;
         Vector3 targetLocalPosition = hasCapturedSeatPose
             ? capturedSeatLocalPosition
             : seatLocalPosition;
@@ -150,12 +161,15 @@ public sealed class CityCarDepartureController : MonoBehaviour
             playerRoot.SetPositionAndRotation(
                 Vector3.Lerp(startPosition, targetPosition, smoothProgress),
                 Quaternion.Slerp(startRotation, targetRotation, smoothProgress));
+            cameraController?.SetPitchImmediate(
+                Mathf.LerpAngle(startPitch, capturedSeatPitch, smoothProgress));
             yield return null;
         }
 
         playerRoot.SetParent(transform, false);
         playerRoot.localPosition = targetLocalPosition;
         playerRoot.localRotation = targetLocalRotation;
+        cameraController?.SetPitchImmediate(capturedSeatPitch);
 
         if (!carMover.SwitchToDepartureRoute(
                 exitWaypoints,
@@ -307,5 +321,17 @@ public sealed class CityCarDepartureController : MonoBehaviour
         Color color = graphic.color;
         color.a = Mathf.Clamp01(alpha);
         graphic.color = color;
+    }
+
+    private static float GetRelativePitch(Transform playerRoot, Transform viewTransform)
+    {
+        if (playerRoot == null || viewTransform == null)
+        {
+            return 0f;
+        }
+
+        Vector3 localForward = playerRoot.InverseTransformDirection(viewTransform.forward);
+        float horizontalLength = new Vector2(localForward.x, localForward.z).magnitude;
+        return -Mathf.Atan2(localForward.y, horizontalLength) * Mathf.Rad2Deg;
     }
 }

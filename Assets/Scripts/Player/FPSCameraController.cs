@@ -46,6 +46,14 @@ public sealed class FPSCameraController : MonoBehaviour
     public bool IsQuickTurning => isQuickTurning;
     public Transform CameraPivot => cameraPivot;
     public Camera PlayerCamera => playerCamera;
+    public float CurrentPitch
+    {
+        get
+        {
+            Initialize();
+            return pitch;
+        }
+    }
 
     private void Reset()
     {
@@ -143,6 +151,17 @@ public sealed class FPSCameraController : MonoBehaviour
         if (yawRoot != null)
         {
             yawRoot.rotation = Quaternion.Euler(0f, yaw, 0f);
+        }
+    }
+
+    public void SetPitchImmediate(float targetPitch)
+    {
+        Initialize();
+        pitch = Mathf.Clamp(targetPitch, minPitch, maxPitch);
+        isQuickTurning = false;
+        if (cameraPivot != null)
+        {
+            cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
         }
     }
 
