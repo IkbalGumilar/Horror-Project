@@ -63,6 +63,7 @@ public sealed class VillagerData : ScriptableObject
     [SerializeField, Range(-100, 100)] private int startingAffinity;
 
     [Header("Dialogue")]
+    [SerializeField] private bool randomizeSingleLineConversation;
     [SerializeField] private VillagerConversationSequence firstConversation = new VillagerConversationSequence();
     [SerializeField] private VillagerConversationSequence repeatConversation = new VillagerConversationSequence();
 
@@ -79,6 +80,7 @@ public sealed class VillagerData : ScriptableObject
     public bool CanTrade => canTrade;
     public string ShopId => shopId;
     public int StartingAffinity => startingAffinity;
+    public bool RandomizeSingleLineConversation => randomizeSingleLineConversation;
     public VillagerConversationSequence FirstConversation => firstConversation;
     public VillagerConversationSequence RepeatConversation => repeatConversation;
     public Vector2 VoicePitchRange => voicePitchRange;

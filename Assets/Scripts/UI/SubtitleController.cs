@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public sealed class SubtitleController : MonoBehaviour
@@ -34,6 +36,10 @@ public sealed class SubtitleController : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.2f;
     [SerializeField] private bool hideOnAwake = true;
 
+    [Header("Conversation Skip")]
+    [SerializeField] private TMP_Text skipPromptText;
+    [SerializeField, Min(0f)] private float skipPromptDelay = 1f;
+
     [Header("Profanity Filter")]
     [SerializeField] private bool censorProfanity;
     [SerializeField] private string[] censoredWords = { "anjing", "fuck" };
@@ -48,6 +54,11 @@ public sealed class SubtitleController : MonoBehaviour
     private float defaultSubtitleFontSize;
     private float currentSubtitleFontScale = 1f;
     private float defaultBackgroundAlpha = 1f;
+    private object skipOwner;
+    private Action skipAction;
+    private float skipAvailableTime;
+    private bool skipPromptVisible;
+    private bool choiceOverlayActive;
 
     private void Awake()
     {
@@ -96,6 +107,8 @@ public sealed class SubtitleController : MonoBehaviour
         {
             HideImmediate();
         }
+
+        SetSkipPromptVisible(false);
     }
 
     private void OnEnable()
@@ -109,6 +122,30 @@ public sealed class SubtitleController : MonoBehaviour
     {
         LocalizationManager.LanguageChanged -= RefreshLocalizedText;
         GameAccessibilitySettings.Changed -= ApplyAccessibilitySettings;
+        ClearSkippableSequence();
+    }
+
+    private void Update()
+    {
+        if (skipAction == null || Time.unscaledTime < skipAvailableTime)
+        {
+            return;
+        }
+
+        if (!skipPromptVisible)
+        {
+            SetSkipPromptVisible(true);
+        }
+
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard == null || !keyboard.escapeKey.wasPressedThisFrame)
+        {
+            return;
+        }
+
+        Action action = skipAction;
+        ClearSkippableSequence();
+        action?.Invoke();
     }
 
     public void Show(string speakerName, string text)
@@ -187,8 +224,81 @@ public sealed class SubtitleController : MonoBehaviour
         }
     }
 
+    public void BeginChoiceOverlay()
+    {
+        if (activeRoutine != null)
+        {
+            StopCoroutine(activeRoutine);
+            activeRoutine = null;
+        }
+
+        choiceOverlayActive = true;
+        SetDialogueTextVisible(false);
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha = 1f;
+            canvasGroup.interactable = true;
+            canvasGroup.blocksRaycasts = true;
+        }
+    }
+
+    public void EndChoiceOverlay()
+    {
+        if (!choiceOverlayActive)
+        {
+            return;
+        }
+
+        choiceOverlayActive = false;
+        SetDialogueTextVisible(true);
+        HideImmediate();
+    }
+
+    public void BeginSkippableSequence(object owner, Action onSkip)
+    {
+        if (owner == null || onSkip == null)
+        {
+            return;
+        }
+
+        skipOwner = owner;
+        skipAction = onSkip;
+        skipAvailableTime = Time.unscaledTime + skipPromptDelay;
+        SetSkipPromptVisible(false);
+    }
+
+    public void EndSkippableSequence(object owner)
+    {
+        if (!ReferenceEquals(skipOwner, owner))
+        {
+            return;
+        }
+
+        ClearSkippableSequence();
+    }
+
+    private void ClearSkippableSequence()
+    {
+        skipOwner = null;
+        skipAction = null;
+        skipAvailableTime = 0f;
+        SetSkipPromptVisible(false);
+    }
+
+    private void SetSkipPromptVisible(bool visible)
+    {
+        skipPromptVisible = visible;
+        if (skipPromptText != null && skipPromptText.gameObject.activeSelf != visible)
+        {
+            skipPromptText.gameObject.SetActive(visible);
+        }
+    }
+
     private void StartSubtitleRoutine(float duration)
     {
+        choiceOverlayActive = false;
+        SetDialogueTextVisible(true);
+
         if (activeRoutine != null)
         {
             StopCoroutine(activeRoutine);
@@ -202,6 +312,19 @@ public sealed class SubtitleController : MonoBehaviour
         }
 
         activeRoutine = StartCoroutine(ShowRoutine(Mathf.Max(0f, duration)));
+    }
+
+    private void SetDialogueTextVisible(bool visible)
+    {
+        if (speakerNameText != null)
+        {
+            speakerNameText.gameObject.SetActive(visible);
+        }
+
+        if (subtitleText != null)
+        {
+            subtitleText.gameObject.SetActive(visible);
+        }
     }
 
     private IEnumerator ShowRoutine(float duration)

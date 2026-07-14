@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public interface ICustomVillagerConversation
+{
+    bool TryBeginConversation(VillagerConversation owner);
+    void CancelConversation();
+}
+
 [DisallowMultipleComponent]
 public sealed class VillagerConversation : MonoBehaviour
 {
@@ -23,9 +29,11 @@ public sealed class VillagerConversation : MonoBehaviour
     private Coroutine conversationRoutine;
     private int completedConversationCount;
     private bool movementLocked;
+    private ICustomVillagerConversation customConversation;
+    private bool customConversationActive;
 
     public VillagerData Data => data;
-    public bool IsTalking => conversationRoutine != null;
+    public bool IsTalking => conversationRoutine != null || customConversationActive;
     public bool MovementLocked => movementLocked || IsTalking || (data != null && data.CanTrade);
     public bool HasCompletedFirstConversation => completedConversationCount > 0;
     public string DisplayName => data != null ? LocalizationManager.Get(data.DisplayNameKey) : string.Empty;
@@ -81,8 +89,23 @@ public sealed class VillagerConversation : MonoBehaviour
 
     public bool TryStartConversation()
     {
-        if (conversationRoutine != null || data == null)
+        if (IsTalking || data == null)
         {
+            return false;
+        }
+
+        ResolveCustomConversation();
+        if (customConversation != null)
+        {
+            customConversationActive = true;
+            Started?.Invoke(this);
+            conversationStarted?.Invoke();
+            if (customConversation.TryBeginConversation(this))
+            {
+                return true;
+            }
+
+            customConversationActive = false;
             return false;
         }
 
@@ -103,6 +126,12 @@ public sealed class VillagerConversation : MonoBehaviour
 
     public void StopConversation()
     {
+        if (customConversationActive)
+        {
+            customConversation?.CancelConversation();
+            customConversationActive = false;
+        }
+
         if (conversationRoutine == null)
         {
             return;
@@ -118,6 +147,7 @@ public sealed class VillagerConversation : MonoBehaviour
 
         if (SubtitleController.Instance != null)
         {
+            SubtitleController.Instance.EndSkippableSequence(this);
             SubtitleController.Instance.Hide();
         }
     }
@@ -125,6 +155,19 @@ public sealed class VillagerConversation : MonoBehaviour
     public void ResetConversationProgress()
     {
         completedConversationCount = 0;
+    }
+
+    public void CompleteCustomConversation(ICustomVillagerConversation source)
+    {
+        if (!customConversationActive || !ReferenceEquals(customConversation, source))
+        {
+            return;
+        }
+
+        customConversationActive = false;
+        completedConversationCount++;
+        Completed?.Invoke(this);
+        conversationCompleted?.Invoke();
     }
 
     private VillagerConversationSequence GetCurrentSequence()
@@ -147,8 +190,21 @@ public sealed class VillagerConversation : MonoBehaviour
     {
         Started?.Invoke(this);
         conversationStarted?.Invoke();
+        SubtitleController.Instance?.BeginSkippableSequence(this, SkipConversation);
 
         VillagerDialogueLine[] lines = sequence.Lines;
+        if (data.RandomizeSingleLineConversation)
+        {
+            VillagerDialogueLine randomLine = GetRandomValidLine(lines);
+            if (randomLine != null)
+            {
+                yield return PlayLine(randomLine);
+            }
+
+            CompleteConversation();
+            yield break;
+        }
+
         for (int i = 0; i < lines.Length; i++)
         {
             VillagerDialogueLine line = lines[i];
@@ -157,17 +213,65 @@ public sealed class VillagerConversation : MonoBehaviour
                 continue;
             }
 
-            PlayVoice(line.VoiceClip);
+            yield return PlayLine(line);
+        }
 
-            if (SubtitleController.Instance != null)
+        CompleteConversation();
+    }
+
+    private IEnumerator PlayLine(VillagerDialogueLine line)
+    {
+        PlayVoice(line.VoiceClip);
+
+        if (SubtitleController.Instance != null)
+        {
+            string speakerKey = line.Speaker == VillagerDialogueSpeaker.Player
+                ? "speaker.player"
+                : data.DisplayNameKey;
+            SubtitleController.Instance.ShowLocalized(speakerKey, line.LocalizationKey, line.Duration);
+        }
+
+        yield return new WaitForSecondsRealtime(line.Duration + line.PauseAfter);
+    }
+
+    private static VillagerDialogueLine GetRandomValidLine(VillagerDialogueLine[] lines)
+    {
+        if (lines == null || lines.Length == 0)
+        {
+            return null;
+        }
+
+        int startIndex = UnityEngine.Random.Range(0, lines.Length);
+        for (int offset = 0; offset < lines.Length; offset++)
+        {
+            VillagerDialogueLine line = lines[(startIndex + offset) % lines.Length];
+            if (line != null && !string.IsNullOrWhiteSpace(line.LocalizationKey))
             {
-                string speakerKey = line.Speaker == VillagerDialogueSpeaker.Player
-                    ? "speaker.player"
-                    : data.DisplayNameKey;
-                SubtitleController.Instance.ShowLocalized(speakerKey, line.LocalizationKey, line.Duration);
+                return line;
             }
+        }
 
-            yield return new WaitForSecondsRealtime(line.Duration + line.PauseAfter);
+        return null;
+    }
+
+    private void SkipConversation()
+    {
+        if (conversationRoutine != null)
+        {
+            StopCoroutine(conversationRoutine);
+        }
+
+        CompleteConversation();
+    }
+
+    private void CompleteConversation()
+    {
+        SubtitleController.Instance?.EndSkippableSequence(this);
+        SubtitleController.Instance?.Hide();
+
+        if (voiceSource != null)
+        {
+            voiceSource.Stop();
         }
 
         completedConversationCount++;
@@ -212,7 +316,16 @@ public sealed class VillagerConversation : MonoBehaviour
     {
         ActiveVillagers.Add(this);
         LocalizationManager.LanguageChanged += RefreshIdentityName;
+        ResolveCustomConversation();
         RefreshIdentityName();
+    }
+
+    private void ResolveCustomConversation()
+    {
+        if (customConversation == null)
+        {
+            customConversation = GetComponent<ICustomVillagerConversation>();
+        }
     }
 
     private void RefreshIdentityName()

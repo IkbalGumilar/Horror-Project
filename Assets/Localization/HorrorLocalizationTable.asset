@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbd2c99b4774e9ba9a9a742ff927e0b, type: 3}
   m_Name: HorrorLocalizationTable
   m_EditorClassIdentifier: 
-  defaultLanguage: 0
+  defaultLanguage: 1
   entries:
   - key: ui.language
     english: Language
@@ -885,3 +885,224 @@ MonoBehaviour:
       sacrifice.
     indonesian: Itulah kepercayaan ritual lama. Jangan samakan dengan pengorbanan
       biasa.
+  - key: speaker.crew_1
+    english: Crew 1
+    indonesian: Kru 1
+  - key: ui.skip
+    english: Skip >>
+    indonesian: Lewati >>
+  - key: speaker.crew_2
+    english: Crew 2
+    indonesian: Kru 2
+  - key: city.opening.01
+    english: Let's review the archive once more before we reach the village.
+    indonesian: Mari kita periksa arsip itu sekali lagi sebelum kita tiba di desa.
+  - key: city.opening.02
+    english: The catalog dates it to the final decades of the colonial administration.
+    indonesian: Katalog mencatatnya berasal dari dekade terakhir pemerintahan kolonial.
+  - key: city.opening.03
+    english: What bothers me is that a field report like this survived at all.
+    indonesian: Yang menggangguku, laporan lapangan seperti ini bisa bertahan sampai
+      sekarang.
+  - key: city.opening.04
+    english: It was filed as an expedition incident, not as a folktale.
+    indonesian: Dokumen itu dicatat sebagai insiden ekspedisi, bukan cerita rakyat.
+  - key: city.opening.05
+    english: A patrol entered the southern forest after several workers disappeared.
+    indonesian: Sebuah patroli memasuki hutan selatan setelah beberapa pekerja menghilang.
+  - key: city.opening.06
+    english: The official summary blamed wildfire, panic, and poor visibility.
+    indonesian: Ringkasan resminya menyalahkan kebakaran hutan, kepanikan, dan jarak
+      pandang buruk.
+  - key: city.opening.07
+    english: But the witness notes describe a fire that moved against the wind.
+    indonesian: Tapi catatan saksi menggambarkan api yang bergerak melawan arah angin.
+  - key: city.opening.08
+    english: It burned selected targets while leaving wet vegetation untouched.
+    indonesian: Api itu membakar sasaran tertentu sementara tumbuhan basah tetap
+      utuh.
+  - key: city.opening.09
+    english: That sounds exactly like a story people would tell around a fire.
+    indonesian: Itu terdengar persis seperti cerita yang dibawakan di sekitar api
+      unggun.
+  - key: city.opening.10
+    english: Except the accounts came from different soldiers and were written separately.
+    indonesian: Kecuali kesaksian itu berasal dari prajurit berbeda dan ditulis terpisah.
+  - key: city.opening.11
+    english: They disagreed about its shape, but all described unbearable heat.
+    indonesian: Mereka berbeda soal bentuknya, tetapi semuanya menggambarkan panas
+      tak tertahankan.
+  - key: city.opening.12
+    english: One survivor wrote that the fire watched them before it attacked.
+    indonesian: Seorang penyintas menulis bahwa api itu mengawasi mereka sebelum
+      menyerang.
+  - key: city.opening.13
+    english: The archive also records the settlement's old name, Sancang.
+    indonesian: Arsip itu juga mencatat nama lama permukimannya, Sancang.
+  - key: city.opening.14
+    english: That name no longer appears as a village on modern maps.
+    indonesian: Nama itu tidak lagi tercantum sebagai desa pada peta modern.
+  - key: city.opening.15
+    english: But its directions point south of Garut Regency.
+    indonesian: Tapi petunjuk arahnya mengarah ke selatan Kabupaten Garut.
+  - key: city.opening.16
+    english: Straight toward Sancang Forest.
+    indonesian: Tepat menuju Hutan Sancang.
+  - key: city.opening.17
+    english: People around there call it Leuweung Sancang.
+    indonesian: Warga sekitar menyebutnya Leuweung Sancang.
+  - key: city.opening.18
+    english: A colonial report and local oral history lead to the same forest.
+    indonesian: Laporan kolonial dan cerita lisan warga mengarah ke hutan yang sama.
+  - key: city.opening.19
+    english: Folklore changes as it is passed down. An archive is different evidence.
+    indonesian: Cerita rakyat berubah saat diwariskan. Arsip adalah bukti yang berbeda.
+  - key: city.opening.20
+    english: Still, an old report can contain fear, rumor, and mistakes.
+    indonesian: Tetap saja, laporan lama bisa berisi ketakutan, desas-desus, dan
+      kekeliruan.
+  - key: city.opening.21
+    english: That is why we document everything, photographs, temperature, soil,
+      and testimony.
+    indonesian: Itu sebabnya kita mencatat semuanya, foto, suhu, tanah, dan kesaksian.
+  - key: city.opening.22
+    english: We stop for supplies, continue to the village, then speak with the residents.
+    indonesian: Kita berhenti membeli perlengkapan, lanjut ke desa, lalu bicara dengan
+      warga.
+  - key: city.opening.23
+    english: Do not show them the archive first. We need accounts it has not influenced.
+    indonesian: Jangan tunjukkan arsipnya lebih dulu. Kita butuh kesaksian yang tidak
+      dipengaruhinya.
+  - key: city.opening.24
+    english: If their stories match, this may be more than a bedtime tale.
+    indonesian: Jika cerita mereka cocok, ini mungkin lebih dari sekadar dongeng
+      pengantar tidur.
+  - key: ui.yes
+    english: Yes
+    indonesian: Ya
+  - key: ui.no
+    english: No
+    indonesian: Tidak
+  - key: city.pedestrian.occupation.traveler
+    english: Traveler
+    indonesian: Pelancong
+  - key: city.pedestrian.occupation.visitor
+    english: Visitor
+    indonesian: Pengunjung
+  - key: city.pedestrian.occupation.driver
+    english: Driver
+    indonesian: Pengemudi
+  - key: city.pedestrian.description
+    english: A traveler stopping at the rest area.
+    indonesian: Seorang pelancong yang berhenti di area istirahat.
+  - key: city.pedestrian.01.name
+    english: Rudi
+    indonesian: Rudi
+  - key: city.pedestrian.01.line.1
+    english: The road ahead looks quiet. I hope it stays that way.
+    indonesian: Jalan di depan kelihatannya sepi. Semoga tetap begitu.
+  - key: city.pedestrian.01.line.2
+    english: I only stopped to stretch my legs and buy a drink.
+    indonesian: Saya cuma berhenti untuk meregangkan kaki dan membeli minuman.
+  - key: city.pedestrian.01.line.3
+    english: Sorry, I am not from around here. You should ask the cashier.
+    indonesian: Maaf, saya bukan orang sekitar sini. Coba tanyakan kepada kasir.
+  - key: city.pedestrian.02.name
+    english: Dini
+    indonesian: Dini
+  - key: city.pedestrian.02.line.1
+    english: This rest area is small, but at least the shop is still open.
+    indonesian: Area istirahat ini kecil, tapi setidaknya tokonya masih buka.
+  - key: city.pedestrian.02.line.2
+    english: The air gets colder surprisingly fast out here.
+    indonesian: Udara di sini ternyata cepat sekali menjadi dingin.
+  - key: city.pedestrian.02.line.3
+    english: Sancang? I have heard the name, but I know nothing about it.
+    indonesian: Sancang? Saya pernah mendengar namanya, tapi tidak tahu apa-apa.
+  - key: city.pedestrian.03.name
+    english: Asep
+    indonesian: Asep
+  - key: city.pedestrian.03.line.1
+    english: Fill up before continuing. There may not be another stop for a while.
+    indonesian: Isi perbekalan sebelum lanjut. Mungkin tidak ada tempat berhenti lagi dalam waktu dekat.
+  - key: city.pedestrian.03.line.2
+    english: I drive this route occasionally, but never deep into the southern forest.
+    indonesian: Kadang saya melewati jalur ini, tapi tidak pernah masuk jauh ke hutan selatan.
+  - key: city.pedestrian.03.line.3
+    english: I do not know any local legends. I am just waiting for my coffee.
+    indonesian: Saya tidak tahu legenda setempat. Saya cuma sedang menunggu kopi.
+  - key: city.kopdes.cashier.name
+    english: Kopdes Cashier
+    indonesian: Kasir Kopdes
+  - key: city.kopdes.cashier.occupation
+    english: Cashier
+    indonesian: Kasir
+  - key: city.kopdes.cashier.description
+    english: The cashier of the cooperative shop at the rest area.
+    indonesian: Kasir toko koperasi desa di area istirahat.
+  - key: city.kopdes.greeting
+    english: Welcome to Kopdes. Are you looking for supplies or directions?
+    indonesian: Selamat datang di Kopdes. Mencari perbekalan atau petunjuk jalan?
+  - key: city.kopdes.choice.banaspati
+    english: Ask about Banaspati
+    indonesian: Tanyakan tentang Banaspati
+  - key: city.kopdes.choice.reason
+    english: Why is Kopdes here?
+    indonesian: Kenapa Kopdes ada di sini?
+  - key: city.kopdes.choice.forest
+    english: Ask about Sancang Forest
+    indonesian: Tanyakan tentang Hutan Sancang
+  - key: city.kopdes.choice.distance
+    english: How far is Sancang Forest?
+    indonesian: Seberapa jauh Hutan Sancang?
+  - key: city.kopdes.choice.price
+    english: How much is all of this?
+    indonesian: Berapa harga semua ini?
+  - key: city.kopdes.choice.leave
+    english: End conversation
+    indonesian: Akhiri percakapan
+  - key: city.kopdes.question.banaspati
+    english: Have you ever heard of something called Banaspati?
+    indonesian: Pernah mendengar sesuatu yang disebut Banaspati?
+  - key: city.kopdes.answer.banaspati.1
+    english: Only from old stories. They say it is a living ball of fire that guards the depths of Sancang.
+    indonesian: Hanya dari cerita orang tua. Katanya itu bola api hidup yang menjaga pedalaman Sancang.
+  - key: city.kopdes.answer.banaspati.2
+    english: It supposedly appears to people with bad intentions. I have never seen it, and I would rather keep it that way.
+    indonesian: Katanya ia menampakkan diri kepada orang yang berniat buruk. Saya belum pernah melihatnya dan lebih baik tetap begitu.
+  - key: city.kopdes.question.reason
+    english: Why build a Kopdes in a place this remote?
+    indonesian: Kenapa membangun Kopdes di tempat terpencil seperti ini?
+  - key: city.kopdes.answer.reason.joke
+    english: Perhaps the government needed somewhere to waste money and inflate the budget.
+    indonesian: Mungkin pemerintah butuh tempat untuk menghamburkan uang dan me-markup anggaran.
+  - key: city.kopdes.answer.reason.real
+    english: I am joking. This is being developed as a rest area, so more travelers are expected to stop here.
+    indonesian: Saya bercanda. Tempat ini sedang dikembangkan sebagai area istirahat, jadi nanti akan banyak pelancong berhenti di sini.
+  - key: city.kopdes.question.forest
+    english: What do you know about Sancang Forest?
+    indonesian: Apa yang Anda tahu tentang Hutan Sancang?
+  - key: city.kopdes.answer.forest.1
+    english: Not much. A customer once mentioned a hidden tourist spot called Karang Gajah, a remote beach somewhere beyond there.
+    indonesian: Tidak banyak. Seorang pelanggan pernah bercerita tentang tempat wisata tersembunyi bernama Karang Gajah, sebuah pantai terpencil di sekitar sana.
+  - key: city.kopdes.answer.forest.2
+    english: That is only what I heard. I have never gone there myself.
+    indonesian: Itu pun hanya cerita yang saya dengar. Saya sendiri belum pernah ke sana.
+  - key: city.kopdes.question.distance
+    english: About how far is the forest from here?
+    indonesian: Kira-kira seberapa jauh hutan itu dari sini?
+  - key: city.kopdes.answer.distance
+    english: Customers say it is roughly twenty kilometers, perhaps three or four hours depending on the road. That is only an estimate.
+    indonesian: Kata pelanggan jaraknya sekitar dua puluh kilometer, mungkin tiga sampai empat jam tergantung kondisi jalan. Itu hanya perkiraan.
+  - key: city.kopdes.question.price
+    english: How much for all these supplies?
+    indonesian: Berapa harga semua perbekalan ini?
+  - key: city.kopdes.answer.price
+    english: The total is one hundred and fifty thousand rupiah. Would you like to take everything?
+    indonesian: Totalnya seratus lima puluh ribu rupiah. Jadi ambil semuanya?
+  - key: city.kopdes.purchase.yes
+    english: All right. I will pack everything for you.
+    indonesian: Baik. Akan saya kemas semuanya.
+  - key: city.kopdes.purchase.no
+    english: No problem. Let me know if you change your mind.
+    indonesian: Tidak masalah. Beri tahu saya jika berubah pikiran.

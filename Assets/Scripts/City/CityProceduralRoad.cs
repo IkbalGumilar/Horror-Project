@@ -74,6 +74,31 @@ public sealed class CityProceduralRoad : MonoBehaviour
         results.AddRange(centerline);
     }
 
+    public bool CopyCenterlineThroughControlPoint(int controlPointIndex, List<Vector3> results)
+    {
+        if (results == null || controlPoints.Count < 2)
+        {
+            return false;
+        }
+
+        if (centerline.Count < 2)
+        {
+            Rebuild();
+        }
+
+        int clampedControlPoint = Mathf.Clamp(controlPointIndex, 0, controlPoints.Count - 1);
+        int lastCenterlineIndex = clampedControlPoint >= controlPoints.Count - 1
+            ? centerline.Count - 1
+            : Mathf.Min(clampedControlPoint * samplesPerSegment, centerline.Count - 1);
+
+        for (int i = 0; i <= lastCenterlineIndex; i++)
+        {
+            results.Add(centerline[i]);
+        }
+
+        return results.Count >= 2;
+    }
+
     public bool IsPointInsideRoad(Vector3 worldPoint, float extraClearance)
     {
         if (centerline.Count < 2)

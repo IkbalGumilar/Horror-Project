@@ -29,8 +29,19 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
 
     private readonly List<Vector3> path = new List<Vector3>();
     private int targetIndex = 1;
+    private int directWaypointStartIndex = int.MaxValue;
     private bool isMoving;
     private float currentSpeed;
+    private bool useRouteSpeedProfile;
+    private int firstTurnStartIndex = int.MaxValue;
+    private int gasStationTurnStartIndex = int.MaxValue;
+    private int finalStopTargetIndex = int.MaxValue;
+    private float firstTurnSpeed;
+    private float gasStationTurnSpeed;
+    private float finalStopDeceleration;
+
+    public bool IsMoving => isMoving;
+    public bool HasFinished { get; private set; }
 
     private void Awake()
     {
@@ -60,11 +71,14 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
 
         Vector3 target = GetPathPoint(targetIndex);
         Vector3 toTarget = target - transform.position;
-        float targetSpeed = speed * GetTurnSpeedMultiplier(targetIndex);
-        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
+        float targetSpeed = GetTargetSpeed(targetIndex);
+        float speedChangeRate = useRouteSpeedProfile && targetIndex >= finalStopTargetIndex
+            ? finalStopDeceleration
+            : acceleration;
+        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, speedChangeRate * Time.deltaTime);
         float step = currentSpeed * Time.deltaTime;
 
-        if (toTarget.magnitude <= step)
+        if (toTarget.magnitude <= Mathf.Max(step, 0.01f))
         {
             transform.position = target;
             AdvanceTarget();
@@ -82,6 +96,7 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
             RebuildPath();
         }
 
+        HasFinished = false;
         isMoving = path.Count >= 2;
     }
 
@@ -90,9 +105,203 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
         isMoving = false;
     }
 
+    public bool SwitchToRoad(
+        CityProceduralRoad targetRoad,
+        bool shouldLoop,
+        bool placeAtStart,
+        bool startMoving)
+    {
+        Stop();
+        proceduralRoad = targetRoad;
+        proceduralRoadObjectName = targetRoad != null ? targetRoad.name : string.Empty;
+        roadComponent = null;
+        loop = shouldLoop;
+        ResetRouteSpeedProfile();
+        RebuildPath();
+
+        if (path.Count < 2)
+        {
+            return false;
+        }
+
+        targetIndex = 1;
+        currentSpeed = speed;
+        if (placeAtStart)
+        {
+            transform.position = GetPathPoint(0);
+            FaceAlongPath(instant: true);
+        }
+
+        if (startMoving)
+        {
+            Play();
+        }
+
+        return true;
+    }
+
+    public bool SwitchToConnectedRoad(
+        CityProceduralRoad entryRoad,
+        int exitControlPointIndex,
+        CityProceduralRoad continuationRoad,
+        bool shouldLoop,
+        bool placeAtStart,
+        bool startMoving)
+    {
+        Stop();
+        proceduralRoad = entryRoad;
+        proceduralRoadObjectName = entryRoad != null ? entryRoad.name : string.Empty;
+        roadComponent = null;
+        loop = shouldLoop;
+        path.Clear();
+        directWaypointStartIndex = int.MaxValue;
+        ResetRouteSpeedProfile();
+
+        if (entryRoad == null
+            || continuationRoad == null
+            || !entryRoad.CopyCenterlineThroughControlPoint(exitControlPointIndex, path))
+        {
+            return false;
+        }
+
+        List<Vector3> continuation = new List<Vector3>();
+        continuationRoad.CopyCenterline(continuation);
+        AppendPath(continuation);
+        if (path.Count < 2)
+        {
+            return false;
+        }
+
+        targetIndex = 1;
+        currentSpeed = speed;
+        if (placeAtStart)
+        {
+            transform.position = GetPathPoint(0);
+            FaceAlongPath(instant: true);
+        }
+
+        if (startMoving)
+        {
+            Play();
+        }
+
+        return true;
+    }
+
+    public bool SwitchToConnectedRoadAndWaypoints(
+        CityProceduralRoad entryRoad,
+        int entryExitControlPointIndex,
+        CityProceduralRoad continuationRoad,
+        int continuationExitControlPointIndex,
+        IReadOnlyList<Transform> waypoints,
+        float roadTurnSpeed,
+        float stationTurnSpeed,
+        float stopDeceleration,
+        bool shouldLoop,
+        bool placeAtStart,
+        bool startMoving)
+    {
+        Stop();
+        proceduralRoad = entryRoad;
+        proceduralRoadObjectName = entryRoad != null ? entryRoad.name : string.Empty;
+        roadComponent = null;
+        loop = shouldLoop;
+        path.Clear();
+        directWaypointStartIndex = int.MaxValue;
+        ResetRouteSpeedProfile();
+
+        if (entryRoad == null
+            || continuationRoad == null
+            || !entryRoad.CopyCenterlineThroughControlPoint(entryExitControlPointIndex, path))
+        {
+            return false;
+        }
+
+        firstTurnStartIndex = Mathf.Max(1, path.Count - 1);
+
+        List<Vector3> continuation = new List<Vector3>();
+        if (!continuationRoad.CopyCenterlineThroughControlPoint(
+                continuationExitControlPointIndex,
+                continuation))
+        {
+            return false;
+        }
+
+        AppendPath(continuation);
+        gasStationTurnStartIndex = Mathf.Max(1, path.Count - 1);
+        directWaypointStartIndex = path.Count;
+        AppendWaypoints(waypoints);
+        if (path.Count < 2 || directWaypointStartIndex >= path.Count)
+        {
+            return false;
+        }
+
+
+        useRouteSpeedProfile = true;
+        firstTurnSpeed = Mathf.Max(0.01f, roadTurnSpeed);
+        gasStationTurnSpeed = Mathf.Max(0.01f, stationTurnSpeed);
+        finalStopDeceleration = Mathf.Max(0.01f, stopDeceleration);
+        finalStopTargetIndex = path.Count - 1;
+
+        targetIndex = 1;
+        currentSpeed = speed;
+        if (placeAtStart)
+        {
+            transform.position = GetPathPoint(0);
+            FaceAlongPath(instant: true);
+        }
+
+        if (startMoving)
+        {
+            Play();
+        }
+
+        return true;
+    }
+
+    private void AppendPath(List<Vector3> points)
+    {
+        for (int i = 0; i < points.Count; i++)
+        {
+            if (path.Count > 0 && Vector3.SqrMagnitude(path[path.Count - 1] - points[i]) < 0.0001f)
+            {
+                continue;
+            }
+
+            path.Add(points[i]);
+        }
+    }
+
+    private void AppendWaypoints(IReadOnlyList<Transform> waypoints)
+    {
+        if (waypoints == null || path.Count == 0)
+        {
+            return;
+        }
+
+        float pathSurfaceY = path[path.Count - 1].y;
+        for (int i = 0; i < waypoints.Count; i++)
+        {
+            Transform waypoint = waypoints[i];
+            if (waypoint == null)
+            {
+                continue;
+            }
+
+            Vector3 point = waypoint.position;
+            point.y = pathSurfaceY;
+            if (Vector3.SqrMagnitude(path[path.Count - 1] - point) >= 0.0001f)
+            {
+                path.Add(point);
+            }
+        }
+    }
+
     public void RebuildPath()
     {
         path.Clear();
+        directWaypointStartIndex = int.MaxValue;
+        ResetRouteSpeedProfile();
 
         CityProceduralRoad cityRoad = proceduralRoad != null ? proceduralRoad : FindProceduralRoad();
         if (cityRoad != null)
@@ -135,7 +344,7 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
         GameObject roadObject = GameObject.Find(proceduralRoadObjectName);
         if (roadObject == null)
         {
-            return FindFirstObjectByType<CityProceduralRoad>();
+            return FindAnyObjectByType<CityProceduralRoad>();
         }
 
         return roadObject.GetComponent<CityProceduralRoad>();
@@ -228,6 +437,11 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
     private Vector3 GetPathPoint(int index)
     {
         Vector3 point = WithHeightOffset(path[index]);
+        if (index >= directWaypointStartIndex)
+        {
+            return point;
+        }
+
         Vector3 direction = GetPathDirection(index);
         Vector3 right = Vector3.Cross(Vector3.up, direction).normalized;
         return point + right * laneOffset;
@@ -262,6 +476,46 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
         return Mathf.Lerp(1f, minTurnSpeedMultiplier, turnAmount);
     }
 
+    private float GetTargetSpeed(int index)
+    {
+        if (!useRouteSpeedProfile)
+        {
+            return speed * GetTurnSpeedMultiplier(index);
+        }
+
+        float targetSpeed = speed;
+        if (index >= firstTurnStartIndex)
+        {
+            targetSpeed = firstTurnSpeed;
+        }
+
+        if (index >= gasStationTurnStartIndex)
+        {
+            targetSpeed = gasStationTurnSpeed;
+        }
+
+        if (index >= finalStopTargetIndex)
+        {
+            float remainingDistance = Vector3.Distance(transform.position, GetPathPoint(finalStopTargetIndex));
+            float stoppingSpeed = Mathf.Sqrt(2f * finalStopDeceleration * remainingDistance);
+            targetSpeed = Mathf.Min(targetSpeed, stoppingSpeed);
+        }
+
+        return targetSpeed;
+    }
+
+    private void ResetRouteSpeedProfile()
+    {
+        useRouteSpeedProfile = false;
+        firstTurnStartIndex = int.MaxValue;
+        gasStationTurnStartIndex = int.MaxValue;
+        finalStopTargetIndex = int.MaxValue;
+        firstTurnSpeed = 0f;
+        gasStationTurnSpeed = 0f;
+        finalStopDeceleration = acceleration;
+        HasFinished = false;
+    }
+
     private static Vector3 Flatten(Vector3 value)
     {
         value.y = 0f;
@@ -285,6 +539,8 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
 
         targetIndex = path.Count - 1;
         isMoving = false;
+        currentSpeed = 0f;
+        HasFinished = true;
     }
 
     private void FaceAlongPath(bool instant)
