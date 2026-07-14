@@ -18278,7 +18278,8 @@ MonoBehaviour:
   interactActionName: Interact
   detectionOrigin: {fileID: 2004439914}
   interactionRadius: 3
-  promptRoot: {fileID: 0}
+  npcPromptRoot: {fileID: 0}
+  worldPromptRoot: {fileID: 0}
   minimumAlpha: 150
   maximumAlpha: 255
   blinkCyclesPerSecond: 2.5

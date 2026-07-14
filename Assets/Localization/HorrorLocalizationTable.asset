@@ -1050,8 +1050,8 @@ MonoBehaviour:
     english: Why is Kopdes here?
     indonesian: Kenapa Kopdes ada di sini?
   - key: city.kopdes.choice.forest
-    english: Ask about Sancang Forest
-    indonesian: Tanyakan tentang Hutan Sancang
+    english: Ask about Prabu Siliwangi
+    indonesian: Tanyakan tentang Prabu Siliwangi
   - key: city.kopdes.choice.distance
     english: How far is Sancang Forest?
     indonesian: Seberapa jauh Hutan Sancang?
@@ -1080,14 +1080,17 @@ MonoBehaviour:
     english: I am joking. This is being developed as a rest area, so more travelers are expected to stop here.
     indonesian: Saya bercanda. Tempat ini sedang dikembangkan sebagai area istirahat, jadi nanti akan banyak pelancong berhenti di sini.
   - key: city.kopdes.question.forest
-    english: What do you know about Sancang Forest?
-    indonesian: Apa yang Anda tahu tentang Hutan Sancang?
+    english: Is Sancang Forest connected to the story of Prabu Siliwangi?
+    indonesian: Apakah Hutan Sancang berkaitan dengan cerita Prabu Siliwangi?
   - key: city.kopdes.answer.forest.1
-    english: Not much. A customer once mentioned a hidden tourist spot called Karang Gajah, a remote beach somewhere beyond there.
-    indonesian: Tidak banyak. Seorang pelanggan pernah bercerita tentang tempat wisata tersembunyi bernama Karang Gajah, sebuah pantai terpencil di sekitar sana.
+    english: The story I heard says Prabu Siliwangi withdrew into that forest after his son, Kian Santang, pursued him and asked him to embrace Islam, but he refused.
+    indonesian: Cerita yang saya dengar mengatakan Prabu Siliwangi mengasingkan diri ke hutan itu setelah dikejar putranya, Kian Santang, yang memintanya masuk Islam, tetapi beliau menolak.
   - key: city.kopdes.answer.forest.2
-    english: That is only what I heard. I have never gone there myself.
-    indonesian: Itu pun hanya cerita yang saya dengar. Saya sendiri belum pernah ke sana.
+    english: They say he lived in isolation there for years and eventually emerged from the forest alive.
+    indonesian: Katanya beliau mengasingkan diri di sana selama bertahun-tahun dan akhirnya keluar dari hutan dengan selamat.
+  - key: city.kopdes.answer.forest.3
+    english: If Banaspati truly inhabits Sancang, perhaps the king was simply fortunate never to encounter it.
+    indonesian: Kalau Banaspati benar-benar menghuni Sancang, mungkin sang raja hanya beruntung tidak pernah bertemu dengannya.
   - key: city.kopdes.question.distance
     english: About how far is the forest from here?
     indonesian: Kira-kira seberapa jauh hutan itu dari sini?
@@ -1106,3 +1109,105 @@ MonoBehaviour:
   - key: city.kopdes.purchase.no
     english: No problem. Let me know if you change your mind.
     indonesian: Tidak masalah. Beri tahu saya jika berubah pikiran.
+  - key: city.road.01
+    english: Is that a fuel station ahead? We should stop there and check our supplies.
+    indonesian: Itu stasiun pengisian bahan bakar di depan? Kita singgah di sana dan periksa perbekalan.
+  - key: city.road.02
+    english: Sancang reminds me of an old legend from the Pajajaran kingdom.
+    indonesian: Sancang mengingatkanku pada sebuah legenda lama dari Kerajaan Pajajaran.
+  - key: city.road.03
+    english: The one about Prabu Siliwangi entering Sancang Forest?
+    indonesian: Yang menceritakan Prabu Siliwangi masuk ke Hutan Sancang?
+  - key: city.road.04
+    english: Yes. One version says he entered the forest but never returned. Some say he vanished there with his followers.
+    indonesian: Ya. Salah satu versinya mengatakan beliau masuk ke hutan itu tetapi tidak pernah kembali. Ada yang bilang beliau menghilang bersama para pengikutnya.
+  - key: city.road.05
+    english: Make a note of it. We will ask whether the people here still know that story.
+    indonesian: Catat dulu. Kita tanyakan apakah orang-orang di sini masih mengenal cerita itu.
+  - key: city.road.06
+    english: Another legend leading to the same forest. That is difficult to ignore.
+    indonesian: Legenda lain yang mengarah ke hutan yang sama. Itu sulit untuk diabaikan.
+  - key: city.road.07
+    english: Interesting, but we verify the archive first.
+    indonesian: Menarik, tetapi kita verifikasi arsipnya terlebih dahulu.
+  - key: city.road.arrival
+    english: Damn, why is there a Kopdes in a place like this?
+    indonesian: Anjing, kenapa ada Kopdes di tempat seperti ini?
+  - key: city.departure.01
+    english: The cashier's story changes our assumption. Prabu Siliwangi reportedly left Sancang alive.
+    indonesian: Cerita kasir tadi mengubah dugaan kita. Prabu Siliwangi kabarnya keluar dari Sancang dengan selamat.
+  - key: city.departure.02
+    english: Then perhaps the king was connected to whatever happened in that forest.
+    indonesian: Kalau begitu, mungkin sang raja memang berhubungan dengan sesuatu yang terjadi di hutan itu.
+  - key: city.departure.03
+    english: Wait. Let me open the archive again. There is a note from the carbon analysis.
+    indonesian: Tunggu. Aku buka kembali arsipnya. Ada catatan dari analisis jejak karbon.
+  - key: city.departure.04
+    english: The scientists dated evidence of a violent struggle to more than six hundred years ago, long before that kingdom existed.
+    indonesian: Para ilmuwan memperkirakan jejak pertarungan besar itu berumur lebih dari enam ratus tahun, jauh sebelum kerajaan itu berdiri.
+  - key: city.departure.05
+    english: Then the two stories may not be connected after all.
+    indonesian: Kalau begitu, sepertinya kedua cerita ini memang tidak berhubungan.
+  - key: city.departure.06
+    english: Or the cashier was right. During his exile, the king may simply never have encountered Banaspati.
+    indonesian: Atau kasir itu benar. Selama pengasingannya, sang raja mungkin memang tidak pernah bertemu Banaspati.
+  - key: ui.loading
+    english: Loading...
+    indonesian: Memuat...
+  - key: village.journey.01
+    english: The city is completely behind us now. This is starting to look like real countryside.
+    indonesian: Kota sudah benar-benar tertinggal di belakang. Sekarang mulai terlihat suasana pedesaan.
+  - key: village.journey.02
+    english: The fields are still busy. It feels calmer than the road we just left.
+    indonesian: Ladangnya masih ramai. Suasananya terasa lebih tenang daripada jalan yang baru kita lewati.
+  - key: village.journey.03
+    english: Calm on the surface, perhaps. I keep wondering about Banaspati and the forest beyond this village.
+    indonesian: Mungkin hanya terlihat tenang. Aku terus memikirkan Banaspati dan hutan di balik desa ini.
+  - key: village.journey.04
+    english: Sancang is enormous. Do you think the villagers have ever explored its deeper regions?
+    indonesian: Sancang sangat luas. Menurut kalian, apakah warga pernah menelusuri bagian terdalamnya?
+  - key: village.journey.05
+    english: Hunters or resin collectors may have entered, but that does not mean they mapped the whole forest.
+    indonesian: Pemburu atau pencari getah mungkin pernah masuk, tetapi bukan berarti mereka memetakan seluruh hutannya.
+  - key: village.journey.06
+    english: Then why are there no reliable local records of a creature that supposedly burned an entire expedition?
+    indonesian: Lalu kenapa tidak ada catatan warga yang meyakinkan tentang makhluk yang katanya membakar satu ekspedisi?
+  - key: village.journey.07
+    english: You are beginning to doubt the colonial archive.
+    indonesian: Kau mulai meragukan arsip dari masa penjajahan itu.
+  - key: village.journey.08
+    english: I am questioning its conclusion. The soldiers may have misunderstood what attacked them.
+    indonesian: Aku meragukan kesimpulannya. Para tentara mungkin salah memahami apa yang menyerang mereka.
+  - key: village.journey.09
+    english: An attack from the air could explain why they could not identify the source.
+    indonesian: Serangan dari udara bisa menjelaskan kenapa mereka tidak mampu mengenali sumbernya.
+  - key: village.journey.10
+    english: Or an incendiary weapon, perhaps something similar to a mortar. Fire falling among the trees would look unnatural.
+    indonesian: Atau senjata pembakar, mungkin sesuatu yang mirip mortar. Api yang jatuh di antara pepohonan pasti terlihat tidak wajar.
+  - key: village.journey.11
+    english: But the archive described movement, pursuit, and attacks that changed direction. A mortar cannot hunt people.
+    indonesian: Tetapi arsip itu menggambarkan gerakan, pengejaran, dan serangan yang berubah arah. Mortar tidak bisa memburu manusia.
+  - key: village.journey.12
+    english: Unless terrified survivors connected separate explosions and turned them into a single creature.
+    indonesian: Kecuali para penyintas yang ketakutan menghubungkan ledakan terpisah dan menganggapnya sebagai satu makhluk.
+  - key: village.journey.13
+    english: That still leaves the carbon traces dated to more than six hundred years ago.
+    indonesian: Itu masih belum menjelaskan jejak karbon yang diperkirakan berumur lebih dari enam ratus tahun.
+  - key: village.journey.14
+    english: Those traces prove that something burned there, not that Banaspati caused it.
+    indonesian: Jejak itu membuktikan pernah terjadi kebakaran di sana, bukan bahwa Banaspati penyebabnya.
+  - key: village.journey.15
+    english: True. It could have been a battle, a natural fire, or evidence from several unrelated events.
+    indonesian: Benar. Bisa saja itu bekas pertempuran, kebakaran alami, atau jejak dari beberapa kejadian yang tidak berkaitan.
+  - key: village.journey.16
+    english: The archive may have combined old folklore with a disaster the soldiers could not explain.
+    indonesian: Arsip itu mungkin mencampurkan cerita rakyat lama dengan bencana yang tidak dapat dijelaskan para tentara.
+  - key: village.journey.17
+    english: We should not decide yet. We need testimony from people who know this area and evidence from the forest itself.
+    indonesian: Kita belum boleh mengambil kesimpulan. Kita butuh kesaksian warga yang mengenal daerah ini dan bukti dari hutannya sendiri.
+  - key: village.journey.18
+    english: Then we ask about old stories, routes into Sancang, and anyone who has returned from its interior.
+    indonesian: Kalau begitu kita tanyakan cerita lama, jalur masuk ke Sancang, dan siapa pun yang pernah kembali dari pedalamannya.
+  - key: village.journey.arrival
+    english: We are here. Let us gather information from the villagers. It is already 17:30, but everyone is still busy with their activities.
+    indonesian: Kita sudah sampai. Kita cari informasi dari warga. Sudah pukul 17.30, tetapi mereka masih ramai beraktivitas.

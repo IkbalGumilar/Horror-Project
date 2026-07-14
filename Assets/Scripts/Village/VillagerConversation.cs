@@ -3,6 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+
+public static class NpcDialogueAdvanceInput
+{
+    private const float InputGuardDuration = 0.15f;
+
+    public static IEnumerator WaitForPress()
+    {
+        yield return new WaitForSecondsRealtime(InputGuardDuration);
+
+        while (!WasPressedThisFrame())
+        {
+            yield return null;
+        }
+    }
+
+    private static bool WasPressedThisFrame()
+    {
+        foreach (InputDevice device in InputSystem.devices)
+        {
+            foreach (InputControl control in device.allControls)
+            {
+                if (control is ButtonControl button && button.wasPressedThisFrame)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
 
 public interface ICustomVillagerConversation
 {
@@ -190,7 +223,6 @@ public sealed class VillagerConversation : MonoBehaviour
     {
         Started?.Invoke(this);
         conversationStarted?.Invoke();
-        SubtitleController.Instance?.BeginSkippableSequence(this, SkipConversation);
 
         VillagerDialogueLine[] lines = sequence.Lines;
         if (data.RandomizeSingleLineConversation)
@@ -228,10 +260,16 @@ public sealed class VillagerConversation : MonoBehaviour
             string speakerKey = line.Speaker == VillagerDialogueSpeaker.Player
                 ? "speaker.player"
                 : data.DisplayNameKey;
-            SubtitleController.Instance.ShowLocalized(speakerKey, line.LocalizationKey, line.Duration);
+            SubtitleController.Instance.ShowLocalized(speakerKey, line.LocalizationKey, 0f);
         }
 
-        yield return new WaitForSecondsRealtime(line.Duration + line.PauseAfter);
+        yield return NpcDialogueAdvanceInput.WaitForPress();
+        SubtitleController.Instance?.Hide();
+
+        if (line.PauseAfter > 0f)
+        {
+            yield return new WaitForSecondsRealtime(line.PauseAfter);
+        }
     }
 
     private static VillagerDialogueLine GetRandomValidLine(VillagerDialogueLine[] lines)
@@ -254,19 +292,8 @@ public sealed class VillagerConversation : MonoBehaviour
         return null;
     }
 
-    private void SkipConversation()
-    {
-        if (conversationRoutine != null)
-        {
-            StopCoroutine(conversationRoutine);
-        }
-
-        CompleteConversation();
-    }
-
     private void CompleteConversation()
     {
-        SubtitleController.Instance?.EndSkippableSequence(this);
         SubtitleController.Instance?.Hide();
 
         if (voiceSource != null)

@@ -16,8 +16,10 @@ public sealed class CityNewGameController : MonoBehaviour
 
     [Header("Opening Conversation")]
     [SerializeField] private LocalizedConversationData openingConversation;
+    [SerializeField] private LocalizedConversationData roadConversation;
     [SerializeField] private SubtitleController subtitleController;
     [SerializeField, Min(0f)] private float conversationStartDelay = 0.5f;
+    [SerializeField, Min(0f)] private float arrivalLineDuration = 4f;
 
     [Header("Opening Camera")]
     [SerializeField] private Transform playerTransform;
@@ -48,6 +50,7 @@ public sealed class CityNewGameController : MonoBehaviour
     [SerializeField, Min(0.01f)] private float finalStopDeceleration = 2f;
 
     private Coroutine conversationRoutine;
+    private Coroutine roadConversationRoutine;
     private bool gameStarted;
 
     private void Awake()
@@ -69,6 +72,10 @@ public sealed class CityNewGameController : MonoBehaviour
     private void OnDestroy()
     {
         subtitleController?.EndSkippableSequence(this);
+        if (roadConversationRoutine != null)
+        {
+            StopCoroutine(roadConversationRoutine);
+        }
         newGameButton?.onClick.RemoveListener(OpenDifficultySelection);
         easyButton?.onClick.RemoveListener(StartEasyGame);
         normalButton?.onClick.RemoveListener(StartNormalGame);
@@ -267,6 +274,70 @@ public sealed class CityNewGameController : MonoBehaviour
         }
 
         yield return FadeGraphicAlpha(blackFadeGraphic, 1f, 0f, fadeFromBlackDuration);
+        roadConversationRoutine = StartCoroutine(PlayRoadConversation());
+    }
+
+    private IEnumerator PlayRoadConversation()
+    {
+        LocalizedConversationLine[] lines = roadConversation != null
+            ? roadConversation.Lines
+            : null;
+
+        if (subtitleController != null && lines != null)
+        {
+            subtitleController.BeginSkippableSequence(this, SkipRoadConversation);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                LocalizedConversationLine line = lines[i];
+                if (line == null || string.IsNullOrWhiteSpace(line.TextKey))
+                {
+                    continue;
+                }
+
+                float duration = Mathf.Max(0f, line.Duration);
+                subtitleController.ShowLocalized(line.SpeakerKey, line.TextKey, duration);
+                if (duration > 0f)
+                {
+                    yield return new WaitForSecondsRealtime(duration);
+                }
+            }
+
+            subtitleController.EndSkippableSequence(this);
+            subtitleController.Hide();
+        }
+
+        yield return WaitForRoadArrivalAndReaction();
+        roadConversationRoutine = null;
+    }
+
+    private void SkipRoadConversation()
+    {
+        if (roadConversationRoutine != null)
+        {
+            StopCoroutine(roadConversationRoutine);
+        }
+
+        subtitleController?.EndSkippableSequence(this);
+        subtitleController?.Hide();
+        roadConversationRoutine = StartCoroutine(WaitForRoadArrivalAndReaction());
+    }
+
+    private IEnumerator WaitForRoadArrivalAndReaction()
+    {
+        while (vehicleMover != null && !vehicleMover.HasFinished)
+        {
+            yield return null;
+        }
+
+        if (subtitleController != null)
+        {
+            subtitleController.ShowLocalized(
+                "speaker.player",
+                "city.road.arrival",
+                arrivalLineDuration);
+        }
+
+        roadConversationRoutine = null;
     }
 
     private void RestoreCamera(

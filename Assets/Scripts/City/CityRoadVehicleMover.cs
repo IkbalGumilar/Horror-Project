@@ -28,6 +28,7 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
     [SerializeField] private bool loop = false;
 
     private readonly List<Vector3> path = new List<Vector3>();
+    private readonly List<float> explicitTargetSpeeds = new List<float>();
     private int targetIndex = 1;
     private int directWaypointStartIndex = int.MaxValue;
     private bool isMoving;
@@ -39,6 +40,9 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
     private float firstTurnSpeed;
     private float gasStationTurnSpeed;
     private float finalStopDeceleration;
+    private bool useExplicitSpeedProfile;
+    private bool useDepartureLaneProfile;
+    private int departureRoadStartIndex = int.MaxValue;
 
     public bool IsMoving => isMoving;
     public bool HasFinished { get; private set; }
@@ -259,6 +263,93 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
         return true;
     }
 
+    public bool SwitchToDepartureRoute(
+        IReadOnlyList<Transform> exitWaypoints,
+        CityProceduralRoad dirtRoad,
+        CityProceduralRoad mainRoad,
+        int mainRoadStartControlPoint,
+        float waypointMaxSpeed,
+        float dirtMaxSpeed,
+        float mainRoadSpeed)
+    {
+        Stop();
+        loop = false;
+        path.Clear();
+        ResetRouteSpeedProfile();
+
+        float surfaceY = transform.position.y - heightOffset;
+        AppendDeparturePoint(new Vector3(transform.position.x, surfaceY, transform.position.z), 0f);
+
+        if (exitWaypoints != null)
+        {
+            for (int i = 0; i < exitWaypoints.Count; i++)
+            {
+                Transform waypoint = exitWaypoints[i];
+                if (waypoint == null)
+                {
+                    continue;
+                }
+
+                Vector3 point = waypoint.position;
+                point.y = surfaceY;
+                AppendDeparturePoint(point, waypointMaxSpeed);
+            }
+        }
+
+        List<Vector3> dirtPoints = new List<Vector3>();
+        if (dirtRoad == null || !dirtRoad.CopyCenterlineReversed(dirtPoints))
+        {
+            return false;
+        }
+
+        departureRoadStartIndex = path.Count;
+        AppendDepartureSection(dirtPoints, waypointMaxSpeed, dirtMaxSpeed);
+
+        List<Vector3> mainRoadPoints = new List<Vector3>();
+        if (mainRoad == null
+            || !mainRoad.CopyCenterlineFromControlPoint(mainRoadStartControlPoint, mainRoadPoints))
+        {
+            return false;
+        }
+
+        AppendDepartureSection(mainRoadPoints, dirtMaxSpeed, mainRoadSpeed);
+        if (path.Count < 2 || explicitTargetSpeeds.Count != path.Count)
+        {
+            return false;
+        }
+
+        useExplicitSpeedProfile = true;
+        useDepartureLaneProfile = true;
+        targetIndex = 1;
+        currentSpeed = Mathf.Max(0.01f, waypointMaxSpeed);
+        Play();
+        return true;
+    }
+
+    private void AppendDepartureSection(
+        IReadOnlyList<Vector3> points,
+        float startSpeed,
+        float endSpeed)
+    {
+        for (int i = 0; i < points.Count; i++)
+        {
+            float progress = (i + 1f) / Mathf.Max(1f, points.Count);
+            AppendDeparturePoint(points[i], Mathf.Lerp(startSpeed, endSpeed, progress));
+        }
+    }
+
+    private void AppendDeparturePoint(Vector3 point, float targetSpeed)
+    {
+        if (path.Count > 0 && Vector3.SqrMagnitude(path[path.Count - 1] - point) < 0.0001f)
+        {
+            explicitTargetSpeeds[explicitTargetSpeeds.Count - 1] = Mathf.Max(0f, targetSpeed);
+            return;
+        }
+
+        path.Add(point);
+        explicitTargetSpeeds.Add(Mathf.Max(0f, targetSpeed));
+    }
+
     private void AppendPath(List<Vector3> points)
     {
         for (int i = 0; i < points.Count; i++)
@@ -437,7 +528,10 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
     private Vector3 GetPathPoint(int index)
     {
         Vector3 point = WithHeightOffset(path[index]);
-        if (index >= directWaypointStartIndex)
+        bool applyLaneOffset = useDepartureLaneProfile
+            ? index >= departureRoadStartIndex
+            : index < directWaypointStartIndex;
+        if (!applyLaneOffset)
         {
             return point;
         }
@@ -478,6 +572,11 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
 
     private float GetTargetSpeed(int index)
     {
+        if (useExplicitSpeedProfile && explicitTargetSpeeds.Count == path.Count)
+        {
+            return explicitTargetSpeeds[index];
+        }
+
         if (!useRouteSpeedProfile)
         {
             return speed * GetTurnSpeedMultiplier(index);
@@ -513,6 +612,10 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
         firstTurnSpeed = 0f;
         gasStationTurnSpeed = 0f;
         finalStopDeceleration = acceleration;
+        explicitTargetSpeeds.Clear();
+        useExplicitSpeedProfile = false;
+        useDepartureLaneProfile = false;
+        departureRoadStartIndex = int.MaxValue;
         HasFinished = false;
     }
 

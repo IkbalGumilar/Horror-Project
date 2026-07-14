@@ -87,6 +87,30 @@ public sealed class VillageRoadCarMover : MonoBehaviour
         isMoving = false;
     }
 
+    public bool HasPassedRoutePoint(int routePointIndex)
+    {
+        if (proceduralRoad == null
+            || path.Count == 0
+            || !proceduralRoad.TryGetRoutePoint(routePointIndex, out Vector3 routePoint))
+        {
+            return false;
+        }
+
+        int closestPathIndex = 0;
+        float closestDistance = float.PositiveInfinity;
+        for (int i = 0; i < path.Count; i++)
+        {
+            float distance = Flatten(path[i] - routePoint).sqrMagnitude;
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestPathIndex = i;
+            }
+        }
+
+        return targetIndex > closestPathIndex || HasFinished;
+    }
+
     public void ResetToStart()
     {
         RebuildPath();

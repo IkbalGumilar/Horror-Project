@@ -24,8 +24,8 @@ public sealed class CityCashierConversation : MonoBehaviour, ICustomVillagerConv
     [SerializeField] private LocalizedChoicePanel topicChoicePanel;
     [SerializeField] private LocalizedChoicePanel confirmationChoicePanel;
     [SerializeField] private string cashierSpeakerKey = "city.kopdes.cashier.name";
-    [SerializeField, Min(0.1f)] private float lineDuration = 3.5f;
     [SerializeField, Min(0f)] private float pauseBetweenLines = 0.15f;
+    [SerializeField] private CityCarDepartureController carDepartureController;
     [SerializeField] private UnityEvent purchaseConfirmed;
 
     private VillagerConversation owner;
@@ -95,6 +95,7 @@ public sealed class CityCashierConversation : MonoBehaviour, ICustomVillagerConv
                     yield return ShowLine("speaker.player", "city.kopdes.question.forest");
                     yield return ShowLine(cashierSpeakerKey, "city.kopdes.answer.forest.1");
                     yield return ShowLine(cashierSpeakerKey, "city.kopdes.answer.forest.2");
+                    yield return ShowLine(cashierSpeakerKey, "city.kopdes.answer.forest.3");
                     break;
                 case 3:
                     yield return ShowLine("speaker.player", "city.kopdes.question.distance");
@@ -112,6 +113,7 @@ public sealed class CityCashierConversation : MonoBehaviour, ICustomVillagerConv
                     if (confirmation == 0)
                     {
                         HasConfirmedPurchase = true;
+                        carDepartureController?.UnlockAfterPurchase();
                         purchaseConfirmed?.Invoke();
                         yield return ShowLine(cashierSpeakerKey, "city.kopdes.purchase.yes");
                         keepTalking = false;
@@ -132,8 +134,14 @@ public sealed class CityCashierConversation : MonoBehaviour, ICustomVillagerConv
         HideChoicePanels();
         SubtitleController.Instance?.EndChoiceOverlay();
         RestoreCursor();
-        SubtitleController.Instance?.ShowLocalized(speakerKey, textKey, lineDuration);
-        yield return new WaitForSecondsRealtime(lineDuration + pauseBetweenLines);
+        SubtitleController.Instance?.ShowLocalized(speakerKey, textKey, 0f);
+        yield return NpcDialogueAdvanceInput.WaitForPress();
+        SubtitleController.Instance?.Hide();
+
+        if (pauseBetweenLines > 0f)
+        {
+            yield return new WaitForSecondsRealtime(pauseBetweenLines);
+        }
     }
 
     private IEnumerator WaitForChoice(

@@ -66,6 +66,19 @@ public sealed class VillageProceduralRoad : MonoBehaviour
         results.AddRange(centerline);
     }
 
+    public bool TryGetRoutePoint(int index, out Vector3 point)
+    {
+        if (routePoints == null || index < 0 || index >= routePoints.Count)
+        {
+            point = default;
+            return false;
+        }
+
+        point = routePoints[index];
+        point.y = GetSurfaceHeight(point);
+        return true;
+    }
+
     private void BuildCenterline()
     {
         centerline.Clear();

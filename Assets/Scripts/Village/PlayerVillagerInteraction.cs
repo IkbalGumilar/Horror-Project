@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
 public sealed class PlayerVillagerInteraction : MonoBehaviour
@@ -18,7 +19,9 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
     [SerializeField, Min(0.1f)] private float interactionRadius = 3f;
 
     [Header("Prompt")]
-    [SerializeField] private GameObject promptRoot;
+    [FormerlySerializedAs("promptRoot")]
+    [SerializeField] private GameObject npcPromptRoot;
+    [SerializeField] private GameObject worldPromptRoot;
     [SerializeField, Range(0f, 255f)] private float minimumAlpha = 150f;
     [SerializeField, Range(0f, 255f)] private float maximumAlpha = 255f;
     [SerializeField, Min(0.01f)] private float blinkCyclesPerSecond = 2.5f;
@@ -35,8 +38,10 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
     [SerializeField, Range(0f, 45f)] private float facingTolerance = 2f;
 
     private InputAction interactAction;
-    private CanvasGroup promptCanvasGroup;
+    private CanvasGroup npcPromptCanvasGroup;
+    private CanvasGroup worldPromptCanvasGroup;
     private VillagerConversation nearbyVillager;
+    private WorldInteractable nearbyWorldInteractable;
     private VillagerConversation talkingVillager;
     private Coroutine releaseControlsRoutine;
     private bool preparingConversation;
@@ -50,8 +55,8 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
         }
 
         ResolvePlayerReferences();
-        PreparePrompt();
-        SetPromptAlpha(0f);
+        PreparePrompts();
+        HidePrompts();
     }
 
     private void ApplyControlProfile()
@@ -70,9 +75,9 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
     private void OnEnable()
     {
         ResolvePlayerReferences();
-        if (promptCanvasGroup == null)
+        if (npcPromptCanvasGroup == null || worldPromptCanvasGroup == null)
         {
-            PreparePrompt();
+            PreparePrompts();
         }
 
         BindInput();
@@ -90,7 +95,8 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
         UnsubscribeFromTalkingVillager();
         SetConversationControlsLocked(false);
         nearbyVillager = null;
-        SetPromptAlpha(0f);
+        nearbyWorldInteractable = null;
+        HidePrompts();
     }
 
     private void Update()
@@ -106,34 +112,51 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
                 FaceTalkingVillager();
             }
 
-            SetPromptAlpha(0f);
+            HidePrompts();
             return;
         }
 
         nearbyVillager = FindNearestVillager();
-        if (nearbyVillager == null)
+        float phase = Mathf.PingPong(Time.unscaledTime * blinkCyclesPerSecond * 2f, 1f);
+        float alpha = Mathf.Lerp(minimumAlpha, maximumAlpha, phase) / 255f;
+        if (nearbyVillager != null)
         {
-            SetPromptAlpha(0f);
+            nearbyWorldInteractable = null;
+            SetPromptAlpha(npcPromptCanvasGroup, alpha);
+            SetPromptAlpha(worldPromptCanvasGroup, 0f);
             return;
         }
 
-        float phase = Mathf.PingPong(Time.unscaledTime * blinkCyclesPerSecond * 2f, 1f);
-        SetPromptAlpha(Mathf.Lerp(minimumAlpha, maximumAlpha, phase) / 255f);
+        nearbyWorldInteractable = FindNearestWorldInteractable();
+        SetPromptAlpha(npcPromptCanvasGroup, 0f);
+        SetPromptAlpha(worldPromptCanvasGroup, nearbyWorldInteractable != null ? alpha : 0f);
     }
 
     public bool TryInteract()
     {
-        if (talkingVillager != null || nearbyVillager == null)
+        if (talkingVillager != null)
         {
             return false;
         }
 
-        talkingVillager = nearbyVillager;
-        talkingVillager.SetMovementLocked(true);
-        preparingConversation = true;
-        SetConversationControlsLocked(true);
-        nearbyVillager = null;
-        SetPromptAlpha(0f);
+        if (nearbyVillager != null)
+        {
+            talkingVillager = nearbyVillager;
+            talkingVillager.SetMovementLocked(true);
+            preparingConversation = true;
+            SetConversationControlsLocked(true);
+            nearbyVillager = null;
+            HidePrompts();
+            return true;
+        }
+
+        if (nearbyWorldInteractable == null || !nearbyWorldInteractable.TryInteract())
+        {
+            return false;
+        }
+
+        nearbyWorldInteractable = null;
+        HidePrompts();
         return true;
     }
 
@@ -141,6 +164,12 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
     {
         Vector3 origin = detectionOrigin != null ? detectionOrigin.position : transform.position;
         return VillagerConversation.FindNearest(origin, interactionRadius);
+    }
+
+    private WorldInteractable FindNearestWorldInteractable()
+    {
+        Vector3 origin = detectionOrigin != null ? detectionOrigin.position : transform.position;
+        return WorldInteractable.FindNearest(origin, interactionRadius);
     }
 
     private void BindInput()
@@ -334,20 +363,40 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
         preparingConversation = false;
     }
 
-    private void PreparePrompt()
+    private void PreparePrompts()
     {
-        if (promptRoot == null)
+        if (npcPromptRoot == null)
         {
-            GameObject interactObject = GameObject.Find("Interact");
+            GameObject interactObject = GameObject.Find("Interact NPC");
+            if (interactObject == null)
+            {
+                interactObject = GameObject.Find("Interact");
+            }
+
             if (interactObject != null && interactObject.transform is RectTransform)
             {
-                promptRoot = interactObject;
+                npcPromptRoot = interactObject;
             }
         }
 
+        if (worldPromptRoot == null)
+        {
+            GameObject interactObject = GameObject.Find("Interact Something");
+            if (interactObject != null && interactObject.transform is RectTransform)
+            {
+                worldPromptRoot = interactObject;
+            }
+        }
+
+        npcPromptCanvasGroup = PreparePrompt(npcPromptRoot);
+        worldPromptCanvasGroup = PreparePrompt(worldPromptRoot);
+    }
+
+    private static CanvasGroup PreparePrompt(GameObject promptRoot)
+    {
         if (promptRoot == null)
         {
-            return;
+            return null;
         }
 
         if (!promptRoot.activeSelf)
@@ -355,14 +404,15 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
             promptRoot.SetActive(true);
         }
 
-        promptCanvasGroup = promptRoot.GetComponent<CanvasGroup>();
-        if (promptCanvasGroup == null)
+        CanvasGroup canvasGroup = promptRoot.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
         {
-            promptCanvasGroup = promptRoot.AddComponent<CanvasGroup>();
+            canvasGroup = promptRoot.AddComponent<CanvasGroup>();
         }
 
-        promptCanvasGroup.interactable = false;
-        promptCanvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+        return canvasGroup;
     }
 
     private void ResolveInputActionsReference()
@@ -397,11 +447,17 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
         }
     }
 
-    private void SetPromptAlpha(float alpha)
+    private void HidePrompts()
     {
-        if (promptCanvasGroup != null)
+        SetPromptAlpha(npcPromptCanvasGroup, 0f);
+        SetPromptAlpha(worldPromptCanvasGroup, 0f);
+    }
+
+    private static void SetPromptAlpha(CanvasGroup canvasGroup, float alpha)
+    {
+        if (canvasGroup != null)
         {
-            promptCanvasGroup.alpha = Mathf.Clamp01(alpha);
+            canvasGroup.alpha = Mathf.Clamp01(alpha);
         }
     }
 

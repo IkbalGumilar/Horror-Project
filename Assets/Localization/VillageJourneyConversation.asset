@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad034b0b0d84125aefbf35c7165132c, type: 3}
+  m_Name: VillageJourneyConversation
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedConversationData
+  lines:
+  - speakerKey: speaker.player
+    textKey: village.journey.01
+    duration: 5
+  - speakerKey: speaker.crew_1
+    textKey: village.journey.02
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: village.journey.03
+    duration: 5
+  - speakerKey: speaker.crew_2
+    textKey: village.journey.04
+    duration: 5
+  - speakerKey: speaker.crew_1
+    textKey: village.journey.05
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: village.journey.06
+    duration: 5
+  - speakerKey: speaker.crew_2
+    textKey: village.journey.07
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: village.journey.08
+    duration: 5
+  - speakerKey: speaker.crew_1
+    textKey: village.journey.09
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: village.journey.10
+    duration: 5
+  - speakerKey: speaker.crew_2
+    textKey: village.journey.11
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: village.journey.12
+    duration: 5
+  - speakerKey: speaker.crew_1
+    textKey: village.journey.13
+    duration: 5
+  - speakerKey: speaker.crew_2
+    textKey: village.journey.14
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: village.journey.15
+    duration: 5
+  - speakerKey: speaker.crew_1
+    textKey: village.journey.16
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: village.journey.17
+    duration: 5
+  - speakerKey: speaker.crew_2
+    textKey: village.journey.18
+    duration: 5

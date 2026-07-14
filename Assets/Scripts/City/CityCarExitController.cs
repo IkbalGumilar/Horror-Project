@@ -22,6 +22,8 @@ public sealed class CityCarExitController : MonoBehaviour
 
     private bool hasStartedExit;
 
+    public Transform PlayerRoot => playerRoot;
+
     private void Awake()
     {
         if (carMover == null)
@@ -94,7 +96,7 @@ public sealed class CityCarExitController : MonoBehaviour
         playerRoot.SetPositionAndRotation(endPosition, endRotation);
     }
 
-    private void SetPlayerControlEnabled(bool enabled)
+    public void SetPlayerControlEnabled(bool enabled)
     {
         for (int i = 0; i < enableAfterExit.Length; i++)
         {
