@@ -34,6 +34,7 @@ public sealed class CityCarDepartureController : MonoBehaviour
     [SerializeField] private Graphic blackFadeGraphic;
     [SerializeField] private float cameraTargetWorldY = 10f;
     [SerializeField, Min(0.01f)] private float cameraRiseDuration = 4f;
+    [SerializeField, Min(0f)] private float cameraTopHoldDuration = 2f;
     [SerializeField, Min(0.01f)] private float fadeToBlackDuration = 1f;
     [SerializeField] private string villageSceneName = "VilageScene";
 
@@ -242,6 +243,11 @@ public sealed class CityCarDepartureController : MonoBehaviour
         Vector3 riseStart = cameraTransform.position;
         Vector3 riseTarget = new Vector3(riseStart.x, cameraTargetWorldY, riseStart.z);
         yield return MoveCamera(riseStart, riseTarget, cameraRiseDuration);
+
+        if (cameraTopHoldDuration > 0f)
+        {
+            yield return new WaitForSecondsRealtime(cameraTopHoldDuration);
+        }
 
         float startAlpha = blackFadeGraphic.color.a;
         yield return FadeGraphicAlpha(

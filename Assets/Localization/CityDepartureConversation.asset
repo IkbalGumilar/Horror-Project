@@ -31,3 +31,27 @@ MonoBehaviour:
   - speakerKey: speaker.crew_1
     textKey: city.departure.06
     duration: 5
+  - speakerKey: speaker.crew_2
+    textKey: city.departure.07
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: city.departure.08
+    duration: 5
+  - speakerKey: speaker.crew_1
+    textKey: city.departure.09
+    duration: 5
+  - speakerKey: speaker.crew_2
+    textKey: city.departure.10
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: city.departure.11
+    duration: 5
+  - speakerKey: speaker.crew_1
+    textKey: city.departure.12
+    duration: 5
+  - speakerKey: speaker.crew_2
+    textKey: city.departure.13
+    duration: 5
+  - speakerKey: speaker.player
+    textKey: city.departure.14
+    duration: 5

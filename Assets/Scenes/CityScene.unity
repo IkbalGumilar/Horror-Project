@@ -52870,6 +52870,7 @@ MonoBehaviour:
   blackFadeGraphic: {fileID: 479854251}
   cameraTargetWorldY: 10
   cameraRiseDuration: 4
+  cameraTopHoldDuration: 2
   fadeToBlackDuration: 1
   villageSceneName: VilageScene
 --- !u!1 &3400011000

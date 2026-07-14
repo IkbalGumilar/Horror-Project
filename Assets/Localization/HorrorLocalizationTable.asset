@@ -1151,6 +1151,30 @@ MonoBehaviour:
   - key: city.departure.06
     english: Or the cashier was right. During his exile, the king may simply never have encountered Banaspati.
     indonesian: Atau kasir itu benar. Selama pengasingannya, sang raja mungkin memang tidak pernah bertemu Banaspati.
+  - key: city.departure.07
+    english: The research notes say the samples came from several burned areas, not a single patch of soil.
+    indonesian: Catatan penelitiannya menyebut sampel diambil dari beberapa area terbakar, bukan hanya satu titik tanah.
+  - key: city.departure.08
+    english: That makes the event extensive, but carbon dating only proves that something burned there.
+    indonesian: Itu membuktikan kejadiannya luas, tetapi penanggalan karbon hanya membuktikan pernah ada sesuatu yang terbakar di sana.
+  - key: city.departure.09
+    english: The colonial survivors claimed the ashes moved against the wind and followed anyone who tried to escape.
+    indonesian: Para penyintas kolonial mengaku abunya bergerak melawan arah angin dan mengikuti siapa pun yang mencoba kabur.
+  - key: city.departure.10
+    english: That may be why their report called it Ashes That Remember.
+    indonesian: Mungkin itu sebabnya laporan mereka menyebutnya Ashes That Remember.
+  - key: city.departure.11
+    english: Or that phrase was added later by a translator who wanted the report to sound more dramatic.
+    indonesian: Atau istilah itu ditambahkan penerjemah belakangan agar laporannya terdengar lebih dramatis.
+  - key: city.departure.12
+    english: Even so, both the cashier's story and the archive describe fire that acts with intent.
+    indonesian: Meski begitu, cerita kasir dan arsip sama-sama menggambarkan api yang bertindak seolah memiliki kehendak.
+  - key: city.departure.13
+    english: The villagers may tell us whether that detail existed before the colonial expedition arrived.
+    indonesian: Warga desa mungkin bisa memastikan apakah bagian cerita itu sudah ada sebelum ekspedisi kolonial datang.
+  - key: city.departure.14
+    english: We compare their stories, record the route, and leave every conclusion open until we see the forest ourselves.
+    indonesian: Kita bandingkan cerita mereka, catat jalurnya, dan jangan simpulkan apa pun sebelum melihat hutannya sendiri.
   - key: ui.loading
     english: Loading...
     indonesian: Memuat...
