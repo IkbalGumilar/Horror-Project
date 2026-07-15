@@ -37,6 +37,8 @@ public sealed class CityCarDepartureController : MonoBehaviour
     [SerializeField, Min(0.01f)] private float cameraRiseDuration = 4f;
     [SerializeField, Min(0f)] private float cameraTopHoldDuration = 2f;
     [SerializeField, Min(0.01f)] private float fadeToBlackDuration = 1f;
+    [Tooltip("How long the car remains visible on the gameplay road before the camera rises after skipping.")]
+    [SerializeField, Min(0f)] private float postSkipDriveDuration = 3f;
     [SerializeField] private string villageSceneName = "VilageScene";
 
     private bool purchaseConfirmed;
@@ -239,7 +241,48 @@ public sealed class CityCarDepartureController : MonoBehaviour
 
         subtitleController?.EndSkippableSequence(this);
         subtitleController?.Hide();
-        departureSequenceRoutine = StartCoroutine(TransitionToVillage());
+        departureSequenceRoutine = StartCoroutine(SkipToMainRoadAndTransition());
+    }
+
+    private IEnumerator SkipToMainRoadAndTransition()
+    {
+        if (blackFadeGraphic == null)
+        {
+            Debug.LogWarning(
+                $"{nameof(CityCarDepartureController)} cannot hide the departure skip because no Safe Area fade Graphic is assigned.",
+                this);
+        }
+        else
+        {
+            yield return FadeGraphicAlpha(
+                blackFadeGraphic,
+                blackFadeGraphic.color.a,
+                1f,
+                fadeToBlackDuration);
+        }
+
+        if (carMover == null || !carMover.TryTeleportToDepartureMainRoadStart())
+        {
+            Debug.LogWarning(
+                $"{nameof(CityCarDepartureController)} could not skip the car to gameplay road control point {mainRoadStartControlPoint}.",
+                this);
+        }
+
+        if (blackFadeGraphic != null)
+        {
+            yield return FadeGraphicAlpha(
+                blackFadeGraphic,
+                blackFadeGraphic.color.a,
+                0f,
+                fadeToBlackDuration);
+        }
+
+        if (postSkipDriveDuration > 0f)
+        {
+            yield return new WaitForSecondsRealtime(postSkipDriveDuration);
+        }
+
+        yield return TransitionToVillage();
     }
 
     private IEnumerator TransitionToVillage()

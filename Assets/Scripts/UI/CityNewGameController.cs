@@ -45,6 +45,8 @@ public sealed class CityNewGameController : MonoBehaviour
     [SerializeField] private CityProceduralRoad gasStationRoad;
     [SerializeField, Min(1)] private int gasStationRoadExitControlPoint = 1;
     [SerializeField] private Transform[] gasStationWaypoints;
+    [Tooltip("One-based gas station waypoint number used when the road conversation is skipped.")]
+    [SerializeField, Min(1)] private int roadSkipWaypointNumber = 2;
     [SerializeField, Min(0.01f)] private float gameplayTurnSpeed = 10f;
     [SerializeField, Min(0.01f)] private float gasStationTurnSpeed = 5f;
     [SerializeField, Min(0.01f)] private float finalStopDeceleration = 2f;
@@ -319,7 +321,43 @@ public sealed class CityNewGameController : MonoBehaviour
 
         subtitleController?.EndSkippableSequence(this);
         subtitleController?.Hide();
-        roadConversationRoutine = StartCoroutine(WaitForRoadArrivalAndReaction());
+        roadConversationRoutine = StartCoroutine(SkipRoadConversationTransition());
+    }
+
+    private IEnumerator SkipRoadConversationTransition()
+    {
+        if (blackFadeGraphic != null)
+        {
+            yield return FadeGraphicAlpha(
+                blackFadeGraphic,
+                blackFadeGraphic.color.a,
+                1f,
+                fadeToBlackDuration);
+        }
+
+        int waypointIndex = Mathf.Max(1, roadSkipWaypointNumber) - 1;
+        if (vehicleMover == null || !vehicleMover.TryTeleportToDirectWaypoint(waypointIndex))
+        {
+            Debug.LogWarning(
+                $"{nameof(CityNewGameController)} could not skip the car to gas station waypoint {roadSkipWaypointNumber}.",
+                this);
+        }
+
+        if (blackHoldDuration > 0f)
+        {
+            yield return new WaitForSecondsRealtime(blackHoldDuration);
+        }
+
+        if (blackFadeGraphic != null)
+        {
+            yield return FadeGraphicAlpha(
+                blackFadeGraphic,
+                blackFadeGraphic.color.a,
+                0f,
+                fadeFromBlackDuration);
+        }
+
+        yield return WaitForRoadArrivalAndReaction();
     }
 
     private IEnumerator WaitForRoadArrivalAndReaction()

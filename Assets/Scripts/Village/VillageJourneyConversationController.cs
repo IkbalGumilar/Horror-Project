@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public sealed class VillageJourneyConversationController : MonoBehaviour
@@ -15,8 +16,14 @@ public sealed class VillageJourneyConversationController : MonoBehaviour
     [SerializeField] private string arrivalTextKey = "village.journey.arrival";
     [SerializeField, Min(0f)] private float arrivalLineDuration = 6f;
 
+    [Header("Skip Transition")]
+    [SerializeField] private Graphic blackFadeGraphic;
+    [SerializeField, Min(0.01f)] private float fadeToBlackDuration = 1f;
+    [SerializeField, Min(0.01f)] private float fadeFromBlackDuration = 1.5f;
+
     private Coroutine conversationRoutine;
     private Coroutine arrivalRoutine;
+    private bool arrivalLineStarted;
 
     private void Awake()
     {
@@ -91,8 +98,52 @@ public sealed class VillageJourneyConversationController : MonoBehaviour
             conversationRoutine = null;
         }
 
+        if (arrivalRoutine != null)
+        {
+            StopCoroutine(arrivalRoutine);
+            arrivalRoutine = null;
+        }
+
         subtitleController?.EndSkippableSequence(this);
         subtitleController?.Hide();
+        conversationRoutine = StartCoroutine(SkipToArrival());
+    }
+
+    private IEnumerator SkipToArrival()
+    {
+        if (blackFadeGraphic == null)
+        {
+            Debug.LogWarning(
+                $"{nameof(VillageJourneyConversationController)} cannot hide the journey skip because no Safe Area fade Graphic is assigned.",
+                this);
+        }
+        else
+        {
+            yield return FadeGraphicAlpha(
+                blackFadeGraphic,
+                blackFadeGraphic.color.a,
+                1f,
+                fadeToBlackDuration);
+        }
+
+        if (carMover == null || !carMover.TryTeleportToRoutePoint(arrivalControlPointIndex))
+        {
+            Debug.LogWarning(
+                $"{nameof(VillageJourneyConversationController)} could not skip the car to village route point {arrivalControlPointIndex}.",
+                this);
+        }
+
+        if (blackFadeGraphic != null)
+        {
+            yield return FadeGraphicAlpha(
+                blackFadeGraphic,
+                blackFadeGraphic.color.a,
+                0f,
+                fadeFromBlackDuration);
+        }
+
+        conversationRoutine = null;
+        ShowArrivalLine();
     }
 
     private IEnumerator WaitForArrival()
@@ -102,6 +153,25 @@ public sealed class VillageJourneyConversationController : MonoBehaviour
             yield return null;
         }
 
+        if (conversationRoutine != null)
+        {
+            StopCoroutine(conversationRoutine);
+            conversationRoutine = null;
+        }
+
+        arrivalRoutine = null;
+        ShowArrivalLine();
+    }
+
+    private void ShowArrivalLine()
+    {
+        if (arrivalLineStarted)
+        {
+            return;
+        }
+
+        arrivalLineStarted = true;
+        subtitleController?.EndSkippableSequence(this);
         if (subtitleController != null)
         {
             subtitleController.ShowLocalized(
@@ -109,7 +179,29 @@ public sealed class VillageJourneyConversationController : MonoBehaviour
                 arrivalTextKey,
                 arrivalLineDuration);
         }
+    }
 
-        arrivalRoutine = null;
+    private static IEnumerator FadeGraphicAlpha(
+        Graphic graphic,
+        float from,
+        float to,
+        float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            SetGraphicAlpha(graphic, Mathf.Lerp(from, to, Mathf.Clamp01(elapsed / duration)));
+            yield return null;
+        }
+
+        SetGraphicAlpha(graphic, to);
+    }
+
+    private static void SetGraphicAlpha(Graphic graphic, float alpha)
+    {
+        Color color = graphic.color;
+        color.a = Mathf.Clamp01(alpha);
+        graphic.color = color;
     }
 }

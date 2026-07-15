@@ -89,26 +89,42 @@ public sealed class VillageRoadCarMover : MonoBehaviour
 
     public bool HasPassedRoutePoint(int routePointIndex)
     {
-        if (proceduralRoad == null
-            || path.Count == 0
-            || !proceduralRoad.TryGetRoutePoint(routePointIndex, out Vector3 routePoint))
+        if (!TryGetClosestPathIndexForRoutePoint(routePointIndex, out int closestPathIndex))
         {
             return false;
         }
 
-        int closestPathIndex = 0;
-        float closestDistance = float.PositiveInfinity;
-        for (int i = 0; i < path.Count; i++)
+        return targetIndex > closestPathIndex || HasFinished;
+    }
+
+    public bool TryTeleportToRoutePoint(int routePointIndex)
+    {
+        if (!TryGetClosestPathIndexForRoutePoint(routePointIndex, out int pathIndex))
         {
-            float distance = Flatten(path[i] - routePoint).sqrMagnitude;
-            if (distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestPathIndex = i;
-            }
+            return false;
         }
 
-        return targetIndex > closestPathIndex || HasFinished;
+        if (HasFinished || targetIndex > pathIndex)
+        {
+            return true;
+        }
+
+        transform.position = GetPathPoint(pathIndex);
+        HasFinished = pathIndex >= path.Count - 1;
+        if (HasFinished)
+        {
+            targetIndex = path.Count - 1;
+            currentSpeed = 0f;
+            isMoving = false;
+            FaceAlongPath(instant: true);
+            return true;
+        }
+
+        targetIndex = pathIndex + 1;
+        currentSpeed = speed * GetTurnSpeedMultiplier(targetIndex);
+        isMoving = true;
+        FaceAlongPath(instant: true);
+        return true;
     }
 
     public void ResetToStart()
@@ -156,6 +172,32 @@ public sealed class VillageRoadCarMover : MonoBehaviour
         }
 
         return roadObject.GetComponent<VillageProceduralRoad>();
+    }
+
+    private bool TryGetClosestPathIndexForRoutePoint(int routePointIndex, out int pathIndex)
+    {
+        pathIndex = -1;
+        if (proceduralRoad == null
+            || path.Count == 0
+            || !proceduralRoad.TryGetRoutePoint(routePointIndex, out Vector3 routePoint))
+        {
+            return false;
+        }
+
+        float closestDistance = float.PositiveInfinity;
+        for (int i = 0; i < path.Count; i++)
+        {
+            float distance = Flatten(path[i] - routePoint).sqrMagnitude;
+            if (distance >= closestDistance)
+            {
+                continue;
+            }
+
+            closestDistance = distance;
+            pathIndex = i;
+        }
+
+        return pathIndex >= 0;
     }
 
     private Vector3 WithHeightOffset(Vector3 point)

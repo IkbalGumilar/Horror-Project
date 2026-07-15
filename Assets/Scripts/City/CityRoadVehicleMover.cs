@@ -29,6 +29,7 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
 
     private readonly List<Vector3> path = new List<Vector3>();
     private readonly List<float> explicitTargetSpeeds = new List<float>();
+    private readonly List<int> directWaypointPathIndices = new List<int>();
     private int targetIndex = 1;
     private int directWaypointStartIndex = int.MaxValue;
     private bool isMoving;
@@ -43,6 +44,7 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
     private bool useExplicitSpeedProfile;
     private bool useDepartureLaneProfile;
     private int departureRoadStartIndex = int.MaxValue;
+    private int departureMainRoadStartIndex = int.MaxValue;
 
     public bool IsMoving => isMoving;
     public bool HasFinished { get; private set; }
@@ -312,7 +314,14 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
             return false;
         }
 
+        int pathCountBeforeMainRoad = path.Count;
         AppendDepartureSection(mainRoadPoints, dirtMaxSpeed, mainRoadSpeed);
+        bool firstMainRoadPointWasMerged = pathCountBeforeMainRoad > 0
+            && mainRoadPoints.Count > 0
+            && Vector3.SqrMagnitude(path[pathCountBeforeMainRoad - 1] - mainRoadPoints[0]) < 0.0001f;
+        departureMainRoadStartIndex = firstMainRoadPointWasMerged
+            ? pathCountBeforeMainRoad - 1
+            : pathCountBeforeMainRoad;
         if (path.Count < 2 || explicitTargetSpeeds.Count != path.Count)
         {
             return false;
@@ -323,6 +332,61 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
         targetIndex = 1;
         currentSpeed = Mathf.Max(0.01f, waypointMaxSpeed);
         Play();
+        return true;
+    }
+
+    public bool TryTeleportToDepartureMainRoadStart()
+    {
+        if (!useExplicitSpeedProfile
+            || departureMainRoadStartIndex < 0
+            || departureMainRoadStartIndex >= path.Count)
+        {
+            return false;
+        }
+
+        return TryTeleportToPathIndex(departureMainRoadStartIndex);
+    }
+
+    public bool TryTeleportToDirectWaypoint(int waypointIndex)
+    {
+        if (waypointIndex < 0
+            || waypointIndex >= directWaypointPathIndices.Count
+            || path.Count < 2)
+        {
+            return false;
+        }
+
+        int pathIndex = directWaypointPathIndices[waypointIndex];
+        return TryTeleportToPathIndex(pathIndex);
+    }
+
+    private bool TryTeleportToPathIndex(int pathIndex)
+    {
+        if (pathIndex < 0 || pathIndex >= path.Count || path.Count < 2)
+        {
+            return false;
+        }
+
+        if (HasFinished || targetIndex > pathIndex)
+        {
+            return true;
+        }
+
+        transform.position = GetPathPoint(pathIndex);
+        HasFinished = pathIndex >= path.Count - 1;
+        if (HasFinished)
+        {
+            targetIndex = path.Count - 1;
+            currentSpeed = 0f;
+            isMoving = false;
+            FaceAlongPath(instant: true);
+            return true;
+        }
+
+        targetIndex = pathIndex + 1;
+        currentSpeed = Mathf.Max(0f, GetTargetSpeed(targetIndex));
+        isMoving = true;
+        FaceAlongPath(instant: true);
         return true;
     }
 
@@ -365,6 +429,7 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
 
     private void AppendWaypoints(IReadOnlyList<Transform> waypoints)
     {
+        directWaypointPathIndices.Clear();
         if (waypoints == null || path.Count == 0)
         {
             return;
@@ -385,6 +450,8 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
             {
                 path.Add(point);
             }
+
+            directWaypointPathIndices.Add(path.Count - 1);
         }
     }
 
@@ -616,6 +683,8 @@ public sealed class CityRoadVehicleMover : MonoBehaviour
         useExplicitSpeedProfile = false;
         useDepartureLaneProfile = false;
         departureRoadStartIndex = int.MaxValue;
+        departureMainRoadStartIndex = int.MaxValue;
+        directWaypointPathIndices.Clear();
         HasFinished = false;
     }
 

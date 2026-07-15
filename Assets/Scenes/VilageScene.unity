@@ -5480,6 +5480,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1504329550}
+  - component: {fileID: 1902000001}
   m_Layer: 0
   m_Name: Buildings
   m_TagString: Untagged
@@ -7821,6 +7822,85 @@ MonoBehaviour:
   arrivalSpeakerKey: speaker.player
   arrivalTextKey: village.journey.arrival
   arrivalLineDuration: 6
+  blackFadeGraphic: {fileID: 17346255}
+  fadeToBlackDuration: 1
+  fadeFromBlackDuration: 1.5
+--- !u!114 &1902000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504329549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29b0f46b0d445f8a7f6e54f62ac943a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::VillageStiltHouseSettlement
+  houses:
+  - {fileID: 1210364958}
+  - {fileID: 1821354023}
+  - {fileID: 950732587}
+  - {fileID: 49953634}
+  - {fileID: 1979334314}
+  - {fileID: 1685455069}
+  - {fileID: 940592997}
+  - {fileID: 1725047999}
+  - {fileID: 191057874}
+  - {fileID: 959226588}
+  - {fileID: 1661444991}
+  - {fileID: 61726275}
+  - {fileID: 323237672}
+  - {fileID: 1976670002}
+  - {fileID: 785886808}
+  - {fileID: 117838397}
+  - {fileID: 919024269}
+  - {fileID: 1075014085}
+  - {fileID: 2040142941}
+  - {fileID: 474330802}
+  - {fileID: 191871407}
+  - {fileID: 52904677}
+  - {fileID: 1847686000}
+  - {fileID: 677899103}
+  - {fileID: 1222116105}
+  - {fileID: 1423386530}
+  - {fileID: 728608170}
+  - {fileID: 132966015}
+  - {fileID: 879692341}
+  - {fileID: 1493239557}
+  - {fileID: 820711233}
+  - {fileID: 1255065515}
+  - {fileID: 275758470}
+  - {fileID: 74300869}
+  - {fileID: 158230078}
+  - {fileID: 1780882354}
+  houseMaterial: {fileID: 2100000, guid: d76dc95f2b1b420ba5a1a22e7c918b56, type: 2}
+  variationSeed: 173
+  stylePattern: 00000000010000000200000003000000
+  floorLevel: -0.14
+  eaveHeight: 0.22
+  ridgeHeight: 0.48
+  postThickness: 0.035
+  floorThickness: 0.045
+  wallThickness: 0.025
+  roofThickness: 0.03
+  roofOverhang: 0.055
+  stairSteps: 4
+  wallColors:
+  - {r: 0.42, g: 0.27, b: 0.14, a: 1}
+  - {r: 0.31, g: 0.34, b: 0.22, a: 1}
+  - {r: 0.38, g: 0.2, b: 0.13, a: 1}
+  - {r: 0.33, g: 0.31, b: 0.27, a: 1}
+  - {r: 0.47, g: 0.32, b: 0.18, a: 1}
+  roofColors:
+  - {r: 0.15, g: 0.12, b: 0.1, a: 1}
+  - {r: 0.17, g: 0.18, b: 0.15, a: 1}
+  - {r: 0.19, g: 0.13, b: 0.11, a: 1}
+  - {r: 0.16, g: 0.16, b: 0.17, a: 1}
+  - {r: 0.13, g: 0.1, b: 0.08, a: 1}
+  trimColor: {r: 0.62, g: 0.48, b: 0.29, a: 1}
+  windowColor: {r: 0.055, g: 0.085, b: 0.08, a: 1}
+  foundationColor: {r: 0.25, g: 0.24, b: 0.22, a: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
