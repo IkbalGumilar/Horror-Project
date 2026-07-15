@@ -48,6 +48,90 @@ MonoBehaviour:
       pauseAfter: 0.15
       voiceClip: {fileID: 0}
       emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_03.first.5
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_03.first.6
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_03.first.7
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_03.first.8
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_03.first.9
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_03.first.10
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_03.first.11
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_03.first.12
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_03.first.13
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_03.first.14
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_03.first.15
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_03.first.16
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_03.first.17
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_03.first.18
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
   repeatConversation:
     lines:
     - speaker: 0
@@ -58,6 +142,30 @@ MonoBehaviour:
       emotion: 0
     - speaker: 1
       localizationKey: dialogue.villager_03.repeat.2
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_03.repeat.3
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_03.repeat.4
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 0
+      localizationKey: dialogue.villager_03.repeat.5
+      duration: 3.5
+      pauseAfter: 0.15
+      voiceClip: {fileID: 0}
+      emotion: 0
+    - speaker: 1
+      localizationKey: dialogue.villager_03.repeat.6
       duration: 3.5
       pauseAfter: 0.15
       voiceClip: {fileID: 0}

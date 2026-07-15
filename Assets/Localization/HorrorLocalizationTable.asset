@@ -330,561 +330,956 @@ MonoBehaviour:
     english: AAAAAaaaaaa...........
     indonesian: AAAAAaaaaaa...........
   - key: villager_01.name
-    english: Pak Wiryo
-    indonesian: Pak Wiryo
+    english: "Pak Wiryo"
+    indonesian: "Pak Wiryo"
   - key: villager_01.occupation
-    english: Farmer
-    indonesian: Petani
+    english: "Farmer"
+    indonesian: "Petani"
   - key: villager_01.description
-    english: An experienced farmer who watches changes around the forest.
-    indonesian: Petani berpengalaman yang memperhatikan perubahan di sekitar hutan.
+    english: "An experienced farmer who treats Banaspati as an inherited warning, not a witnessed fact."
+    indonesian: "Petani berpengalaman yang menganggap Banaspati sebagai peringatan warisan, bukan fakta yang pernah disaksikannya."
   - key: dialogue.villager_01.first.1
-    english: Is that path the only way into the forest?
-    indonesian: Apa jalan itu satu-satunya jalan masuk ke hutan?
+    english: "You work close to the forest boundary. Have you ever seen anything burning in there?"
+    indonesian: "Bapak bekerja dekat batas hutan. Pernah melihat sesuatu yang terbakar di sana?"
   - key: dialogue.villager_01.first.2
-    english: It is. Finish your business before the sun goes down.
-    indonesian: Benar. Selesaikan urusanmu sebelum matahari turun.
+    english: "Never. In thirty years I have seen lightning, brush fires, and frightened travelers. Nothing more."
+    indonesian: "Tidak pernah. Selama tiga puluh tahun aku hanya melihat petir, kebakaran semak, dan pendatang yang ketakutan. Tidak lebih."
   - key: dialogue.villager_01.first.3
-    english: Why does everyone keep saying that?
-    indonesian: Kenapa semua orang terus mengatakan itu?
+    english: "Then why do people here mention Banaspati?"
+    indonesian: "Lalu kenapa orang-orang di sini menyebut Banaspati?"
   - key: dialogue.villager_01.first.4
-    english: The birds leave before the fire comes. People should learn from them.
-    indonesian: Burung-burung pergi sebelum api datang. Manusia seharusnya belajar
-      dari mereka.
+    english: "An old tale used to make children come home before dark. At least, that is what I tell myself."
+    indonesian: "Cerita orang tua agar anak-anak pulang sebelum gelap. Setidaknya, itulah yang selalu kukatakan pada diriku sendiri."
+  - key: dialogue.villager_01.first.5
+    english: "You do not sound completely certain."
+    indonesian: "Bapak terdengar tidak sepenuhnya yakin."
+  - key: dialogue.villager_01.first.6
+    english: "I am certain the fields need water. For forest stories, ask someone old enough to remember when that name was still whispered."
+    indonesian: "Aku yakin sawah membutuhkan air. Untuk cerita hutan, tanyalah kepada orang yang cukup tua untuk mengingat saat nama itu masih dibisikkan."
   - key: dialogue.villager_01.repeat.1
-    english: The birds go silent first?
-    indonesian: Burung-burung akan diam lebih dahulu?
+    english: "So you have never seen it?"
+    indonesian: "Jadi Bapak benar-benar tidak pernah melihatnya?"
   - key: dialogue.villager_01.repeat.2
-    english: Yes. Turn back when the forest stops making sound.
-    indonesian: Ya. Berbaliklah saat hutan berhenti bersuara.
+    english: "Never, and I hope it stays that way."
+    indonesian: "Tidak pernah, dan semoga tetap begitu."
+  - key: dialogue.villager_01.repeat.3
+    english: "Who should I ask?"
+    indonesian: "Siapa yang sebaiknya kutanya?"
+  - key: dialogue.villager_01.repeat.4
+    english: "Pak Darma will point you to the right people. Do not mistake a story for proof."
+    indonesian: "Pak Darma akan menunjukkan orang yang tepat. Jangan menyamakan cerita dengan bukti."
   - key: villager_02.name
-    english: Bu Sari
-    indonesian: Bu Sari
+    english: "Bu Sari"
+    indonesian: "Bu Sari"
   - key: villager_02.occupation
-    english: Herbalist
-    indonesian: Peramu Obat
+    english: "Traditional Healer"
+    indonesian: "Tabib"
   - key: villager_02.description
-    english: A herbalist who understands flowers and traditional remedies.
-    indonesian: Peramu obat yang memahami bunga dan pengobatan tradisional.
+    english: "The village healer, careful to separate symptoms she can treat from stories she cannot prove."
+    indonesian: "Tabib desa yang berhati-hati membedakan gejala yang dapat diobati dari cerita yang tidak dapat dibuktikan."
   - key: dialogue.villager_02.first.1
-    english: Do these flowers have any use against burns?
-    indonesian: Apa bunga-bunga ini berguna untuk luka bakar?
+    english: "Are you the healer in this village?"
+    indonesian: "Apakah Ibu tabib di desa ini?"
   - key: dialogue.villager_02.first.2
-    english: Separately, very little. Water from seven different kinds is another
-      matter.
-    indonesian: Jika terpisah, hampir tidak. Air dari tujuh jenis berbeda adalah
-      hal lain.
+    english: "Yes. I treat fever, wounds, poison, and difficult births. Not curses."
+    indonesian: "Ya. Aku menangani demam, luka, racun, dan persalinan sulit. Bukan kutukan."
   - key: dialogue.villager_02.first.3
-    english: Seven kinds?
-    indonesian: Tujuh jenis?
+    english: "Have you treated anyone who claimed Banaspati burned them?"
+    indonesian: "Pernahkah Ibu merawat orang yang mengaku dibakar Banaspati?"
   - key: dialogue.villager_02.first.4
-    english: Old people believed they could calm heat that ordinary water cannot
-      touch.
-    indonesian: Orang tua percaya air itu dapat menenangkan panas yang tidak bisa
-      disentuh air biasa.
+    english: "I once treated a wood gatherer whose skin was cold while his breath felt too hot. He had no burn marks."
+    indonesian: "Aku pernah merawat pencari kayu yang kulitnya dingin sementara napasnya terasa terlalu panas. Tidak ada bekas luka bakar."
+  - key: dialogue.villager_02.first.5
+    english: "What caused it?"
+    indonesian: "Apa penyebabnya?"
+  - key: dialogue.villager_02.first.6
+    english: "Dehydration, fear, perhaps a plant. The older women called it invisible fire."
+    indonesian: "Dehidrasi, ketakutan, mungkin tumbuhan tertentu. Para perempuan tua menyebutnya api tak terlihat."
+  - key: dialogue.villager_02.first.7
+    english: "Which explanation do you believe?"
+    indonesian: "Penjelasan mana yang Ibu percaya?"
+  - key: dialogue.villager_02.first.8
+    english: "I believe symptoms I can examine. A name can wait until it leaves evidence."
+    indonesian: "Aku percaya pada gejala yang dapat kuperiksa. Sebuah nama bisa menunggu sampai meninggalkan bukti."
   - key: dialogue.villager_02.repeat.1
-    english: The flowers must all be different?
-    indonesian: Semua bunganya harus berbeda?
+    english: "So the invisible fire was only fever?"
+    indonesian: "Jadi api tak terlihat itu hanya demam?"
   - key: dialogue.villager_02.repeat.2
-    english: Seven kinds. One missing flower changes everything.
-    indonesian: Tujuh jenis. Satu bunga yang kurang mengubah semuanya.
+    english: "I said it could be fever. Certainty is not part of my medicine."
+    indonesian: "Aku bilang itu bisa saja demam. Kepastian bukan bagian dari obatku."
+  - key: dialogue.villager_02.repeat.3
+    english: "Who might know more?"
+    indonesian: "Siapa yang mungkin tahu lebih banyak?"
+  - key: dialogue.villager_02.repeat.4
+    english: "Ki Surya knows memories, Seno knows a story, and I know how to treat a living patient."
+    indonesian: "Ki Surya mengenal ingatan, Seno mengenal sebuah cerita, dan aku tahu cara merawat orang yang masih hidup."
   - key: villager_03.name
-    english: Pak Darma
-    indonesian: Pak Darma
+    english: "Pak Darma"
+    indonesian: "Pak Darma"
   - key: villager_03.occupation
-    english: Village Head
-    indonesian: Kepala Desa
+    english: "Village Head"
+    indonesian: "Kepala Desa"
   - key: villager_03.description
-    english: The village head and keeper of old expedition records.
-    indonesian: Kepala desa sekaligus penjaga catatan ekspedisi lama.
+    english: "The village head who directs visitors to the right residents and safeguards the old records."
+    indonesian: "Kepala desa yang mengarahkan pendatang kepada warga yang tepat dan menjaga catatan lama."
   - key: dialogue.villager_03.first.1
-    english: I heard your family keeps old records about this forest.
-    indonesian: Aku dengar keluargamu menyimpan catatan lama tentang hutan ini.
+    english: "Are you Pak Darma, the village head?"
+    indonesian: "Apakah Bapak Pak Darma, kepala desa di sini?"
   - key: dialogue.villager_03.first.2
-    english: Copies of them. The oldest pages came from soldiers who never returned.
-    indonesian: Salinannya. Halaman tertua berasal dari tentara yang tidak pernah
-      kembali.
+    english: "I am. Tell me what your team needs before you wander from door to door."
+    indonesian: "Benar. Katakan apa yang timmu butuhkan sebelum kalian berkeliling dari rumah ke rumah."
   - key: dialogue.villager_03.first.3
-    english: May I read them?
-    indonesian: Boleh aku membacanya?
+    english: "We are investigating an old account of a fire creature in Leuweng Sancang. Who knows the forest best?"
+    indonesian: "Kami menyelidiki catatan lama tentang makhluk api di Leuweng Sancang. Siapa yang paling mengenal hutan?"
   - key: dialogue.villager_03.first.4
-    english: Come to my house after you have spoken with the others. Then we will
-      decide.
-    indonesian: Datanglah ke rumahku setelah kau berbicara dengan warga lain. Setelah
-      itu kita putuskan.
+    english: "No one here can honestly claim to know the whole forest, and no living villager has proof of such a creature."
+    indonesian: "Tidak seorang pun di sini dapat mengaku mengenal seluruh hutan, dan tidak ada warga yang masih hidup memiliki bukti tentang makhluk semacam itu."
+  - key: dialogue.villager_03.first.5
+    english: "But some people enter it often, correct?"
+    indonesian: "Tapi ada orang yang sering masuk ke sana, bukan?"
+  - key: dialogue.villager_03.first.6
+    english: "Seno cuts wood near its inner paths, and Bima knows the hunting trails. Ask Pak Hasan about the river and the route south."
+    indonesian: "Seno menebang kayu di dekat jalur dalam, dan Bima mengenal jalur berburu. Tanyakan sungai dan arah selatan kepada Pak Hasan."
+  - key: dialogue.villager_03.first.7
+    english: "Who should I see about herbs or injuries?"
+    indonesian: "Siapa yang harus kutemui untuk tumbuhan obat atau luka?"
+  - key: dialogue.villager_03.first.8
+    english: "Bu Sari is our healer. Ratri knows the flowers, and Wulan knows the springs and clean water."
+    indonesian: "Bu Sari adalah tabib kami. Ratri mengenal bunga-bunga, dan Wulan mengetahui mata air serta sumber air bersih."
+  - key: dialogue.villager_03.first.9
+    english: "What if we need livestock or eggs?"
+    indonesian: "Bagaimana jika kami membutuhkan ternak atau telur?"
+  - key: dialogue.villager_03.first.10
+    english: "See Bu Marni. She knows every animal in the village and notices quickly when something disturbs them."
+    indonesian: "Temui Bu Marni. Ia mengenal setiap ternak di desa dan cepat menyadari jika ada sesuatu yang mengganggu mereka."
+  - key: dialogue.villager_03.first.11
+    english: "And provisions or incense?"
+    indonesian: "Lalu untuk perbekalan atau kemenyan?"
+  - key: dialogue.villager_03.first.12
+    english: "Yuni sells general supplies. Pak Jaya knows benzoin and incense, although his stories are better than his guarantees."
+    indonesian: "Yuni menjual kebutuhan umum. Pak Jaya memahami benzoin dan kemenyan, walau ceritanya lebih meyakinkan daripada jaminannya."
+  - key: dialogue.villager_03.first.13
+    english: "Who knows the oldest tales about Banaspati?"
+    indonesian: "Siapa yang mengetahui cerita tertua tentang Banaspati?"
+  - key: dialogue.villager_03.first.14
+    english: "Ki Surya remembers what the previous generation whispered. Mbah Karto collects the different versions, but stories are not evidence."
+    indonesian: "Ki Surya mengingat apa yang dibisikkan generasi sebelumnya. Mbah Karto mengumpulkan berbagai versinya, tetapi cerita bukanlah bukti."
+  - key: dialogue.villager_03.first.15
+    english: "What about the old writing in the records?"
+    indonesian: "Bagaimana dengan tulisan kuno dalam catatan itu?"
+  - key: dialogue.villager_03.first.16
+    english: "Dewi studies its patterns. A comparison sheet and copies of the oldest documents are kept in my house."
+    indonesian: "Dewi mempelajari polanya. Lembar perbandingan dan salinan dokumen tertua disimpan di rumahku."
+  - key: dialogue.villager_03.first.17
+    english: "Do you believe any of this?"
+    indonesian: "Apakah Bapak percaya semua ini?"
+  - key: dialogue.villager_03.first.18
+    english: "My duty is to guide living people, not certify the fears of the dead. Speak to them and decide for yourself."
+    indonesian: "Tugasku adalah mengarahkan orang yang masih hidup, bukan mengesahkan ketakutan mereka yang telah mati. Bicaralah dengan mereka dan putuskan sendiri."
   - key: dialogue.villager_03.repeat.1
-    english: About those old records...
-    indonesian: Tentang catatan lama itu...
+    english: "Who should I ask about the forest again?"
+    indonesian: "Siapa lagi yang harus kutanya tentang hutan?"
   - key: dialogue.villager_03.repeat.2
-    english: Learn why the villagers fear the forest first. The pages will make more
-      sense.
-    indonesian: Pelajari dulu alasan warga takut pada hutan. Halamannya akan lebih
-      mudah dipahami.
+    english: "Seno and Bima for the land, Pak Hasan for the river. None of them claims to know all of it."
+    indonesian: "Seno dan Bima untuk jalur darat, Pak Hasan untuk sungai. Tidak satu pun mengaku mengenal semuanya."
+  - key: dialogue.villager_03.repeat.3
+    english: "And if we encounter strange heat?"
+    indonesian: "Dan jika kami mengalami panas yang aneh?"
+  - key: dialogue.villager_03.repeat.4
+    english: "See Bu Sari first, then Ki Surya if medicine leaves questions unanswered."
+    indonesian: "Temui Bu Sari lebih dahulu, lalu Ki Surya jika pengobatan masih menyisakan pertanyaan."
+  - key: dialogue.villager_03.repeat.5
+    english: "What about the old records?"
+    indonesian: "Bagaimana dengan catatan lama itu?"
+  - key: dialogue.villager_03.repeat.6
+    english: "Speak with Dewi, then return to my house."
+    indonesian: "Bicaralah dengan Dewi, lalu kembali ke rumahku."
   - key: villager_04.name
-    english: Ratri
-    indonesian: Ratri
+    english: "Ratri"
+    indonesian: "Ratri"
   - key: villager_04.occupation
-    english: Flower Gatherer
-    indonesian: Pemetik Bunga
+    english: "Flower Gatherer"
+    indonesian: "Pemetik Bunga"
   - key: villager_04.description
-    english: A young gatherer who knows where rare flowers grow.
-    indonesian: Pemetik muda yang mengetahui tempat tumbuh bunga langka.
+    english: "A flower gatherer who stays within hearing distance of the village and distrusts inherited forest tales."
+    indonesian: "Pemetik bunga yang selalu berada dalam jarak dengar desa dan tidak mudah percaya pada cerita hutan warisan."
   - key: dialogue.villager_04.first.1
-    english: Are all these flowers from around the village?
-    indonesian: Apa semua bunga ini berasal dari sekitar desa?
+    english: "You gather flowers near Sancang?"
+    indonesian: "Kau memetik bunga di dekat Sancang?"
   - key: dialogue.villager_04.first.2
-    english: Only three kinds grow safely here. The others bloom deeper among the
-      trees.
-    indonesian: Hanya tiga jenis yang tumbuh aman di sini. Sisanya mekar lebih dalam
-      di antara pepohonan.
+    english: "Only where I can still hear the village. The deeper blooms can keep their secrets."
+    indonesian: "Hanya di tempat aku masih bisa mendengar suara desa. Bunga yang lebih dalam boleh menyimpan rahasianya."
   - key: dialogue.villager_04.first.3
-    english: Why not bring the others back?
-    indonesian: Kenapa yang lain tidak dibawa pulang?
+    english: "Because of Banaspati?"
+    indonesian: "Karena Banaspati?"
   - key: dialogue.villager_04.first.4
-    english: Because some paths are not worth walking twice.
-    indonesian: Karena beberapa jalan tidak layak dilewati dua kali.
+    english: "Because people get lost. My grandmother used that name for every red light beyond the trees."
+    indonesian: "Karena orang bisa tersesat. Nenekku memakai nama itu untuk setiap cahaya merah di balik pepohonan."
+  - key: dialogue.villager_04.first.5
+    english: "Did she ever see it?"
+    indonesian: "Apa nenekmu pernah melihatnya?"
+  - key: dialogue.villager_04.first.6
+    english: "She only knew stories from her mother. Around here, every generation inherits a warning and none inherits proof."
+    indonesian: "Ia hanya mengetahui cerita dari ibunya. Di sini, setiap generasi mewarisi peringatan, tetapi tidak ada yang mewarisi bukti."
   - key: dialogue.villager_04.repeat.1
-    english: Three kinds grow near the village?
-    indonesian: Tiga jenis tumbuh di dekat desa?
+    english: "You really never go deeper?"
+    indonesian: "Kau benar-benar tidak pernah masuk lebih dalam?"
   - key: dialogue.villager_04.repeat.2
-    english: Yes. Do not expect to find the other four outside the forest.
-    indonesian: Ya. Jangan berharap menemukan empat sisanya di luar hutan.
+    english: "Not alone, and never after the village sounds fade."
+    indonesian: "Tidak sendirian, dan tidak pernah setelah suara desa menghilang."
+  - key: dialogue.villager_04.repeat.3
+    english: "Because of the old story?"
+    indonesian: "Karena cerita lama itu?"
+  - key: dialogue.villager_04.repeat.4
+    english: "Because a real ravine can kill me before an imaginary fire gets the chance."
+    indonesian: "Karena jurang yang nyata dapat membunuhku sebelum api khayalan mendapat kesempatan."
   - key: villager_05.name
-    english: Pak Jaya
-    indonesian: Pak Jaya
+    english: "Pak Jaya"
+    indonesian: "Pak Jaya"
   - key: villager_05.occupation
-    english: Incense Trader
-    indonesian: Pedagang Kemenyan
+    english: "Incense Trader"
+    indonesian: "Pedagang Kemenyan"
   - key: villager_05.description
-    english: A trader of benzoin resin, incense, and ritual goods.
-    indonesian: Pedagang getah benzoin, kemenyan, dan perlengkapan ritual.
+    english: "A benzoin and incense trader who has heard many claims but witnessed none of them."
+    indonesian: "Pedagang benzoin dan kemenyan yang telah mendengar banyak pengakuan tetapi tidak pernah menyaksikannya sendiri."
   - key: dialogue.villager_05.first.1
-    english: Is this incense made from trees around here?
-    indonesian: Apa kemenyan ini dibuat dari pohon sekitar sini?
+    english: "Is this incense meant for old rituals?"
+    indonesian: "Apakah kemenyan ini digunakan untuk ritual lama?"
   - key: dialogue.villager_05.first.2
-    english: From wounded bark. Good resin comes slowly, unless the tree is touched
-      by unusual heat.
-    indonesian: Dari kulit pohon yang dilukai. Getah bagus keluar perlahan, kecuali
-      pohonnya tersentuh panas yang tidak biasa.
+    english: "It is meant to smell good, repel insects, and earn me money. Rituals are what buyers add to it."
+    indonesian: "Kemenyan ini dibuat agar harum, mengusir serangga, dan memberiku penghasilan. Ritual adalah tambahan dari para pembeli."
   - key: dialogue.villager_05.first.3
-    english: Unusual heat?
-    indonesian: Panas yang tidak biasa?
+    english: "Some people connect its smoke to Banaspati."
+    indonesian: "Sebagian orang menghubungkan asapnya dengan Banaspati."
   - key: dialogue.villager_05.first.4
-    english: You are asking for knowledge that has burned better men than us.
-    indonesian: Kau menanyakan pengetahuan yang telah membakar orang-orang yang lebih
-      hebat dari kita.
+    english: "Old customers say smoke carries prayers. Others say it only tells mosquitoes where not to land."
+    indonesian: "Pelanggan tua bilang asap membawa doa. Yang lain bilang asap hanya memberi tahu nyamuk tempat yang tidak boleh didatangi."
+  - key: dialogue.villager_05.first.5
+    english: "Have you ever seen the creature?"
+    indonesian: "Apa Bapak pernah melihat makhluk itu?"
+  - key: dialogue.villager_05.first.6
+    english: "Never. I have only watched a rumor become more expensive with every retelling."
+    indonesian: "Tidak pernah. Aku hanya menyaksikan sebuah rumor menjadi semakin mahal setiap kali diceritakan ulang."
   - key: dialogue.villager_05.repeat.1
-    english: Wounded bark and heat release the resin?
-    indonesian: Kulit terluka dan panas mengeluarkan getahnya?
+    english: "So the incense has no mystical power?"
+    indonesian: "Jadi kemenyan ini tidak memiliki kekuatan gaib?"
   - key: dialogue.villager_05.repeat.2
-    english: They do. That does not mean you should try it.
-    indonesian: Benar. Bukan berarti kau harus mencobanya.
+    english: "It has fragrance, smoke, and whatever meaning you bring to it."
+    indonesian: "Ia memiliki aroma, asap, dan makna apa pun yang kau berikan kepadanya."
+  - key: dialogue.villager_05.repeat.3
+    english: "And Banaspati?"
+    indonesian: "Lalu Banaspati?"
+  - key: dialogue.villager_05.repeat.4
+    english: "Ask an elder. I trade resin, not certainty."
+    indonesian: "Tanyakan kepada sesepuh. Aku menjual getah, bukan kepastian."
   - key: villager_06.name
-    english: Bu Marni
-    indonesian: Bu Marni
+    english: "Bu Marni"
+    indonesian: "Bu Marni"
   - key: villager_06.occupation
-    english: Chicken Keeper
-    indonesian: Peternak Ayam
+    english: "Livestock Farmer"
+    indonesian: "Peternak"
   - key: villager_06.description
-    english: The keeper of the village's black chickens and their eggs.
-    indonesian: Penjaga ayam hitam desa beserta telur-telurnya.
+    english: "A livestock farmer who trusts animal tracks more than supernatural explanations."
+    indonesian: "Peternak yang lebih mempercayai jejak hewan daripada penjelasan gaib."
   - key: dialogue.villager_06.first.1
-    english: You keep the eggs separated. Is there a reason?
-    indonesian: Telur-telur itu dipisahkan. Apa ada alasannya?
+    english: "Do your animals ever become restless near the forest?"
+    indonesian: "Apakah ternak Ibu pernah gelisah di dekat hutan?"
   - key: dialogue.villager_06.first.2
-    english: Every egg has its own time. Mixing them makes it easy to choose the
-      wrong one.
-    indonesian: Setiap telur punya waktunya sendiri. Mencampurnya membuat orang mudah
-      memilih yang salah.
+    english: "Goats fear boars, chickens fear thunder, and both fear unfamiliar people."
+    indonesian: "Kambing takut babi hutan, ayam takut petir, dan keduanya takut orang asing."
   - key: dialogue.villager_06.first.3
-    english: How can you tell them apart?
-    indonesian: Bagaimana membedakannya?
+    english: "Do they react to Banaspati?"
+    indonesian: "Apa mereka bereaksi terhadap Banaspati?"
   - key: dialogue.villager_06.first.4
-    english: Use your hands and your judgment. I will not choose for you.
-    indonesian: Gunakan tangan dan penilaianmu. Aku tidak akan memilihkan untukmu.
+    english: "Older people blamed unseen fire whenever the chickens refused to sleep."
+    indonesian: "Orang-orang tua menyalahkan api tak terlihat setiap kali ayam tidak mau tidur."
+  - key: dialogue.villager_06.first.5
+    english: "Have you ever found evidence of it?"
+    indonesian: "Apa Ibu pernah menemukan buktinya?"
+  - key: dialogue.villager_06.first.6
+    english: "Tracks, feathers, broken fences, yes. Nothing shaped like a floating flame."
+    indonesian: "Jejak, bulu, dan pagar rusak, ya. Tidak ada yang berbentuk api melayang."
   - key: dialogue.villager_06.repeat.1
-    english: You really will not tell me which egg to take?
-    indonesian: Kau benar-benar tidak mau memberi tahu telur mana yang harus kuambil?
+    english: "So the animals have never sensed it?"
+    indonesian: "Jadi ternak tidak pernah merasakannya?"
   - key: dialogue.villager_06.repeat.2
-    english: A choice without understanding is still the wrong choice.
-    indonesian: Pilihan tanpa pemahaman tetaplah pilihan yang salah.
+    english: "Animals cannot explain what frightened them. People are too eager to explain it for them."
+    indonesian: "Hewan tidak dapat menjelaskan apa yang menakuti mereka. Manusia terlalu cepat menjelaskannya untuk mereka."
+  - key: dialogue.villager_06.repeat.3
+    english: "Who knows the old animal stories?"
+    indonesian: "Siapa yang mengetahui cerita lama tentang ternak?"
+  - key: dialogue.villager_06.repeat.4
+    english: "Ki Surya remembers them. I keep the animals alive."
+    indonesian: "Ki Surya mengingatnya. Aku menjaga ternak tetap hidup."
   - key: villager_07.name
-    english: Ki Surya
-    indonesian: Ki Surya
+    english: "Ki Surya"
+    indonesian: "Ki Surya"
   - key: villager_07.occupation
-    english: Village Elder
-    indonesian: Tetua Desa
+    english: "Village Elder"
+    indonesian: "Sesepuh Desa"
   - key: villager_07.description
-    english: An elder who preserves the oldest oral history of Banaspati.
-    indonesian: Tetua yang menjaga sejarah lisan tertua tentang Banaspati.
+    english: "The only villager with a possible sighting, though he distrusts his memory and blames tobacco as readily as folklore."
+    indonesian: "Satu-satunya warga yang mungkin pernah melihatnya, meski ia meragukan ingatannya dan sama mudahnya menyalahkan tembakau maupun cerita rakyat."
   - key: dialogue.villager_07.first.1
-    english: What do the villagers call the fire in the forest?
-    indonesian: Apa sebutan warga untuk api di dalam hutan?
+    english: "Ki Surya, Pak Darma said you remember the oldest stories."
+    indonesian: "Ki Surya, Pak Darma bilang Ki mengingat cerita-cerita tertua."
   - key: dialogue.villager_07.first.2
-    english: Banaspati. The foreign soldiers called it the Ashes That Remember.
-    indonesian: Banaspati. Tentara asing menyebutnya Ashes That Remember.
+    english: "Remembering a story does not make it true."
+    indonesian: "Mengingat sebuah cerita tidak membuatnya menjadi kenyataan."
   - key: dialogue.villager_07.first.3
-    english: Why ashes that remember?
-    indonesian: Kenapa abu yang mengingat?
+    english: "Have you ever seen what they call Banaspati?"
+    indonesian: "Apa Ki pernah melihat sesuatu yang mereka sebut Banaspati?"
   - key: dialogue.villager_07.first.4
-    english: Because it remembers every human who left it trapped in this world.
-    indonesian: Karena ia mengingat setiap manusia yang membuatnya terjebak di dunia
-      ini.
+    english: "Once, perhaps. Or I saw dusk through too much tobacco smoke."
+    indonesian: "Mungkin sekali. Atau aku hanya melihat senja melalui terlalu banyak asap tembakau."
+  - key: dialogue.villager_07.first.5
+    english: "Tell me what happened."
+    indonesian: "Ceritakan apa yang terjadi."
+  - key: dialogue.villager_07.first.6
+    english: "More than forty years ago, I searched for a missing goat along the river path after sunset."
+    indonesian: "Lebih dari empat puluh tahun lalu, aku mencari kambing yang hilang di jalur sungai setelah matahari terbenam."
+  - key: dialogue.villager_07.first.7
+    english: "The ground was wet from rain, but the air ahead became dry enough to sting my throat."
+    indonesian: "Tanah masih basah oleh hujan, tetapi udara di depanku menjadi begitu kering hingga menusuk tenggorokan."
+  - key: dialogue.villager_07.first.8
+    english: "Between two trees hung a round red light, lower than the branches and higher than any campfire."
+    indonesian: "Di antara dua pohon tergantung cahaya merah bulat, lebih rendah dari ranting tetapi lebih tinggi dari api unggun mana pun."
+  - key: dialogue.villager_07.first.9
+    english: "Was someone carrying it?"
+    indonesian: "Apa ada seseorang yang membawanya?"
+  - key: dialogue.villager_07.first.10
+    english: "I saw no hand, rope, or body. Only fire folded around a pale center."
+    indonesian: "Aku tidak melihat tangan, tali, ataupun tubuh. Hanya api yang melipat mengelilingi inti pucat."
+  - key: dialogue.villager_07.first.11
+    english: "There was no smoke. The shadows leaned toward it, although the last sunlight came from behind me."
+    indonesian: "Tidak ada asap. Bayangan-bayangan condong ke arahnya, padahal sisa cahaya senja datang dari belakangku."
+  - key: dialogue.villager_07.first.12
+    english: "Did it approach you?"
+    indonesian: "Apa benda itu mendekati Ki?"
+  - key: dialogue.villager_07.first.13
+    english: "It turned. A round thing should have no face, yet I knew the moment it looked at me."
+    indonesian: "Benda itu berbalik. Sesuatu yang bulat seharusnya tidak memiliki wajah, tetapi aku tahu saat ia menatapku."
+  - key: dialogue.villager_07.first.14
+    english: "My tobacco tasted bitter. Warmth rose in my chest, and the light vanished when I blinked."
+    indonesian: "Tembakauku terasa pahit. Kehangatan naik di dalam dada, lalu cahaya itu lenyap ketika aku berkedip."
+  - key: dialogue.villager_07.first.15
+    english: "Why did you not tell anyone?"
+    indonesian: "Kenapa Ki tidak menceritakannya kepada siapa pun?"
+  - key: dialogue.villager_07.first.16
+    english: "I did. They laughed and said a young fool had finally smoked enough to meet his own smoke."
+    indonesian: "Aku menceritakannya. Mereka tertawa dan bilang seorang pemuda bodoh akhirnya mengisap cukup banyak tembakau untuk bertemu asapnya sendiri."
+  - key: dialogue.villager_07.first.17
+    english: "So you doubt what you saw?"
+    indonesian: "Jadi Ki meragukan apa yang Ki lihat?"
+  - key: dialogue.villager_07.first.18
+    english: "Belief is too large a word for one frightened glance."
+    indonesian: "Kepercayaan adalah kata yang terlalu besar untuk satu tatapan ketakutan."
+  - key: dialogue.villager_07.first.19
+    english: "I only know I never walked that path at dusk again, and the goat returned alone the next morning."
+    indonesian: "Aku hanya tahu sejak itu aku tidak pernah melewati jalur tersebut saat senja, dan kambing itu pulang sendiri keesokan paginya."
+  - key: dialogue.villager_07.first.20
+    english: "Did the light leave anything behind?"
+    indonesian: "Apa cahaya itu meninggalkan sesuatu?"
+  - key: dialogue.villager_07.first.21
+    english: "Nothing I could prove. Listen to my memory, but do not mistake it for evidence."
+    indonesian: "Tidak ada yang dapat kubuktikan. Dengarkan ingatanku, tetapi jangan menganggapnya sebagai bukti."
+  - key: dialogue.villager_07.first.22
+    english: "For the name Banaspati, ask Seno. His grandfather's story is older than my sight."
+    indonesian: "Untuk nama Banaspati, tanyalah kepada Seno. Cerita kakeknya lebih tua daripada penglihatanku."
   - key: dialogue.villager_07.repeat.1
-    english: Banaspati remembers humans?
-    indonesian: Banaspati mengingat manusia?
+    english: "Was it only tobacco smoke?"
+    indonesian: "Apa itu hanya asap tembakau?"
   - key: dialogue.villager_07.repeat.2
-    english: It remembers, and its anger has had centuries to grow.
-    indonesian: Ia mengingat, dan amarahnya telah tumbuh selama berabad-abad.
+    english: "Perhaps. Tobacco has taken the blame for worse memories."
+    indonesian: "Mungkin. Tembakau pernah disalahkan atas ingatan yang jauh lebih buruk."
+  - key: dialogue.villager_07.repeat.3
+    english: "Yet you still avoid that path?"
+    indonesian: "Tapi Ki masih menghindari jalur itu?"
+  - key: dialogue.villager_07.repeat.4
+    english: "Doubt does not erase fear."
+    indonesian: "Keraguan tidak menghapus ketakutan."
+  - key: dialogue.villager_07.repeat.5
+    english: "Did Seno's grandfather see the same thing?"
+    indonesian: "Apa kakek Seno melihat hal yang sama?"
+  - key: dialogue.villager_07.repeat.6
+    english: "I do not know. That unanswered part is what has kept the story alive."
+    indonesian: "Aku tidak tahu. Bagian yang tidak terjawab itulah yang membuat ceritanya tetap hidup."
   - key: villager_08.name
-    english: Wulan
-    indonesian: Wulan
+    english: "Wulan"
+    indonesian: "Wulan"
   - key: villager_08.occupation
-    english: Water Carrier
-    indonesian: Pembawa Air
+    english: "Water Carrier"
+    indonesian: "Pembawa Air"
   - key: villager_08.description
-    english: A water carrier familiar with springs and ceremonial flower water.
-    indonesian: Pembawa air yang mengenal mata air dan air bunga upacara.
+    english: "A water carrier who knows the local springs and explains strange warmth without invoking monsters."
+    indonesian: "Pembawa air yang mengenal mata air setempat dan menjelaskan kehangatan aneh tanpa mengaitkannya dengan monster."
   - key: dialogue.villager_08.first.1
-    english: Why is that flower water kept in a sealed vessel?
-    indonesian: Kenapa air bunga itu disimpan dalam wadah tertutup?
+    english: "Do these springs continue into the forest?"
+    indonesian: "Apa mata air ini mengalir terus ke dalam hutan?"
   - key: dialogue.villager_08.first.2
-    english: Because protection is spent when it is used. A careless person empties
-      it before it matters.
-    indonesian: Karena perlindungannya berkurang saat digunakan. Orang ceroboh menghabiskannya
-      sebelum dibutuhkan.
+    english: "Some do. Others disappear underground and return closer to the river."
+    indonesian: "Sebagian iya. Yang lain masuk ke bawah tanah dan muncul kembali lebih dekat ke sungai."
   - key: dialogue.villager_08.first.3
-    english: Can ordinary river water replace it?
-    indonesian: Apa air sungai biasa bisa menggantikannya?
+    english: "People say the river sometimes turns warm."
+    indonesian: "Orang-orang bilang air sungai kadang menjadi hangat."
   - key: dialogue.villager_08.first.4
-    english: For thirst, yes. For an eternal flame, no.
-    indonesian: Untuk haus, bisa. Untuk api abadi, tidak.
+    english: "Sun-heated stone, shallow mud, or a warm spring. Water has many reasons."
+    indonesian: "Batu yang dipanaskan matahari, lumpur dangkal, atau mata air hangat. Air punya banyak alasan."
+  - key: dialogue.villager_08.first.5
+    english: "Not Banaspati?"
+    indonesian: "Bukan karena Banaspati?"
+  - key: dialogue.villager_08.first.6
+    english: "That is a better story than geology, but I have never seen fire in the water."
+    indonesian: "Itu cerita yang lebih menarik daripada geologi, tetapi aku tidak pernah melihat api di dalam air."
   - key: dialogue.villager_08.repeat.1
-    english: So I should not waste the flower water?
-    indonesian: Jadi air bunganya tidak boleh disia-siakan?
+    english: "Which water route is safest?"
+    indonesian: "Jalur air mana yang paling aman?"
   - key: dialogue.villager_08.repeat.2
-    english: Use it only when the fire leaves you no other choice.
-    indonesian: Gunakan hanya saat api tidak memberimu pilihan lain.
+    english: "Ask Pak Hasan. He reads the current better than I do."
+    indonesian: "Tanyakan kepada Pak Hasan. Ia membaca arus lebih baik dariku."
+  - key: dialogue.villager_08.repeat.3
+    english: "And the warm water?"
+    indonesian: "Lalu air yang hangat itu?"
+  - key: dialogue.villager_08.repeat.4
+    english: "Test the stone beneath it before blaming an old story."
+    indonesian: "Periksa batu di bawahnya sebelum menyalahkan cerita lama."
   - key: villager_09.name
-    english: Bima
-    indonesian: Bima
+    english: "Bima"
+    indonesian: "Bima"
   - key: villager_09.occupation
-    english: Hunter
-    indonesian: Pemburu
+    english: "Hunter"
+    indonesian: "Pemburu"
   - key: villager_09.description
-    english: A hunter who stopped entering the forest after a close encounter.
-    indonesian: Pemburu yang berhenti memasuki hutan setelah mengalami pertemuan
-      berbahaya.
+    english: "A hunter familiar with marked trails who considers the forest dangerous without needing a monster."
+    indonesian: "Pemburu yang mengenal jalur bertanda dan menganggap hutan sudah berbahaya tanpa memerlukan monster."
   - key: dialogue.villager_09.first.1
-    english: You know the forest trails?
-    indonesian: Kau tahu jalur-jalur di hutan?
+    english: "You know the deepest paths in Sancang?"
+    indonesian: "Kau mengenal jalur terdalam di Sancang?"
   - key: dialogue.villager_09.first.2
-    english: I used to. Now the trails change whenever that light begins following
-      someone.
-    indonesian: Dulu aku tahu. Sekarang jalurnya berubah setiap kali cahaya itu mulai
-      mengikuti seseorang.
+    english: "I know the marked hunting trails. Anyone claiming to know the deepest forest is either lying or lost."
+    indonesian: "Aku mengenal jalur berburu yang diberi tanda. Siapa pun yang mengaku mengenal hutan terdalam pasti berbohong atau tersesat."
   - key: dialogue.villager_09.first.3
-    english: It follows people?
-    indonesian: Ia mengikuti manusia?
+    english: "Have you ever seen a ball of fire moving there?"
+    indonesian: "Pernahkah kau melihat bola api bergerak di sana?"
   - key: dialogue.villager_09.first.4
-    english: Once it marks you, a tree or wall only delays it.
-    indonesian: Begitu ia menandaimu, pohon atau dinding hanya memperlambatnya.
+    english: "I have seen campfires through fog, fireflies in swarms, and frightened eyes turning both into monsters."
+    indonesian: "Aku pernah melihat api unggun di balik kabut, kawanan kunang-kunang, dan mata ketakutan yang mengubah keduanya menjadi monster."
+  - key: dialogue.villager_09.first.5
+    english: "Then why do you leave before dark?"
+    indonesian: "Lalu kenapa kau selalu keluar sebelum gelap?"
+  - key: dialogue.villager_09.first.6
+    english: "Cliffs, boars, and human traps are real. I do not need Banaspati to respect the night."
+    indonesian: "Jurang, babi hutan, dan jerat manusia itu nyata. Aku tidak membutuhkan Banaspati untuk menghormati malam."
   - key: dialogue.villager_09.repeat.1
-    english: Can I hide after it sees me?
-    indonesian: Apa aku bisa bersembunyi setelah ia melihatku?
+    english: "No unexplained light at all?"
+    indonesian: "Tidak ada cahaya yang tidak dapat dijelaskan sama sekali?"
   - key: dialogue.villager_09.repeat.2
-    english: Create distance. Hiding nearby will only buy a few breaths.
-    indonesian: Jauhkan dirimu. Bersembunyi di dekatnya hanya memberimu beberapa
-      tarikan napas.
+    english: "None that stayed unexplained after I approached it."
+    indonesian: "Tidak ada yang tetap tidak dapat dijelaskan setelah kudekati."
+  - key: dialogue.villager_09.repeat.3
+    english: "Would you enter alone at night?"
+    indonesian: "Apa kau mau masuk sendirian pada malam hari?"
+  - key: dialogue.villager_09.repeat.4
+    english: "No. Skepticism does not make darkness safe."
+    indonesian: "Tidak. Keraguan tidak membuat kegelapan menjadi aman."
   - key: villager_10.name
-    english: Seno
-    indonesian: Seno
+    english: "Seno"
+    indonesian: "Seno"
   - key: villager_10.occupation
-    english: Woodcutter
-    indonesian: Penebang Kayu
+    english: "Woodcutter"
+    indonesian: "Penebang Kayu"
   - key: villager_10.description
-    english: A woodcutter who recognizes heat-damaged trees and valuable resin.
-    indonesian: Penebang kayu yang mengenali pohon rusak karena panas dan getah berharga.
+    english: "A woodcutter who has never seen Banaspati but carries his grandfather's disturbing account."
+    indonesian: "Penebang kayu yang tidak pernah melihat Banaspati tetapi menyimpan kesaksian mengusik dari kakeknya."
   - key: dialogue.villager_10.first.1
-    english: Some trees have black scars. Was there a fire?
-    indonesian: Beberapa pohon punya luka hitam. Apa pernah terjadi kebakaran?
+    english: "Ki Surya said your grandfather gave the forest fire its name."
+    indonesian: "Ki Surya bilang kakekmu yang memberi nama pada api di hutan."
   - key: dialogue.villager_10.first.2
-    english: No ordinary fire. The bark burned while the leaves remained green.
-    indonesian: Bukan api biasa. Kulitnya terbakar sementara daunnya tetap hijau.
+    english: "He gave us a story. Whether that story gave us truth is another matter."
+    indonesian: "Ia memberi kami sebuah cerita. Apakah cerita itu juga memberi kebenaran adalah persoalan lain."
   - key: dialogue.villager_10.first.3
-    english: Did anything remain in the wound?
-    indonesian: Apa ada sesuatu yang tersisa di lukanya?
+    english: "Did you ever see it yourself?"
+    indonesian: "Apa kau pernah melihatnya sendiri?"
   - key: dialogue.villager_10.first.4
-    english: Clear resin. It hardens into incense if you survive long enough to collect
-      it.
-    indonesian: Getah bening. Getah itu mengeras menjadi kemenyan jika kau bertahan
-      cukup lama untuk mengambilnya.
+    english: "No. I have cut wood there since I was fifteen and never seen anything that could not be explained."
+    indonesian: "Tidak. Aku menebang kayu di sana sejak usia lima belas tahun dan tidak pernah melihat sesuatu yang tidak dapat dijelaskan."
+  - key: dialogue.villager_10.first.5
+    english: "Then tell me exactly what happened to him."
+    indonesian: "Kalau begitu, ceritakan dengan jelas apa yang terjadi padanya."
+  - key: dialogue.villager_10.first.6
+    english: "It was near the end of a long dry season, before my father was born."
+    indonesian: "Kejadiannya menjelang akhir musim kemarau panjang, sebelum ayahku lahir."
+  - key: dialogue.villager_10.first.7
+    english: "Grandfather went alone before dawn to mark a fallen rasamala tree beyond the old river bend."
+    indonesian: "Kakek pergi sendirian sebelum fajar untuk menandai pohon rasamala tumbang di balik tikungan sungai lama."
+  - key: dialogue.villager_10.first.8
+    english: "By noon clouds covered the sun. He followed the water home so he would not lose direction."
+    indonesian: "Menjelang siang awan menutupi matahari. Ia mengikuti aliran air untuk pulang agar tidak kehilangan arah."
+  - key: dialogue.villager_10.first.9
+    english: "What was the first strange thing he noticed?"
+    indonesian: "Apa keanehan pertama yang ia sadari?"
+  - key: dialogue.villager_10.first.10
+    english: "The insects stopped. Not gradually. Every sound ended at the same moment."
+    indonesian: "Serangga-serangga berhenti berbunyi. Bukan perlahan. Semua suara berakhir pada saat yang sama."
+  - key: dialogue.villager_10.first.11
+    english: "Then came the smell of hot iron. There was no smoke, yet every breath tasted like a burnt coin."
+    indonesian: "Lalu muncul bau besi panas. Tidak ada asap, tetapi setiap tarikan napas terasa seperti koin terbakar."
+  - key: dialogue.villager_10.first.12
+    english: "Across the river, between wet trunks, a light rose without touching the ground."
+    indonesian: "Di seberang sungai, di antara batang-batang basah, sebuah cahaya naik tanpa menyentuh tanah."
+  - key: dialogue.villager_10.first.13
+    english: "What did it look like?"
+    indonesian: "Seperti apa wujudnya?"
+  - key: dialogue.villager_10.first.14
+    english: "He said it was round, about the size of a human head, but it had no head, eyes, or mouth."
+    indonesian: "Katanya benda itu bulat, kira-kira sebesar kepala manusia, tetapi tidak memiliki kepala, mata, ataupun mulut."
+  - key: dialogue.villager_10.first.15
+    english: "A pale core pulsed inside layers of red fire. Black ash circled it against the wind and never fell."
+    indonesian: "Inti pucat berdenyut di dalam lapisan api merah. Abu hitam mengitarinya melawan angin dan tidak pernah jatuh."
+  - key: dialogue.villager_10.first.16
+    english: "It passed beneath dripping leaves without burning them, then stopped directly opposite him."
+    indonesian: "Benda itu melintas di bawah dedaunan yang menetes tanpa membakarnya, lalu berhenti tepat di hadapannya."
+  - key: dialogue.villager_10.first.17
+    english: "How did he know it noticed him?"
+    indonesian: "Bagaimana ia tahu benda itu menyadari keberadaannya?"
+  - key: dialogue.villager_10.first.18
+    english: "It turned toward him. It had no face, but he felt the certainty of being watched."
+    indonesian: "Benda itu berbalik ke arahnya. Ia tidak punya wajah, tetapi Kakek merasakan kepastian bahwa dirinya sedang ditatap."
+  - key: dialogue.villager_10.first.19
+    english: "The heat did not touch his skin. It began behind his breastbone while his arms remained cold."
+    indonesian: "Panasnya tidak menyentuh kulit. Panas itu bermula dari balik tulang dada sementara kedua lengannya tetap dingin."
+  - key: dialogue.villager_10.first.20
+    english: "His blood felt as if it boiled. Anger, shame, and fear returned at once, scorching his thoughts and heart from within."
+    indonesian: "Darahnya terasa mendidih. Amarah, rasa malu, dan ketakutan kembali bersamaan, membakar pikiran dan hatinya dari dalam."
+  - key: dialogue.villager_10.first.21
+    english: "How did he escape?"
+    indonesian: "Bagaimana ia melarikan diri?"
+  - key: dialogue.villager_10.first.22
+    english: "He ran downstream and threw himself into the river. The water cooled his skin, but not the heat inside him."
+    indonesian: "Ia berlari mengikuti arus lalu menjatuhkan diri ke sungai. Air mendinginkan kulitnya, tetapi tidak panas di dalam tubuhnya."
+  - key: dialogue.villager_10.first.23
+    english: "The light followed between the trees without a footstep. After that, his memory went dark."
+    indonesian: "Cahaya itu mengikuti di antara pepohonan tanpa suara langkah. Setelah itu, ingatannya menjadi gelap."
+  - key: dialogue.villager_10.first.24
+    english: "Two resin gatherers found him before dawn, unconscious beside the shallow bend with one arm still in the water."
+    indonesian: "Dua pencari getah menemukannya sebelum fajar, tidak sadarkan diri di dekat tikungan dangkal dengan satu lengan masih berada di dalam air."
+  - key: dialogue.villager_10.first.25
+    english: "Was he burned?"
+    indonesian: "Apa tubuhnya terbakar?"
+  - key: dialogue.villager_10.first.26
+    english: "His skin had no wound. His clothes were wet and cold, but his breath was fever-hot. Only his axe handle was black where he had gripped it."
+    indonesian: "Kulitnya tidak terluka. Pakaiannya basah dan dingin, tetapi napasnya sepanas demam. Hanya gagang kapaknya yang menghitam tepat di tempat ia menggenggamnya."
+  - key: dialogue.villager_10.first.27
+    english: "For three days his fever came and went. Every time he woke, he repeated one word: Banaspati."
+    indonesian: "Selama tiga hari demamnya datang dan pergi. Setiap kali terbangun, ia mengulang satu kata: Banaspati."
+  - key: dialogue.villager_10.first.28
+    english: "Did he say where that name came from?"
+    indonesian: "Apa ia mengatakan dari mana nama itu berasal?"
+  - key: dialogue.villager_10.first.29
+    english: "Never. He could not say whether the thing spoke it or the word appeared inside his mind. From then on, the wandering fire had a name."
+    indonesian: "Tidak pernah. Ia tidak dapat mengatakan apakah benda itu mengucapkannya atau kata itu muncul di dalam pikirannya. Sejak saat itu, api pengembara memiliki nama."
+  - key: dialogue.villager_10.first.30
+    english: "Did the villagers believe him?"
+    indonesian: "Apa warga desa mempercayainya?"
+  - key: dialogue.villager_10.first.31
+    english: "No. They blamed swamp gas, bad water, or madness. Children mocked him until he stopped speaking and never crossed that river bend again."
+    indonesian: "Tidak. Mereka menyalahkan gas rawa, air buruk, atau kegilaan. Anak-anak mengejeknya sampai ia berhenti bercerita dan tidak pernah lagi melintasi tikungan sungai itu."
+  - key: dialogue.villager_10.first.32
+    english: "I believe my grandfather was terrified, not that his explanation was true. But if the forest falls silent and the air tastes of iron, turn back before you decide he was mad."
+    indonesian: "Aku percaya kakekku benar-benar ketakutan, bukan berarti penjelasannya pasti benar. Tetapi jika hutan mendadak sunyi dan udara terasa seperti besi, berbaliklah sebelum kau memutuskan bahwa ia gila."
   - key: dialogue.villager_10.repeat.1
-    english: The resin appears in the burned wound?
-    indonesian: Getahnya muncul pada luka yang terbakar?
+    english: "Do you believe your grandfather saw Banaspati?"
+    indonesian: "Apa kau percaya kakekmu melihat Banaspati?"
   - key: dialogue.villager_10.repeat.2
-    english: Yes. Cut first, then heat. Keep your hands ready to run.
-    indonesian: Ya. Lukai dulu, lalu panaskan. Pastikan kakimu siap berlari.
+    english: "I believe he saw something and came home broken by it."
+    indonesian: "Aku percaya ia melihat sesuatu dan pulang dalam keadaan hancur karenanya."
+  - key: dialogue.villager_10.repeat.3
+    english: "Did any trace survive?"
+    indonesian: "Apa ada jejak yang masih tersisa?"
+  - key: dialogue.villager_10.repeat.4
+    english: "Nothing that could outlive an argument. Even the black axe handle was eventually burned as firewood."
+    indonesian: "Tidak ada yang mampu bertahan dari perdebatan. Bahkan gagang kapak hitam itu akhirnya dibakar sebagai kayu bakar."
+  - key: dialogue.villager_10.repeat.5
+    english: "Then why warn me?"
+    indonesian: "Lalu kenapa kau memperingatkanku?"
+  - key: dialogue.villager_10.repeat.6
+    english: "Turning back when the forest goes silent costs you an hour."
+    indonesian: "Berbalik saat hutan menjadi sunyi hanya menghabiskan satu jam."
+  - key: dialogue.villager_10.repeat.7
+    english: "And ignoring it?"
+    indonesian: "Dan jika mengabaikannya?"
+  - key: dialogue.villager_10.repeat.8
+    english: "If Grandfather was right, you may not have time to regret it."
+    indonesian: "Jika Kakek benar, kau mungkin tidak punya waktu untuk menyesal."
   - key: villager_11.name
-    english: Laras
-    indonesian: Laras
+    english: "Laras"
+    indonesian: "Laras"
   - key: villager_11.occupation
-    english: Weaver
-    indonesian: Penenun
+    english: "Weaver"
+    indonesian: "Penenun"
   - key: villager_11.description
-    english: A weaver whose family preserved an artifact from a colonial expedition.
-    indonesian: Penenun yang keluarganya menyimpan benda dari ekspedisi masa kolonial.
+    english: "A weaver who preserves old motifs while remaining skeptical of the tales attached to them."
+    indonesian: "Penenun yang melestarikan motif lama tetapi tetap meragukan cerita yang dilekatkan kepadanya."
   - key: dialogue.villager_11.first.1
-    english: That insignia does not look local.
-    indonesian: Lambang itu tidak terlihat berasal dari sini.
+    english: "That red circle appears in several of your cloth patterns."
+    indonesian: "Lingkaran merah itu muncul di beberapa pola kainmu."
   - key: dialogue.villager_11.first.2
-    english: It belonged to a soldier my ancestor found half-burned near the forest
-      edge.
-    indonesian: Itu milik tentara yang ditemukan leluhurku dalam keadaan setengah
-      terbakar di tepi hutan.
+    english: "My grandmother called it the wandering ember. She copied it from an older cloth."
+    indonesian: "Nenekku menyebutnya bara pengembara. Ia menyalinnya dari kain yang lebih tua."
   - key: dialogue.villager_11.first.3
-    english: Did the soldier say what happened?
-    indonesian: Apa tentara itu mengatakan apa yang terjadi?
+    english: "Is it meant to represent Banaspati?"
+    indonesian: "Apa itu melambangkan Banaspati?"
   - key: dialogue.villager_11.first.4
-    english: 'Only two words before he died: it remembers.'
-    indonesian: 'Hanya dua kata sebelum ia mati: ia mengingat.'
+    english: "People gave it that meaning later. A pattern survives more easily than the reason it was made."
+    indonesian: "Orang-orang memberi makna itu belakangan. Sebuah pola lebih mudah bertahan daripada alasan pola itu dibuat."
+  - key: dialogue.villager_11.first.5
+    english: "Do you believe the story behind it?"
+    indonesian: "Apa kau percaya cerita di baliknya?"
+  - key: dialogue.villager_11.first.6
+    english: "Thread proves that someone had hands. It does not prove those hands saw a monster."
+    indonesian: "Benang membuktikan seseorang memiliki tangan. Itu tidak membuktikan tangan tersebut pernah melihat monster."
   - key: dialogue.villager_11.repeat.1
-    english: The soldier said it remembers?
-    indonesian: Tentara itu berkata ia mengingat?
+    english: "How old is the wandering-ember pattern?"
+    indonesian: "Seberapa tua pola bara pengembara itu?"
   - key: dialogue.villager_11.repeat.2
-    english: Those words survived longer than the man who spoke them.
-    indonesian: Kata-kata itu bertahan lebih lama daripada orang yang mengucapkannya.
+    english: "Older than my grandmother, younger than the forest."
+    indonesian: "Lebih tua dari nenekku, lebih muda dari hutan."
+  - key: dialogue.villager_11.repeat.3
+    english: "That is not very precise."
+    indonesian: "Itu tidak terlalu pasti."
+  - key: dialogue.villager_11.repeat.4
+    english: "Neither are most stories that survive by being copied."
+    indonesian: "Begitu pula sebagian besar cerita yang bertahan karena disalin."
   - key: villager_12.name
-    english: Tono
-    indonesian: Tono
+    english: "Tono"
+    indonesian: "Tono"
   - key: villager_12.occupation
-    english: Mechanic
-    indonesian: Mekanik
+    english: "Mechanic"
+    indonesian: "Mekanik"
   - key: villager_12.description
-    english: The village mechanic responsible for keeping old vehicles running.
-    indonesian: Mekanik desa yang menjaga kendaraan tua tetap berjalan.
+    english: "The village mechanic who hears travelers' theories while trusting engines and weather instead."
+    indonesian: "Mekanik desa yang mendengar teori para pendatang tetapi lebih mempercayai mesin dan cuaca."
   - key: dialogue.villager_12.first.1
-    english: Will the vehicle be ready if I need to leave quickly?
-    indonesian: Apa kendaraannya siap jika aku harus pergi dengan cepat?
+    english: "Do travelers often ask you about Banaspati?"
+    indonesian: "Apa para pendatang sering menanyakan Banaspati kepadamu?"
   - key: dialogue.villager_12.first.2
-    english: The engine is ready. The road is the problem once the rain starts.
-    indonesian: Mesinnya siap. Jalannya yang jadi masalah saat hujan mulai turun.
+    english: "Tourists ask, researchers argue, and broken vehicles arrive the same either way."
+    indonesian: "Wisatawan bertanya, peneliti berdebat, dan kendaraan rusak tetap datang dengan cara yang sama."
   - key: dialogue.villager_12.first.3
-    english: Keep it facing the city.
-    indonesian: Pastikan arahnya menghadap kota.
+    english: "You do not believe the story?"
+    indonesian: "Kau tidak percaya ceritanya?"
   - key: dialogue.villager_12.first.4
-    english: Already done. I do not ask why people run from that forest anymore.
-    indonesian: Sudah. Aku tidak lagi bertanya kenapa orang berlari dari hutan itu.
+    english: "Engines stop because of mud, water, fuel, or neglect. I have never repaired one burned by a floating spirit."
+    indonesian: "Mesin mati karena lumpur, air, bahan bakar, atau kelalaian. Aku belum pernah memperbaiki kendaraan yang dibakar roh melayang."
+  - key: dialogue.villager_12.first.5
+    english: "Then why keep vehicles facing the road out?"
+    indonesian: "Lalu kenapa kendaraan selalu diarahkan ke jalan keluar?"
+  - key: dialogue.villager_12.first.6
+    english: "The road is narrow and rain comes quickly. Practical caution does not require a monster."
+    indonesian: "Jalannya sempit dan hujan datang cepat. Kehati-hatian praktis tidak membutuhkan monster."
   - key: dialogue.villager_12.repeat.1
-    english: The vehicle is still ready?
-    indonesian: Kendaraannya masih siap?
+    english: "Has anyone brought you a vehicle with strange heat damage?"
+    indonesian: "Pernah ada yang membawa kendaraan dengan kerusakan panas aneh?"
   - key: dialogue.villager_12.repeat.2
-    english: Fueled and facing out. Do not make me wait after midnight.
-    indonesian: Bahan bakarnya penuh dan menghadap keluar. Jangan membuatku menunggu
-      lewat tengah malam.
+    english: "No damage that electricity or an empty radiator could not explain."
+    indonesian: "Tidak ada kerusakan yang tidak dapat dijelaskan oleh listrik atau radiator kosong."
+  - key: dialogue.villager_12.repeat.3
+    english: "So there is no mystery here?"
+    indonesian: "Jadi tidak ada misteri di sini?"
+  - key: dialogue.villager_12.repeat.4
+    english: "There is always a mystery before someone opens the engine."
+    indonesian: "Selalu ada misteri sebelum seseorang membuka mesinnya."
   - key: villager_13.name
-    english: Bu Ningsih
-    indonesian: Bu Ningsih
+    english: "Bu Ningsih"
+    indonesian: "Bu Ningsih"
   - key: villager_13.occupation
-    english: Cook
-    indonesian: Juru Masak
+    english: "Cook"
+    indonesian: "Juru Masak"
   - key: villager_13.description
-    english: A cook who sells food and prepares supplies for travelers.
-    indonesian: Juru masak yang menjual makanan dan menyiapkan bekal perjalanan.
+    english: "A village cook who treats Banaspati as an old fireside warning rather than a living threat."
+    indonesian: "Juru masak desa yang menganggap Banaspati sebagai peringatan lama di dekat perapian, bukan ancaman hidup."
   - key: dialogue.villager_13.first.1
-    english: I need supplies that will last in the forest.
-    indonesian: Aku butuh bekal yang tahan lama di hutan.
+    english: "Did your parents tell stories about Banaspati?"
+    indonesian: "Apa orang tua Ibu menceritakan Banaspati?"
   - key: dialogue.villager_13.first.2
-    english: Take dry food and water. Do not carry more than you can run with.
-    indonesian: Bawa makanan kering dan air. Jangan membawa lebih dari yang bisa
-      kau bawa saat berlari.
+    english: "Only when the cooking fire was low and children refused to sleep."
+    indonesian: "Hanya saat api tungku mengecil dan anak-anak tidak mau tidur."
   - key: dialogue.villager_13.first.3
-    english: Everyone assumes I will have to run.
-    indonesian: Semua orang menganggap aku harus berlari.
+    english: "Did anything like it ever happen here?"
+    indonesian: "Apa sesuatu seperti itu pernah terjadi di sini?"
   - key: dialogue.villager_13.first.4
-    english: Those who did not run are not here to advise you.
-    indonesian: Mereka yang tidak berlari sudah tidak ada untuk menasihatimu.
+    english: "I have burned rice, cloth, and one very expensive pot. No fire ever chased me afterward."
+    indonesian: "Aku pernah menghanguskan nasi, kain, dan satu panci yang sangat mahal. Tidak ada api yang mengejarku setelahnya."
+  - key: dialogue.villager_13.first.5
+    english: "Then why do people sound uneasy when I mention the name?"
+    indonesian: "Lalu kenapa orang-orang terdengar gelisah saat aku menyebut namanya?"
+  - key: dialogue.villager_13.first.6
+    english: "Because people laugh at old stories in daylight and remember every word after dark."
+    indonesian: "Karena orang menertawakan cerita lama di siang hari dan mengingat setiap katanya setelah gelap."
   - key: dialogue.villager_13.repeat.1
-    english: Light supplies, then?
-    indonesian: Jadi bawa bekal ringan?
+    english: "You truly think it is only a bedtime story?"
+    indonesian: "Ibu benar-benar menganggapnya hanya cerita pengantar tidur?"
   - key: dialogue.villager_13.repeat.2
-    english: Enough to survive, never enough to slow your feet.
-    indonesian: Cukup untuk bertahan, jangan sampai memperlambat kakimu.
+    english: "That is all it has ever been in my kitchen."
+    indonesian: "Hanya itu bentuknya di dapurku."
+  - key: dialogue.villager_13.repeat.3
+    english: "And outside the kitchen?"
+    indonesian: "Lalu di luar dapur?"
+  - key: dialogue.villager_13.repeat.4
+    english: "Outside, ask someone who enjoys cold food and long arguments."
+    indonesian: "Di luar sana, tanyakan kepada orang yang menyukai makanan dingin dan perdebatan panjang."
   - key: villager_14.name
-    english: Agus
-    indonesian: Agus
+    english: "Agus"
+    indonesian: "Agus"
   - key: villager_14.occupation
-    english: Night Guard
-    indonesian: Penjaga Malam
+    english: "Night Guard"
+    indonesian: "Penjaga Malam"
   - key: villager_14.description
-    english: The night guard who watches the village boundary facing the forest.
-    indonesian: Penjaga malam yang mengawasi batas desa menghadap hutan.
+    english: "The night guard who watches for ordinary dangers and treats Banaspati as an old explanation for false alarms."
+    indonesian: "Penjaga malam yang mengawasi bahaya biasa dan menganggap Banaspati sebagai penjelasan lama untuk alarm palsu."
   - key: dialogue.villager_14.first.1
-    english: What do you watch for at night?
-    indonesian: Apa yang kau awasi saat malam?
+    english: "What do you watch for at night?"
+    indonesian: "Apa yang kau awasi pada malam hari?"
   - key: dialogue.villager_14.first.2
-    english: A light moving against the wind. When I see it, I ring the bell once.
-    indonesian: Cahaya yang bergerak melawan angin. Saat melihatnya, aku membunyikan
-      lonceng sekali.
+    english: "Thieves, boars, house fires, and people who forget where they left their lanterns."
+    indonesian: "Pencuri, babi hutan, kebakaran rumah, dan orang yang lupa menaruh lentera."
   - key: dialogue.villager_14.first.3
-    english: Why only once?
-    indonesian: Kenapa hanya sekali?
+    english: "Have you ever seen a light moving on its own?"
+    indonesian: "Pernahkah kau melihat cahaya bergerak sendiri?"
   - key: dialogue.villager_14.first.4
-    english: A second ring would mean it has already reached the village.
-    indonesian: Bunyi kedua berarti ia sudah mencapai desa.
+    english: "Lanterns in fog, fireflies, and drunk men walking crookedly. All had ordinary owners by morning."
+    indonesian: "Lentera di dalam kabut, kunang-kunang, dan orang mabuk yang berjalan sempoyongan. Semuanya memiliki pemilik biasa saat pagi tiba."
+  - key: dialogue.villager_14.first.5
+    english: "Why does the village still keep an old warning bell?"
+    indonesian: "Kenapa desa masih menyimpan lonceng peringatan lama?"
+  - key: dialogue.villager_14.first.6
+    english: "It warns of real fire. Banaspati was added to the explanation long after the bell was hung."
+    indonesian: "Lonceng itu memperingatkan kebakaran sungguhan. Banaspati baru ditambahkan ke dalam penjelasan lama setelah lonceng dipasang."
   - key: dialogue.villager_14.repeat.1
-    english: One bell means the light is moving?
-    indonesian: Satu bunyi lonceng berarti cahayanya bergerak?
+    english: "No mysterious light during your watch?"
+    indonesian: "Tidak ada cahaya misterius selama kau berjaga?"
   - key: dialogue.villager_14.repeat.2
-    english: Yes. If you hear two, do not waste time looking outside.
-    indonesian: Ya. Jika kau mendengar dua, jangan buang waktu melihat keluar.
+    english: "None willing to stay mysterious until sunrise."
+    indonesian: "Tidak ada yang mau tetap misterius sampai matahari terbit."
+  - key: dialogue.villager_14.repeat.3
+    english: "Would you follow one into the forest?"
+    indonesian: "Apa kau akan mengikuti cahaya ke dalam hutan?"
+  - key: dialogue.villager_14.repeat.4
+    english: "No. A guard who abandons his post for a rumor is simply a bad guard."
+    indonesian: "Tidak. Penjaga yang meninggalkan pos demi rumor hanyalah penjaga yang buruk."
   - key: villager_15.name
-    english: Dewi
-    indonesian: Dewi
+    english: "Dewi"
+    indonesian: "Dewi"
   - key: villager_15.occupation
-    english: Teacher
-    indonesian: Guru
+    english: "Teacher"
+    indonesian: "Guru"
   - key: villager_15.description
-    english: A teacher studying the old script used in the village archives.
-    indonesian: Guru yang mempelajari aksara lama dalam arsip desa.
+    english: "A teacher studying old script who distinguishes written warnings from reliable eyewitness evidence."
+    indonesian: "Guru yang mempelajari aksara lama dan membedakan peringatan tertulis dari bukti saksi yang dapat dipercaya."
   - key: dialogue.villager_15.first.1
-    english: Can you read the symbols in the old documents?
-    indonesian: Apa kau bisa membaca simbol dalam dokumen lama?
+    english: "Can you read the symbols in the old documents?"
+    indonesian: "Apa kau dapat membaca simbol dalam dokumen lama?"
   - key: dialogue.villager_15.first.2
-    english: Some of them. The same shapes are carved inside the village head's house.
-    indonesian: Sebagiannya. Bentuk yang sama terukir di dalam rumah kepala desa.
+    english: "Some of them. A comparison sheet is kept in the village head's house."
+    indonesian: "Sebagiannya. Lembar perbandingan disimpan di rumah kepala desa."
   - key: dialogue.villager_15.first.3
-    english: Is there a complete alphabet?
-    indonesian: Apa ada alfabet lengkap?
+    english: "Do the documents mention Banaspati?"
+    indonesian: "Apa dokumen itu menyebut Banaspati?"
   - key: dialogue.villager_15.first.4
-    english: There is a comparison sheet. Once you study it, the repeated patterns
-      become readable.
-    indonesian: Ada lembar perbandingan. Setelah kau mempelajarinya, pola yang berulang
-      akan bisa dibaca.
+    english: "That name appears only in later notes. The oldest lines are damaged and can be read in several ways."
+    indonesian: "Nama itu hanya muncul dalam catatan yang lebih baru. Baris tertua rusak dan dapat dibaca dengan beberapa cara."
+  - key: dialogue.villager_15.first.5
+    english: "So the writing proves nothing?"
+    indonesian: "Jadi tulisan itu tidak membuktikan apa pun?"
+  - key: dialogue.villager_15.first.6
+    english: "It proves someone wrote a warning. It does not prove what frightened them."
+    indonesian: "Tulisan itu membuktikan seseorang menulis peringatan. Tulisan itu tidak membuktikan apa yang menakuti mereka."
   - key: dialogue.villager_15.repeat.1
-    english: The comparison sheet is in the village head's house?
-    indonesian: Lembar perbandingannya ada di rumah kepala desa?
+    english: "The comparison sheet is still in Pak Darma's house?"
+    indonesian: "Lembar perbandingan masih ada di rumah Pak Darma?"
   - key: dialogue.villager_15.repeat.2
-    english: Yes. Remember the shapes before you enter the forest.
-    indonesian: Ya. Ingat bentuknya sebelum kau memasuki hutan.
+    english: "Yes. Study the shapes before judging the translation."
+    indonesian: "Ya. Pelajari bentuknya sebelum menilai terjemahannya."
+  - key: dialogue.villager_15.repeat.3
+    english: "And the name Banaspati?"
+    indonesian: "Lalu nama Banaspati?"
+  - key: dialogue.villager_15.repeat.4
+    english: "Treat it as a later annotation until stronger evidence says otherwise."
+    indonesian: "Anggap itu sebagai catatan tambahan yang lebih baru sampai ada bukti lebih kuat."
   - key: villager_16.name
-    english: Raka
-    indonesian: Raka
+    english: "Raka"
+    indonesian: "Raka"
   - key: villager_16.occupation
-    english: Village Youth
-    indonesian: Pemuda Desa
+    english: "Farmhand"
+    indonesian: "Buruh Tani"
   - key: villager_16.description
-    english: A restless young villager who once followed a strange light.
-    indonesian: Pemuda desa yang pernah mengikuti cahaya aneh.
+    english: "A skeptical young farmhand who mocks the old tale but still respects the dangers of getting lost."
+    indonesian: "Buruh tani muda yang meragukan cerita lama tetapi tetap menghormati bahaya tersesat."
   - key: dialogue.villager_16.first.1
-    english: You have seen the fire yourself?
-    indonesian: Kau pernah melihat api itu sendiri?
+    english: "Have you ever gone into the forest at night?"
+    indonesian: "Apa kau pernah masuk ke hutan pada malam hari?"
   - key: dialogue.villager_16.first.2
-    english: Only from far away. It moved like it was searching for someone.
-    indonesian: Hanya dari jauh. Gerakannya seperti sedang mencari seseorang.
+    english: "Only far enough to prove to my friends that I was not afraid."
+    indonesian: "Hanya cukup jauh untuk membuktikan kepada teman-temanku bahwa aku tidak takut."
   - key: dialogue.villager_16.first.3
-    english: And you followed it?
-    indonesian: Dan kau mengikutinya?
+    english: "Did you see Banaspati?"
+    indonesian: "Apa kau melihat Banaspati?"
   - key: dialogue.villager_16.first.4
-    english: For a minute. The heat found me before the light turned around.
-    indonesian: Selama satu menit. Panasnya menemukanku sebelum cahayanya berbalik.
+    english: "I saw a red light, then found the farmer carrying it while looking for a calf."
+    indonesian: "Aku melihat cahaya merah, lalu menemukan petani yang membawanya saat mencari anak sapi."
+  - key: dialogue.villager_16.first.5
+    english: "Then why did you come back so quickly?"
+    indonesian: "Lalu kenapa kau kembali begitu cepat?"
+  - key: dialogue.villager_16.first.6
+    english: "Because being lost all night would be humiliating. Not because a fireball knew my name."
+    indonesian: "Karena tersesat semalaman akan memalukan. Bukan karena bola api mengetahui namaku."
   - key: dialogue.villager_16.repeat.1
-    english: The heat reached you from far away?
-    indonesian: Panasnya mencapaimu dari jauh?
+    english: "Still certain the story is nonsense?"
+    indonesian: "Masih yakin ceritanya tidak masuk akal?"
   - key: dialogue.villager_16.repeat.2
-    english: Farther than I expected. Walls did not make it disappear.
-    indonesian: Lebih jauh dari perkiraanku. Dinding tidak membuatnya menghilang.
+    english: "Certain enough in daylight."
+    indonesian: "Cukup yakin saat siang hari."
+  - key: dialogue.villager_16.repeat.3
+    english: "And after dark?"
+    indonesian: "Lalu setelah gelap?"
+  - key: dialogue.villager_16.repeat.4
+    english: "After dark I become practical, not superstitious."
+    indonesian: "Setelah gelap aku menjadi praktis, bukan percaya takhayul."
   - key: villager_17.name
-    english: Mbah Karto
-    indonesian: Mbah Karto
+    english: "Mbah Karto"
+    indonesian: "Mbah Karto"
   - key: villager_17.occupation
-    english: Storyteller
-    indonesian: Pencerita
+    english: "Storyteller"
+    indonesian: "Pencerita Desa"
   - key: villager_17.description
-    english: The oldest storyteller, keeper of the forbidden warrior legend.
-    indonesian: Pencerita tertua yang menjaga legenda pendekar terlarang.
+    english: "A collector of conflicting Banaspati tales who preserves questions without claiming any version is true."
+    indonesian: "Pengumpul berbagai cerita Banaspati yang saling bertentangan dan menjaga pertanyaannya tanpa mengaku satu versi sebagai kebenaran."
   - key: dialogue.villager_17.first.1
-    english: How did Banaspati become trapped here?
-    indonesian: Bagaimana Banaspati bisa terjebak di sini?
+    english: "You collect stories about Banaspati?"
+    indonesian: "Mbah mengumpulkan cerita tentang Banaspati?"
   - key: dialogue.villager_17.first.2
-    english: A warrior opened a path to hell, seeking strength that was never meant
-      for humans.
-    indonesian: Seorang pendekar membuka jalan ke neraka, mencari kekuatan yang tidak
-      ditujukan bagi manusia.
+    english: "I collect versions. Anyone offering one true version is selling certainty."
+    indonesian: "Aku mengumpulkan berbagai versi. Siapa pun yang menawarkan satu versi benar sedang menjual kepastian."
   - key: dialogue.villager_17.first.3
-    english: The warrior summoned it?
-    indonesian: Pendekar itu memanggilnya?
+    english: "Where did the name begin?"
+    indonesian: "Dari mana nama itu bermula?"
   - key: dialogue.villager_17.first.4
-    english: Yes. Banaspati burned him to bone, but the gate closed before the creature
-      could return.
-    indonesian: Ya. Banaspati membakarnya hingga menjadi tulang, tetapi gerbang tertutup
-      sebelum makhluk itu bisa kembali.
+    english: "Most people trace it to the night Seno's grandfather was found beside the river. Before that, it was only the wandering fire."
+    indonesian: "Kebanyakan orang menelusurinya ke malam saat kakek Seno ditemukan di dekat sungai. Sebelumnya, ia hanya disebut api pengembara."
+  - key: dialogue.villager_17.first.5
+    english: "What does the oldest version say?"
+    indonesian: "Apa isi versi tertua?"
+  - key: dialogue.villager_17.first.6
+    english: "One warns of a fire that chooses what it burns. Another says it is only guilt reflected in the dark."
+    indonesian: "Satu versi memperingatkan tentang api yang memilih apa yang dibakarnya. Versi lain bilang itu hanya rasa bersalah yang terpantul dalam gelap."
+  - key: dialogue.villager_17.first.7
+    english: "Which version do you believe?"
+    indonesian: "Versi mana yang Mbah percaya?"
+  - key: dialogue.villager_17.first.8
+    english: "Neither. A storyteller preserves questions, not proof."
+    indonesian: "Tidak satu pun. Seorang pencerita menjaga pertanyaan, bukan bukti."
+  - key: dialogue.villager_17.first.9
+    english: "Has anyone besides Ki Surya claimed to see it?"
+    indonesian: "Apa ada orang selain Ki Surya yang mengaku melihatnya?"
+  - key: dialogue.villager_17.first.10
+    english: "Many claimed it after hearing the tale. That is why one doubtful witness is worth more than a hundred echoes."
+    indonesian: "Banyak yang mengaku setelah mendengar ceritanya. Itulah sebabnya satu saksi yang ragu lebih berharga daripada seratus gema."
   - key: dialogue.villager_17.repeat.1
-    english: So the warrior's ritual trapped it?
-    indonesian: Jadi ritual pendekar itu menjebaknya?
+    english: "So there is no single true Banaspati story?"
+    indonesian: "Jadi tidak ada satu cerita Banaspati yang benar?"
   - key: dialogue.villager_17.repeat.2
-    english: That is why its hatred belongs to every human it sees.
-    indonesian: Itulah sebabnya kebenciannya tertuju pada setiap manusia yang dilihatnya.
+    english: "Not one I can prove."
+    indonesian: "Tidak ada yang dapat kubuktikan."
+  - key: dialogue.villager_17.repeat.3
+    english: "Why preserve them, then?"
+    indonesian: "Lalu kenapa semua itu disimpan?"
+  - key: dialogue.villager_17.repeat.4
+    english: "Because what a village fears can matter even when the fear has no body."
+    indonesian: "Karena apa yang ditakuti sebuah desa tetap berarti meski ketakutan itu tidak memiliki tubuh."
   - key: villager_18.name
-    english: Yuni
-    indonesian: Yuni
+    english: "Yuni"
+    indonesian: "Yuni"
   - key: villager_18.occupation
-    english: Shopkeeper
-    indonesian: Pemilik Toko
+    english: "Shopkeeper"
+    indonesian: "Pemilik Toko"
   - key: villager_18.description
-    english: The general shopkeeper who sells limited expedition equipment.
-    indonesian: Pemilik toko umum yang menjual perlengkapan ekspedisi terbatas.
+    english: "The general shopkeeper who sells practical expedition supplies rather than supernatural certainty."
+    indonesian: "Pemilik toko umum yang menjual perlengkapan ekspedisi praktis, bukan kepastian gaib."
   - key: dialogue.villager_18.first.1
-    english: I cannot afford all of this equipment.
-    indonesian: Uangku tidak cukup untuk membeli semua perlengkapan ini.
+    english: "Do you sell anything meant to protect people from Banaspati?"
+    indonesian: "Apa kau menjual sesuatu untuk melindungi orang dari Banaspati?"
   - key: dialogue.villager_18.first.2
-    english: Then choose what solves a problem you cannot solve in the forest.
-    indonesian: Kalau begitu pilih benda yang menyelesaikan masalah yang tidak bisa
-      kau atasi di hutan.
+    english: "I sell rain covers, batteries, rope, food, and medicine. Those protect people from things we can count."
+    indonesian: "Aku menjual pelindung hujan, baterai, tali, makanan, dan obat. Benda-benda itu melindungi orang dari hal yang dapat dihitung."
   - key: dialogue.villager_18.first.3
-    english: What would you choose?
-    indonesian: Apa yang akan kau pilih?
+    english: "No charms or special water?"
+    indonesian: "Tidak ada jimat atau air khusus?"
   - key: dialogue.villager_18.first.4
-    english: I sell choices, not certainty. Ask what each item was made for.
-    indonesian: Aku menjual pilihan, bukan kepastian. Tanyakan kegunaan setiap barang.
+    english: "If I sold a story in a bottle, visitors would pay more than they pay for clean water."
+    indonesian: "Jika aku menjual cerita di dalam botol, pendatang akan membayar lebih mahal daripada untuk air bersih."
+  - key: dialogue.villager_18.first.5
+    english: "You do not believe the old tale?"
+    indonesian: "Kau tidak percaya cerita lama itu?"
+  - key: dialogue.villager_18.first.6
+    english: "I have never seen it. But fear still makes people forget batteries, so I prepare for what fear does."
+    indonesian: "Aku tidak pernah melihatnya. Tetapi ketakutan tetap membuat orang lupa membawa baterai, jadi aku bersiap menghadapi akibat ketakutan."
   - key: dialogue.villager_18.repeat.1
-    english: There is no discount for taking everything?
-    indonesian: Tidak ada potongan harga untuk membeli semuanya?
+    english: "What should we take into the forest?"
+    indonesian: "Apa yang harus kami bawa ke hutan?"
   - key: dialogue.villager_18.repeat.2
-    english: No. Your limited money is part of the choice.
-    indonesian: Tidak. Uangmu yang terbatas adalah bagian dari pilihan.
+    english: "Water, light, medicine, rope, and less confidence than you arrived with."
+    indonesian: "Air, penerangan, obat, tali, dan rasa percaya diri yang lebih sedikit daripada saat kalian datang."
+  - key: dialogue.villager_18.repeat.3
+    english: "Nothing for Banaspati?"
+    indonesian: "Tidak ada apa pun untuk Banaspati?"
+  - key: dialogue.villager_18.repeat.4
+    english: "Nothing with a guarantee printed on it."
+    indonesian: "Tidak ada yang memiliki jaminan tertulis."
   - key: villager_19.name
-    english: Pak Hasan
-    indonesian: Pak Hasan
+    english: "Pak Hasan"
+    indonesian: "Pak Hasan"
   - key: villager_19.occupation
-    english: Cemetery Keeper
-    indonesian: Penjaga Makam
+    english: "Fisherman"
+    indonesian: "Nelayan"
   - key: villager_19.description
-    english: A cemetery keeper familiar with old death rites and their symbols.
-    indonesian: Penjaga makam yang memahami ritual kematian lama dan perlambangannya.
+    english: "A fisherman who knows the lower river and the bend where Seno's grandfather was found unconscious."
+    indonesian: "Nelayan yang mengenal bagian hilir sungai dan tikungan tempat kakek Seno ditemukan tidak sadarkan diri."
   - key: dialogue.villager_19.first.1
-    english: Why would an old ritual require something that never lived?
-    indonesian: Kenapa ritual lama membutuhkan sesuatu yang tidak pernah hidup?
+    english: "Do you know the river route into Sancang?"
+    indonesian: "Apa Bapak mengenal jalur sungai menuju Sancang?"
   - key: dialogue.villager_19.first.2
-    english: Not something that never lived. Something whose life ended before it
-      began.
-    indonesian: Bukan sesuatu yang tidak pernah hidup. Sesuatu yang hidupnya berakhir
-      sebelum dimulai.
+    english: "Only the lower bends. Farther in, fallen trees and changing currents erase every reliable route."
+    indonesian: "Hanya tikungan bagian hilir. Lebih jauh ke dalam, pohon tumbang dan arus yang berubah menghapus setiap jalur yang dapat dipercaya."
   - key: dialogue.villager_19.first.3
-    english: What purpose would that serve?
-    indonesian: Apa kegunaannya?
+    english: "Have you seen strange fire reflected on the water?"
+    indonesian: "Pernahkah Bapak melihat api aneh terpantul di air?"
   - key: dialogue.villager_19.first.4
-    english: The dead know the road to death. Old rituals used them as guides.
-    indonesian: Yang mati mengetahui jalan menuju kematian. Ritual lama menggunakan
-      mereka sebagai penuntun.
+    english: "Only lanterns, sunsets, and fishermen exaggerating after a poor catch."
+    indonesian: "Hanya lentera, matahari terbenam, dan nelayan yang melebih-lebihkan cerita setelah tangkapan buruk."
+  - key: dialogue.villager_19.first.5
+    english: "Was Seno's grandfather really found near the river?"
+    indonesian: "Apa kakek Seno benar-benar ditemukan di dekat sungai?"
+  - key: dialogue.villager_19.first.6
+    english: "At the old shallow bend, yes. I heard it from my father, who heard it from one of the men who carried him home."
+    indonesian: "Di tikungan dangkal lama, ya. Aku mendengarnya dari ayahku, yang mendengar dari salah satu orang yang membawanya pulang."
+  - key: dialogue.villager_19.first.7
+    english: "Did the river leave any evidence?"
+    indonesian: "Apa sungai meninggalkan bukti?"
+  - key: dialogue.villager_19.first.8
+    english: "None. It carried the man back alive and kept whatever answer passed through it that night."
+    indonesian: "Tidak ada. Sungai mengembalikan orang itu dalam keadaan hidup dan menyimpan jawaban apa pun yang melewatinya malam itu."
   - key: dialogue.villager_19.repeat.1
-    english: A life that ended before birth becomes the guide?
-    indonesian: Kehidupan yang berakhir sebelum lahir menjadi penuntun?
+    english: "Can you show me the old shallow bend?"
+    indonesian: "Apa Bapak dapat menunjukkan tikungan dangkal lama itu?"
   - key: dialogue.villager_19.repeat.2
-    english: That is what the old rites believed. Do not confuse it with an ordinary
-      sacrifice.
-    indonesian: Itulah kepercayaan ritual lama. Jangan samakan dengan pengorbanan
-      biasa.
+    english: "I can show you where it used to be. Rivers move, even when stories do not."
+    indonesian: "Aku dapat menunjukkan tempatnya dahulu. Sungai berpindah, meski cerita tidak."
+  - key: dialogue.villager_19.repeat.3
+    english: "And you never saw the fire?"
+    indonesian: "Dan Bapak tidak pernah melihat api itu?"
+  - key: dialogue.villager_19.repeat.4
+    english: "Never. Water has given me enough real dangers."
+    indonesian: "Tidak pernah. Air sudah memberiku cukup banyak bahaya nyata."
   - key: speaker.crew_1
     english: Crew 1
     indonesian: Kru 1
