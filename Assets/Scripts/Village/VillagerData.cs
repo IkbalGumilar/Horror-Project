@@ -18,6 +18,12 @@ public enum VillagerDialogueEmotion
     Whispering
 }
 
+public enum VillagerBodyType
+{
+    Male,
+    Female
+}
+
 [Serializable]
 public sealed class VillagerDialogueLine
 {
@@ -54,6 +60,7 @@ public sealed class VillagerData : ScriptableObject
     [SerializeField] private string occupationKey;
     [SerializeField] private string descriptionKey;
     [SerializeField, Min(0)] private int age;
+    [SerializeField] private VillagerBodyType bodyType;
     [SerializeField] private Sprite portrait;
 
     [Header("Gameplay")]
@@ -75,6 +82,7 @@ public sealed class VillagerData : ScriptableObject
     public string OccupationKey => occupationKey;
     public string DescriptionKey => descriptionKey;
     public int Age => age;
+    public VillagerBodyType BodyType => bodyType;
     public Sprite Portrait => portrait;
     public bool StoryCritical => storyCritical;
     public bool CanTrade => canTrade;

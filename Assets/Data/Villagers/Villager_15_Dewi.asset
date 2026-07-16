@@ -17,6 +17,7 @@ MonoBehaviour:
   occupationKey: villager_15.occupation
   descriptionKey: villager_15.description
   age: 29
+  bodyType: 1
   portrait: {fileID: 0}
   storyCritical: 1
   canTrade: 0

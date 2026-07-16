@@ -19,6 +19,18 @@ public sealed class VillagePopulationSpawner : MonoBehaviour
     [SerializeField] private GameObject villagerTemplate;
     [SerializeField] private Transform populationParent;
 
+    [Header("Visuals")]
+    [SerializeField] private GameObject maleVisualPrefab;
+    [SerializeField] private GameObject femaleVisualPrefab;
+    [SerializeField] private RuntimeAnimatorController locomotionController;
+    [SerializeField] private CharacterLocomotionSettings locomotionSettings =
+        new CharacterLocomotionSettings();
+    [SerializeField] private bool alignVisualFeetToCapsule = true;
+    [SerializeField] private bool hideTemplateRenderer = true;
+    [SerializeField] private Vector3 visualLocalPosition;
+    [SerializeField] private Vector3 visualLocalEulerAngles;
+    [SerializeField] private Vector3 visualLocalScale = Vector3.one;
+
     [Header("Placement")]
     [SerializeField] private bool placeOnTerrain = true;
     [SerializeField] private float groundOffset = 1f;
@@ -88,6 +100,7 @@ public sealed class VillagePopulationSpawner : MonoBehaviour
             }
 
             conversation.Initialize(entry.Data);
+            ConfigureVisual(villager, entry.Data);
             ConfigureWandering(villager, conversation, entry.Data);
             villager.SetActive(templateWasActive);
             spawnedVillagers.Add(villager);
@@ -105,6 +118,68 @@ public sealed class VillagePopulationSpawner : MonoBehaviour
         }
 
         spawnedVillagers.Clear();
+    }
+
+    private void ConfigureVisual(GameObject villager, VillagerData data)
+    {
+        GameObject visualPrefab = data != null && data.BodyType == VillagerBodyType.Female
+            ? femaleVisualPrefab
+            : maleVisualPrefab;
+        if (visualPrefab == null)
+        {
+            visualPrefab = maleVisualPrefab != null ? maleVisualPrefab : femaleVisualPrefab;
+        }
+
+        if (visualPrefab == null)
+        {
+            return;
+        }
+
+        GameObject visual = Instantiate(visualPrefab, villager.transform);
+        visual.name = $"{visualPrefab.name} Visual";
+
+        Vector3 localPosition = visualLocalPosition;
+        if (alignVisualFeetToCapsule
+            && villager.TryGetComponent(out CapsuleCollider capsule))
+        {
+            localPosition.y += capsule.center.y - capsule.height * 0.5f;
+        }
+
+        visual.transform.SetLocalPositionAndRotation(
+            localPosition,
+            Quaternion.Euler(visualLocalEulerAngles));
+        visual.transform.localScale = visualLocalScale;
+
+        Animator visualAnimator = visual.GetComponentInChildren<Animator>(true);
+        if (visualAnimator != null && locomotionController != null)
+        {
+            visualAnimator.runtimeAnimatorController = locomotionController;
+            visualAnimator.applyRootMotion = false;
+
+            CharacterLocomotionAnimator locomotion =
+                villager.GetComponent<CharacterLocomotionAnimator>();
+            if (locomotion == null)
+            {
+                locomotion = villager.AddComponent<CharacterLocomotionAnimator>();
+            }
+
+            locomotion.Initialize(
+                visualAnimator,
+                villager.transform,
+                null,
+                locomotionSettings);
+        }
+
+        if (!hideTemplateRenderer)
+        {
+            return;
+        }
+
+        Renderer[] templateRenderers = villager.GetComponents<Renderer>();
+        for (int i = 0; i < templateRenderers.Length; i++)
+        {
+            templateRenderers[i].enabled = false;
+        }
     }
 
     private void ConfigureWandering(

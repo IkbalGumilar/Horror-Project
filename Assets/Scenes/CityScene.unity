@@ -35204,6 +35204,7 @@ GameObject:
   - component: {fileID: 3300000104}
   - component: {fileID: 3300000105}
   - component: {fileID: 3300000106}
+  - component: {fileID: 3300000107}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -51992,6 +51993,38 @@ MonoBehaviour:
   lowStaminaBlinkThreshold: 0.2
   blinkMinAlpha: 0.03921569
   blinkSpeed: 20
+--- !u!114 &3300000107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477078845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6218e941a4c4e7798e543716a38a6dc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterVisual
+  modelPrefab: {fileID: 919132149155446097, guid: 915715f9865b4865b180e17b019d20bc, type: 3}
+  locomotionController: {fileID: 9100000, guid: b7c4a70c689f8614f86252f2a9d1d48e, type: 2}
+  locomotionSettings:
+    movementThreshold: 0.05
+    fastWalkThreshold: 2.4
+    runThreshold: 4.2
+    crossFadeDuration: 0.12
+    matchPlaybackToMovementSpeed: 1
+    walkReferenceSpeed: 1.7
+    fastWalkReferenceSpeed: 3.2
+    runReferenceSpeed: 5.2
+    playbackSpeedRange: {x: 0.65, y: 1.5}
+  localPosition: {x: 0, y: 0, z: 0}
+  localEulerAngles: {x: 0, y: 0, z: 0}
+  localScale: {x: 1, y: 1, z: 1}
+  alignFeetToCharacterController: 1
+  hideLegacyRenderer: 1
+  playerCamera: {fileID: 401452120}
+  hideFromAttachedCamera: 1
+  keepFirstPersonShadow: 1
 --- !u!114 &3400000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
