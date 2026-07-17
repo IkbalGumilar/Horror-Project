@@ -7750,7 +7750,7 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   startFull: 1
-  passiveHealPercentPerSecond: 0.001
+  passiveHealPercentPerSecond: 0.1
 --- !u!114 &2004439922
 MonoBehaviour:
   m_ObjectHideFlags: 0
