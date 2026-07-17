@@ -10,10 +10,18 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
     [SerializeField] private ParticleSystem fireBall;
 
     [Header("Hit Overlay")]
-    [SerializeField, Range(0f, 1f)] private float minHitAlpha = 0.1f;
-    [SerializeField, Range(0f, 1f)] private float maxHitAlpha = 0.65f;
+    [SerializeField, Range(0f, 255f)] private float hitAlphaForMaxDamage = 100f;
     [SerializeField] private float damageForMaxAlpha = 30f;
     [SerializeField] private float fadeOutSpeed = 4f;
+
+    [Header("Low Health Overlay (0-255)")]
+    [SerializeField, Range(0f, 1f)] private float permanentOverlayThreshold = 0.5f;
+    [SerializeField, Range(0f, 255f)] private float alphaAtHalfHealth = 100f;
+    [SerializeField, Range(0f, 255f)] private float alphaAtThirtyPercent = 150f;
+    [SerializeField, Range(0f, 255f)] private float criticalBlinkMinAlpha = 200f;
+    [SerializeField, Range(0f, 255f)] private float criticalBlinkMaxAlpha = 255f;
+    [SerializeField, Range(0f, 1f)] private float criticalHealthThreshold = 0.1f;
+    [SerializeField, Min(0f)] private float criticalBlinkSpeed = 16f;
 
     [Header("FireBall Burn DoT")]
     [SerializeField] private float maxFireBallStartSize = 1.5f;
@@ -29,7 +37,7 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
     [SerializeField, Min(0f)] private float vibrationCooldown = 0.15f;
 
     private float previousHealth;
-    private float targetAlpha;
+    private float transientHitAlpha;
     private float fireBallStartSize;
     private float activeBurnDamagePerSecond;
     private float lastBurnReceiveTime = float.NegativeInfinity;
@@ -47,6 +55,7 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
     {
         damageForMaxAlpha = Mathf.Max(0.001f, damageForMaxAlpha);
         fadeOutSpeed = Mathf.Max(0f, fadeOutSpeed);
+        criticalBlinkSpeed = Mathf.Max(0f, criticalBlinkSpeed);
         maxFireBallStartSize = Mathf.Max(0f, maxFireBallStartSize);
         fireBallSizePerDamagePerSecond = Mathf.Max(0f, fireBallSizePerDamagePerSecond);
         burnSizeFallSpeed = Mathf.Max(0f, burnSizeFallSpeed);
@@ -67,7 +76,7 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         }
 
         previousHealth = playerHealth != null ? playerHealth.CurrentHealth : 0f;
-        SetOverlayAlpha(0f);
+        UpdateOverlayAlpha();
         SetFireBallStartSize(0f);
     }
 
@@ -92,8 +101,11 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         ApplyBurnDamageOverTime();
         ReduceBurnSize();
 
-        targetAlpha = Mathf.MoveTowards(targetAlpha, 0f, fadeOutSpeed * Time.unscaledDeltaTime);
-        SetOverlayAlpha(targetAlpha);
+        transientHitAlpha = Mathf.MoveTowards(
+            transientHitAlpha,
+            0f,
+            fadeOutSpeed * 255f * Time.unscaledDeltaTime);
+        UpdateOverlayAlpha();
     }
 
     public void ReceiveBurnDamage(float damagePerSecond, PlayerDamageType damageType, GameObject damageSource)
@@ -121,8 +133,8 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         lastBurnReceiveTime = Time.time;
 
         float normalizedDamage = Mathf.Clamp01(damagePerSecond / damageForMaxAlpha);
-        targetAlpha = Mathf.Max(targetAlpha, Mathf.Lerp(minHitAlpha, maxHitAlpha, normalizedDamage));
-        SetOverlayAlpha(targetAlpha);
+        transientHitAlpha = Mathf.Max(transientHitAlpha, normalizedDamage * hitAlphaForMaxDamage);
+        UpdateOverlayAlpha();
         playerAudio?.SetBurnLoopActive(true);
     }
 
@@ -137,8 +149,8 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         }
 
         float normalizedDamage = Mathf.Clamp01(damage / Mathf.Max(0.001f, damageForMaxAlpha));
-        targetAlpha = Mathf.Max(targetAlpha, Mathf.Lerp(minHitAlpha, maxHitAlpha, normalizedDamage));
-        SetOverlayAlpha(targetAlpha);
+        transientHitAlpha = Mathf.Max(transientHitAlpha, normalizedDamage * hitAlphaForMaxDamage);
+        UpdateOverlayAlpha();
         playerAudio?.PlayDamage(playerHealth != null ? playerHealth.LastDamageType : PlayerDamageType.Unknown);
 
         if (Time.unscaledTime >= nextVibrationTime)
@@ -148,7 +160,43 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         }
     }
 
-    private void SetOverlayAlpha(float alpha)
+    private void UpdateOverlayAlpha()
+    {
+        float permanentAlpha = GetLowHealthAlpha();
+        SetOverlayAlpha255(Mathf.Max(permanentAlpha, transientHitAlpha));
+    }
+
+    private float GetLowHealthAlpha()
+    {
+        if (playerHealth == null)
+        {
+            return 0f;
+        }
+
+        float health = playerHealth.NormalizedHealth;
+        if (health > permanentOverlayThreshold)
+        {
+            return 0f;
+        }
+
+        if (health <= criticalHealthThreshold)
+        {
+            float blink = Mathf.PingPong(Time.unscaledTime * criticalBlinkSpeed, 1f);
+            return Mathf.Lerp(criticalBlinkMinAlpha, criticalBlinkMaxAlpha, blink);
+        }
+
+        const float thirtyPercentHealth = 0.3f;
+        if (health <= thirtyPercentHealth)
+        {
+            float blend = Mathf.InverseLerp(criticalHealthThreshold, thirtyPercentHealth, health);
+            return Mathf.Lerp(criticalBlinkMaxAlpha, alphaAtThirtyPercent, blend);
+        }
+
+        float halfHealthBlend = Mathf.InverseLerp(thirtyPercentHealth, permanentOverlayThreshold, health);
+        return Mathf.Lerp(alphaAtThirtyPercent, alphaAtHalfHealth, halfHealthBlend);
+    }
+
+    private void SetOverlayAlpha255(float alpha)
     {
         if (hitOverlay == null)
         {
@@ -156,7 +204,7 @@ public sealed class PlayerDamageFeedback : MonoBehaviour
         }
 
         Color color = hitOverlay.color;
-        color.a = alpha;
+        color.a = Mathf.Clamp01(alpha / 255f);
         hitOverlay.color = color;
     }
 
