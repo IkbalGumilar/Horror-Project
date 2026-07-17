@@ -3,63 +3,61 @@ using UnityEngine;
 [System.Serializable]
 public sealed class CharacterLocomotionSettings
 {
-    [Header("Speed Thresholds")]
+    [SerializeField] private string speedParameter = "Speed";
+    [SerializeField] private string locomotionLayer = "Locomotion";
     [SerializeField, Min(0f)] private float movementThreshold = 0.05f;
-    [SerializeField, Min(0f)] private float fastWalkThreshold = 2.4f;
-    [SerializeField, Min(0f)] private float runThreshold = 4.2f;
+    [SerializeField, Min(0f)] private float dampTime = 0.12f;
 
-    [Header("Playback")]
-    [SerializeField, Min(0f)] private float crossFadeDuration = 0.12f;
-    [SerializeField] private bool matchPlaybackToMovementSpeed = true;
-    [SerializeField, Min(0.01f)] private float walkReferenceSpeed = 1.7f;
-    [SerializeField, Min(0.01f)] private float fastWalkReferenceSpeed = 3.2f;
-    [SerializeField, Min(0.01f)] private float runReferenceSpeed = 5.2f;
-    [SerializeField] private Vector2 playbackSpeedRange = new Vector2(0.65f, 1.5f);
-
+    public string SpeedParameter => string.IsNullOrWhiteSpace(speedParameter)
+        ? "Speed"
+        : speedParameter;
+    public string LocomotionLayer => locomotionLayer;
     public float MovementThreshold => Mathf.Max(0f, movementThreshold);
-    public float FastWalkThreshold => Mathf.Max(MovementThreshold, fastWalkThreshold);
-    public float RunThreshold => Mathf.Max(FastWalkThreshold, runThreshold);
-    public float CrossFadeDuration => Mathf.Max(0f, crossFadeDuration);
-    public bool MatchPlaybackToMovementSpeed => matchPlaybackToMovementSpeed;
-    public float WalkReferenceSpeed => Mathf.Max(0.01f, walkReferenceSpeed);
-    public float FastWalkReferenceSpeed => Mathf.Max(0.01f, fastWalkReferenceSpeed);
-    public float RunReferenceSpeed => Mathf.Max(0.01f, runReferenceSpeed);
-    public Vector2 PlaybackSpeedRange => playbackSpeedRange;
+    public float DampTime => Mathf.Max(0f, dampTime);
 }
 
 [DisallowMultipleComponent]
 public sealed class CharacterLocomotionAnimator : MonoBehaviour
 {
-    private static readonly int WalkState = Animator.StringToHash("Base Layer.Walk");
-    private static readonly int FastWalkState = Animator.StringToHash("Base Layer.FastWalk");
-    private static readonly int RunState = Animator.StringToHash("Base Layer.Run");
-
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private Transform movementRoot;
     [SerializeField] private FPSPlayerController playerController;
-    [SerializeField] private CharacterLocomotionSettings settings = new CharacterLocomotionSettings();
+    [SerializeField] private CharacterLocomotionSettings settings =
+        new CharacterLocomotionSettings();
+
+    [Header("Blend Tree Range")]
+    [SerializeField, Range(0f, 1f)] private float maximumBlendValue = 1f;
+    [SerializeField, Min(0.01f)] private float referenceMovementSpeed = 1f;
 
     private Vector3 previousPosition;
-    private LocomotionState currentState = LocomotionState.None;
-    private float currentSpeed;
     private AnimatorCullingMode cullingMode = AnimatorCullingMode.CullUpdateTransforms;
+    private int speedParameterHash;
+    private int locomotionLayerIndex = -1;
+    private bool hasSpeedParameter;
+    private bool animatorPrepared;
+    private float currentMovementSpeed;
+    private float currentBlendValue;
 
     public Animator TargetAnimator => animator;
-    public float CurrentSpeed => currentSpeed;
-    public string CurrentStateName => currentState.ToString();
+    public float CurrentSpeed => currentMovementSpeed;
+    public float CurrentBlendValue => currentBlendValue;
 
     public void Initialize(
         Animator targetAnimator,
         Transform trackedMovementRoot,
         FPSPlayerController fpsPlayerController = null,
         CharacterLocomotionSettings locomotionSettings = null,
+        float targetMaximumBlendValue = 1f,
+        float targetReferenceMovementSpeed = 1f,
         AnimatorCullingMode targetCullingMode = AnimatorCullingMode.CullUpdateTransforms)
     {
         animator = targetAnimator;
         movementRoot = trackedMovementRoot != null ? trackedMovementRoot : transform;
         playerController = fpsPlayerController;
         settings = locomotionSettings ?? settings ?? new CharacterLocomotionSettings();
+        maximumBlendValue = Mathf.Clamp01(targetMaximumBlendValue);
+        referenceMovementSpeed = Mathf.Max(0.01f, targetReferenceMovementSpeed);
         cullingMode = targetCullingMode;
         previousPosition = movementRoot.position;
         PrepareAnimator();
@@ -82,28 +80,30 @@ public sealed class CharacterLocomotionAnimator : MonoBehaviour
     private void LateUpdate()
     {
         ResolveReferences();
-        if (animator == null || animator.runtimeAnimatorController == null)
+        if (!animatorPrepared)
+        {
+            PrepareAnimator();
+        }
+
+        if (!animatorPrepared || !hasSpeedParameter)
         {
             return;
         }
 
-        currentSpeed = ReadHorizontalSpeed();
-        if (currentSpeed <= settings.MovementThreshold)
+        currentMovementSpeed = ReadHorizontalSpeed();
+        currentBlendValue = CalculateBlendValue(currentMovementSpeed);
+        if (settings.DampTime > 0f && Time.deltaTime > 0f)
         {
-            animator.speed = 0f;
-            return;
+            animator.SetFloat(
+                speedParameterHash,
+                currentBlendValue,
+                settings.DampTime,
+                Time.deltaTime);
         }
-
-        LocomotionState targetState = SelectState(currentSpeed);
-        int targetStateHash = GetStateHash(targetState);
-        if (targetState != currentState)
+        else
         {
-            animator.speed = 1f;
-            animator.CrossFade(targetStateHash, settings.CrossFadeDuration, 0);
-            currentState = targetState;
+            animator.SetFloat(speedParameterHash, currentBlendValue);
         }
-
-        animator.speed = GetPlaybackSpeed(targetState, currentSpeed);
     }
 
     private void ResolveReferences()
@@ -122,25 +122,61 @@ public sealed class CharacterLocomotionAnimator : MonoBehaviour
         {
             playerController = GetComponent<FPSPlayerController>();
         }
+
+        settings ??= new CharacterLocomotionSettings();
     }
 
     private void PrepareAnimator()
     {
-        if (animator == null || animator.runtimeAnimatorController == null)
+        animatorPrepared = false;
+        hasSpeedParameter = false;
+        if (animator == null
+            || animator.runtimeAnimatorController == null
+            || !animator.isActiveAndEnabled)
         {
             return;
         }
 
         animator.applyRootMotion = false;
         animator.cullingMode = cullingMode;
-        if (currentState == LocomotionState.None && animator.HasState(0, WalkState))
+        animator.speed = 1f;
+
+        speedParameterHash = Animator.StringToHash(settings.SpeedParameter);
+        hasSpeedParameter = HasFloatParameter(speedParameterHash);
+        locomotionLayerIndex = string.IsNullOrWhiteSpace(settings.LocomotionLayer)
+            ? -1
+            : animator.GetLayerIndex(settings.LocomotionLayer);
+        if (locomotionLayerIndex >= 0)
         {
-            animator.speed = 1f;
-            animator.Play(WalkState, 0, 0f);
-            animator.Update(0f);
-            animator.speed = 0f;
-            currentState = LocomotionState.Walk;
+            animator.SetLayerWeight(locomotionLayerIndex, 1f);
         }
+
+        currentBlendValue = 0f;
+        if (hasSpeedParameter)
+        {
+            animator.SetFloat(speedParameterHash, 0f);
+        }
+
+        animatorPrepared = true;
+    }
+
+    private bool HasFloatParameter(int parameterHash)
+    {
+        AnimatorControllerParameter[] parameters = animator.parameters;
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            if (parameters[i].nameHash == parameterHash
+                && parameters[i].type == AnimatorControllerParameterType.Float)
+            {
+                return true;
+            }
+        }
+
+        Debug.LogWarning(
+            $"{nameof(CharacterLocomotionAnimator)} could not find float parameter " +
+            $"'{settings.SpeedParameter}' on {animator.name}.",
+            this);
+        return false;
     }
 
     private float ReadHorizontalSpeed()
@@ -163,57 +199,16 @@ public sealed class CharacterLocomotionAnimator : MonoBehaviour
         return measuredSpeed;
     }
 
-    private LocomotionState SelectState(float speed)
+    private float CalculateBlendValue(float movementSpeed)
     {
-        if (playerController != null && playerController.IsSprinting)
+        if (movementSpeed <= settings.MovementThreshold)
         {
-            return LocomotionState.Run;
+            return 0f;
         }
 
-        if (speed >= settings.RunThreshold)
-        {
-            return LocomotionState.Run;
-        }
-
-        return speed >= settings.FastWalkThreshold
-            ? LocomotionState.FastWalk
-            : LocomotionState.Walk;
-    }
-
-    private float GetPlaybackSpeed(LocomotionState state, float speed)
-    {
-        if (!settings.MatchPlaybackToMovementSpeed)
-        {
-            return 1f;
-        }
-
-        float referenceSpeed = state switch
-        {
-            LocomotionState.FastWalk => settings.FastWalkReferenceSpeed,
-            LocomotionState.Run => settings.RunReferenceSpeed,
-            _ => settings.WalkReferenceSpeed
-        };
-        Vector2 playbackSpeedRange = settings.PlaybackSpeedRange;
-        float minimum = Mathf.Min(playbackSpeedRange.x, playbackSpeedRange.y);
-        float maximum = Mathf.Max(playbackSpeedRange.x, playbackSpeedRange.y);
-        return Mathf.Clamp(speed / referenceSpeed, minimum, maximum);
-    }
-
-    private static int GetStateHash(LocomotionState state)
-    {
-        return state switch
-        {
-            LocomotionState.FastWalk => FastWalkState,
-            LocomotionState.Run => RunState,
-            _ => WalkState
-        };
-    }
-
-    private enum LocomotionState
-    {
-        None,
-        Walk,
-        FastWalk,
-        Run
+        float normalizedSpeed = playerController != null
+            ? playerController.NormalizedHorizontalSpeed
+            : Mathf.Clamp01(movementSpeed / referenceMovementSpeed);
+        return Mathf.Min(normalizedSpeed, maximumBlendValue);
     }
 }

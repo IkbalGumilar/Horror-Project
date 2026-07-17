@@ -57,9 +57,19 @@ public sealed class FPSPlayerController : MonoBehaviour
     private bool sprintToggled;
     private bool initialized;
     private bool movementSuppressed;
+    private bool hasModelCameraHeights;
+    private float modelStandingCameraHeight;
+    private float modelCrouchingCameraHeight;
 
     public Vector3 HorizontalVelocity => currentHorizontalVelocity;
     public float HorizontalSpeed => currentHorizontalVelocity.magnitude;
+    public float MaximumMovementSpeed => Mathf.Max(walkSpeed, sprintSpeed, crouchSpeed);
+    public float NormalizedHorizontalSpeed => MaximumMovementSpeed > 0f
+        ? Mathf.Clamp01(HorizontalSpeed / MaximumMovementSpeed)
+        : 0f;
+    public float ConfiguredStandingHeight => controlProfile != null
+        ? controlProfile.StandingHeight
+        : standingHeight;
     public bool IsGrounded => characterController != null && characterController.isGrounded;
     public bool IsCrouching => isCrouching;
     public bool IsSprinting => isSprinting;
@@ -97,26 +107,30 @@ public sealed class FPSPlayerController : MonoBehaviour
 
     private void ApplyControlProfile()
     {
-        if (controlProfile == null)
+        if (controlProfile != null)
         {
-            return;
+            walkSpeed = controlProfile.WalkSpeed;
+            sprintSpeed = controlProfile.SprintSpeed;
+            crouchSpeed = controlProfile.CrouchSpeed;
+            acceleration = controlProfile.Acceleration;
+            gravity = controlProfile.Gravity;
+            groundedStickForce = controlProfile.GroundedStickForce;
+            jumpHeight = controlProfile.JumpHeight;
+            standingHeight = controlProfile.StandingHeight;
+            crouchingHeight = controlProfile.CrouchingHeight;
+            standingCameraHeight = controlProfile.StandingCameraHeight;
+            crouchingCameraHeight = controlProfile.CrouchingCameraHeight;
+            crouchLerpSpeed = controlProfile.CrouchLerpSpeed;
+            enableQuickTurn = controlProfile.EnableQuickTurn;
+            backTapThreshold = controlProfile.BackTapThreshold;
+            doubleBackTapWindow = controlProfile.DoubleBackTapWindow;
         }
 
-        walkSpeed = controlProfile.WalkSpeed;
-        sprintSpeed = controlProfile.SprintSpeed;
-        crouchSpeed = controlProfile.CrouchSpeed;
-        acceleration = controlProfile.Acceleration;
-        gravity = controlProfile.Gravity;
-        groundedStickForce = controlProfile.GroundedStickForce;
-        jumpHeight = controlProfile.JumpHeight;
-        standingHeight = controlProfile.StandingHeight;
-        crouchingHeight = controlProfile.CrouchingHeight;
-        standingCameraHeight = controlProfile.StandingCameraHeight;
-        crouchingCameraHeight = controlProfile.CrouchingCameraHeight;
-        crouchLerpSpeed = controlProfile.CrouchLerpSpeed;
-        enableQuickTurn = controlProfile.EnableQuickTurn;
-        backTapThreshold = controlProfile.BackTapThreshold;
-        doubleBackTapWindow = controlProfile.DoubleBackTapWindow;
+        if (hasModelCameraHeights)
+        {
+            standingCameraHeight = modelStandingCameraHeight;
+            crouchingCameraHeight = modelCrouchingCameraHeight;
+        }
     }
 
     private void OnEnable()
@@ -163,6 +177,35 @@ public sealed class FPSPlayerController : MonoBehaviour
         isSprinting = false;
         sprintToggled = false;
         lastMoveY = 0f;
+    }
+
+    public void SetModelCameraHeight(float standingViewHeight, bool immediate)
+    {
+        float configuredStandingCameraHeight = controlProfile != null
+            ? controlProfile.StandingCameraHeight
+            : standingCameraHeight;
+        float configuredCrouchingCameraHeight = controlProfile != null
+            ? controlProfile.CrouchingCameraHeight
+            : crouchingCameraHeight;
+        float crouchDrop = Mathf.Max(
+            0f,
+            configuredStandingCameraHeight - configuredCrouchingCameraHeight);
+
+        hasModelCameraHeights = true;
+        modelStandingCameraHeight = standingViewHeight;
+        modelCrouchingCameraHeight = Mathf.Max(0f, standingViewHeight - crouchDrop);
+        standingCameraHeight = modelStandingCameraHeight;
+        crouchingCameraHeight = modelCrouchingCameraHeight;
+
+        if (cameraController == null)
+        {
+            cameraController = GetComponent<FPSCameraController>();
+        }
+
+        cameraController?.SetModelStandingHeight(modelStandingCameraHeight, immediate);
+        cameraController?.SetCameraHeight(
+            isCrouching ? modelCrouchingCameraHeight : modelStandingCameraHeight,
+            immediate);
     }
 
     private void UpdateSuppressedMovement()

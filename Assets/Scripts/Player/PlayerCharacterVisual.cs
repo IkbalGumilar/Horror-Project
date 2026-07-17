@@ -21,8 +21,13 @@ public sealed class PlayerCharacterVisual : MonoBehaviour
 
     [Header("First Person")]
     [SerializeField] private Camera playerCamera;
-    [SerializeField] private bool hideFromAttachedCamera = true;
+    [SerializeField] private bool hideFromAttachedCamera;
     [SerializeField] private bool keepFirstPersonShadow = true;
+
+    [Header("View Alignment")]
+    [SerializeField] private bool alignCameraToViewAnchor = true;
+    [SerializeField] private string viewAnchorName = "ViewAnchor";
+    [SerializeField] private float cameraHeightOffset;
 
     private GameObject modelInstance;
     private Renderer[] modelRenderers;
@@ -32,11 +37,14 @@ public sealed class PlayerCharacterVisual : MonoBehaviour
 
     public GameObject ModelInstance => modelInstance;
     public Animator ModelAnimator { get; private set; }
+    public Transform ViewAnchor { get; private set; }
+    public float StandingViewHeight { get; private set; }
 
     private void Awake()
     {
         CreateModel();
         ResolveCamera();
+        AlignCameraToViewAnchor();
         UpdateVisibility(true);
     }
 
@@ -62,7 +70,11 @@ public sealed class PlayerCharacterVisual : MonoBehaviour
             CharacterController controller = GetComponent<CharacterController>();
             if (controller != null)
             {
-                offset.y += controller.center.y - controller.height * 0.5f;
+                FPSPlayerController playerController = GetComponent<FPSPlayerController>();
+                float standingHeight = playerController != null
+                    ? playerController.ConfiguredStandingHeight
+                    : controller.height;
+                offset.y += controller.center.y - standingHeight * 0.5f;
             }
             else if (TryGetComponent(out CapsuleCollider capsule))
             {
@@ -95,6 +107,56 @@ public sealed class PlayerCharacterVisual : MonoBehaviour
         }
     }
 
+    private void AlignCameraToViewAnchor()
+    {
+        if (!alignCameraToViewAnchor || modelInstance == null)
+        {
+            return;
+        }
+
+        ViewAnchor = FindModelTransform(viewAnchorName);
+        if (ViewAnchor == null)
+        {
+            Debug.LogWarning(
+                $"{nameof(PlayerCharacterVisual)} could not find view anchor " +
+                $"'{viewAnchorName}' on {modelInstance.name}.",
+                this);
+            return;
+        }
+
+        StandingViewHeight = transform.InverseTransformPoint(ViewAnchor.position).y
+            + cameraHeightOffset;
+
+        FPSPlayerController playerController = GetComponent<FPSPlayerController>();
+        if (playerController != null)
+        {
+            playerController.SetModelCameraHeight(StandingViewHeight, true);
+            return;
+        }
+
+        FPSCameraController cameraController = GetComponent<FPSCameraController>();
+        cameraController?.SetModelStandingHeight(StandingViewHeight, true);
+    }
+
+    private Transform FindModelTransform(string transformName)
+    {
+        if (string.IsNullOrWhiteSpace(transformName))
+        {
+            return null;
+        }
+
+        Transform[] transforms = modelInstance.GetComponentsInChildren<Transform>(true);
+        for (int i = 0; i < transforms.Length; i++)
+        {
+            if (transforms[i].name == transformName)
+            {
+                return transforms[i];
+            }
+        }
+
+        return null;
+    }
+
     private void ConfigureAnimation()
     {
         ModelAnimator = modelInstance.GetComponentInChildren<Animator>(true);
@@ -116,8 +178,9 @@ public sealed class PlayerCharacterVisual : MonoBehaviour
             ModelAnimator,
             transform,
             GetComponent<FPSPlayerController>(),
-            locomotionSettings,
-            AnimatorCullingMode.AlwaysAnimate);
+            locomotionSettings: locomotionSettings,
+            targetMaximumBlendValue: 1f,
+            targetCullingMode: AnimatorCullingMode.AlwaysAnimate);
     }
 
     private void ResolveCamera()

@@ -42,6 +42,8 @@ public sealed class FPSCameraController : MonoBehaviour
     private bool isQuickTurning;
     private bool initialized;
     private bool lookSuppressed;
+    private bool hasModelStandingHeight;
+    private float modelStandingHeight;
 
     public bool IsQuickTurning => isQuickTurning;
     public Transform CameraPivot => cameraPivot;
@@ -92,19 +94,22 @@ public sealed class FPSCameraController : MonoBehaviour
 
     private void ApplyControlProfile()
     {
-        if (controlProfile == null)
+        if (controlProfile != null)
         {
-            return;
+            mouseSensitivity = controlProfile.MouseSensitivity;
+            gamepadSensitivity = controlProfile.GamepadSensitivity;
+            minPitch = controlProfile.MinPitch;
+            maxPitch = controlProfile.MaxPitch;
+            lockCursorOnEnable = controlProfile.LockCursorOnEnable;
+            cameraHeight = controlProfile.CameraHeight;
+            heightLerpSpeed = controlProfile.HeightLerpSpeed;
+            quickTurnDuration = controlProfile.QuickTurnDuration;
         }
 
-        mouseSensitivity = controlProfile.MouseSensitivity;
-        gamepadSensitivity = controlProfile.GamepadSensitivity;
-        minPitch = controlProfile.MinPitch;
-        maxPitch = controlProfile.MaxPitch;
-        lockCursorOnEnable = controlProfile.LockCursorOnEnable;
-        cameraHeight = controlProfile.CameraHeight;
-        heightLerpSpeed = controlProfile.HeightLerpSpeed;
-        quickTurnDuration = controlProfile.QuickTurnDuration;
+        if (hasModelStandingHeight)
+        {
+            cameraHeight = modelStandingHeight;
+        }
     }
 
     private void OnEnable()
@@ -233,6 +238,14 @@ public sealed class FPSCameraController : MonoBehaviour
             ? cameraHeight
             : Mathf.Lerp(localPosition.y, cameraHeight, heightLerpSpeed * Time.deltaTime);
         cameraPivot.localPosition = localPosition;
+    }
+
+    public void SetModelStandingHeight(float height, bool immediate)
+    {
+        hasModelStandingHeight = true;
+        modelStandingHeight = height;
+        ResolveReferences();
+        SetCameraHeight(modelStandingHeight, immediate);
     }
 
     public void LockCursor()

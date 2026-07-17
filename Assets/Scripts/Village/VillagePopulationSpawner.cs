@@ -25,6 +25,7 @@ public sealed class VillagePopulationSpawner : MonoBehaviour
     [SerializeField] private RuntimeAnimatorController locomotionController;
     [SerializeField] private CharacterLocomotionSettings locomotionSettings =
         new CharacterLocomotionSettings();
+    [SerializeField, Range(0f, 1f)] private float villagerMaximumBlendValue = 0.33333334f;
     [SerializeField] private bool alignVisualFeetToCapsule = true;
     [SerializeField] private bool hideTemplateRenderer = true;
     [SerializeField] private Vector3 visualLocalPosition;
@@ -166,8 +167,9 @@ public sealed class VillagePopulationSpawner : MonoBehaviour
             locomotion.Initialize(
                 visualAnimator,
                 villager.transform,
-                null,
-                locomotionSettings);
+                locomotionSettings: locomotionSettings,
+                targetMaximumBlendValue: villagerMaximumBlendValue,
+                targetReferenceMovementSpeed: Mathf.Max(0.01f, wanderSpeed));
         }
 
         if (!hideTemplateRenderer)

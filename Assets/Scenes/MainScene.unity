@@ -7481,8 +7481,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2004439914}
-  - component: {fileID: 2004439913}
-  - component: {fileID: 2004439912}
   - component: {fileID: 2004439911}
   - component: {fileID: 2004439916}
   - component: {fileID: 2004439915}
@@ -7527,63 +7525,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &2004439912
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2004439910}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &2004439913
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2004439910}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &2004439914
 Transform:
   m_ObjectHideFlags: 0
@@ -18306,25 +18247,23 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacterVisual
   modelPrefab: {fileID: 919132149155446097, guid: 915715f9865b4865b180e17b019d20bc, type: 3}
-  locomotionController: {fileID: 9100000, guid: b7c4a70c689f8614f86252f2a9d1d48e, type: 2}
+  locomotionController: {fileID: 9100000, guid: e99ce17a6bf6f3e7781cafc975eed1dd, type: 2}
   locomotionSettings:
+    speedParameter: Speed
+    locomotionLayer: Locomotion
     movementThreshold: 0.05
-    fastWalkThreshold: 2.4
-    runThreshold: 4.2
-    crossFadeDuration: 0.12
-    matchPlaybackToMovementSpeed: 1
-    walkReferenceSpeed: 1.7
-    fastWalkReferenceSpeed: 3.2
-    runReferenceSpeed: 5.2
-    playbackSpeedRange: {x: 0.65, y: 1.5}
+    dampTime: 0.12
   localPosition: {x: 0, y: 0, z: 0}
   localEulerAngles: {x: 0, y: 0, z: 0}
   localScale: {x: 1, y: 1, z: 1}
   alignFeetToCharacterController: 1
   hideLegacyRenderer: 1
   playerCamera: {fileID: 963194227}
-  hideFromAttachedCamera: 1
+  hideFromAttachedCamera: 0
   keepFirstPersonShadow: 1
+  alignCameraToViewAnchor: 1
+  viewAnchorName: ViewAnchor
+  cameraHeightOffset: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
