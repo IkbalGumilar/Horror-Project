@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -22,6 +23,7 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
     [FormerlySerializedAs("promptRoot")]
     [SerializeField] private GameObject npcPromptRoot;
     [SerializeField] private GameObject worldPromptRoot;
+    [SerializeField] private TMP_Text interactNameText;
     [SerializeField, Range(0f, 255f)] private float minimumAlpha = 150f;
     [SerializeField, Range(0f, 255f)] private float maximumAlpha = 255f;
     [SerializeField, Min(0.01f)] private float blinkCyclesPerSecond = 2.5f;
@@ -124,12 +126,16 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
             nearbyWorldInteractable = null;
             SetPromptAlpha(npcPromptCanvasGroup, alpha);
             SetPromptAlpha(worldPromptCanvasGroup, 0f);
+            SetInteractName(nearbyVillager.DisplayName);
             return;
         }
 
         nearbyWorldInteractable = FindNearestWorldInteractable();
-        SetPromptAlpha(npcPromptCanvasGroup, 0f);
-        SetPromptAlpha(worldPromptCanvasGroup, nearbyWorldInteractable != null ? alpha : 0f);
+        bool hasWorldTarget = nearbyWorldInteractable != null;
+        bool sharesNpcPromptRoot = worldPromptCanvasGroup == null;
+        SetPromptAlpha(npcPromptCanvasGroup, sharesNpcPromptRoot && hasWorldTarget ? alpha : 0f);
+        SetPromptAlpha(worldPromptCanvasGroup, hasWorldTarget ? alpha : 0f);
+        SetInteractName(hasWorldTarget ? nearbyWorldInteractable.DisplayName : string.Empty);
     }
 
     public bool TryInteract()
@@ -143,6 +149,7 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
         {
             talkingVillager = nearbyVillager;
             talkingVillager.SetMovementLocked(true);
+            talkingVillager.SetConversationPartner(transform);
             preparingConversation = true;
             SetConversationControlsLocked(true);
             nearbyVillager = null;
@@ -359,6 +366,7 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
 
         talkingVillager.Completed -= OnConversationCompleted;
         talkingVillager.SetMovementLocked(false);
+        talkingVillager.SetConversationPartner(null);
         talkingVillager = null;
         preparingConversation = false;
     }
@@ -390,6 +398,22 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
 
         npcPromptCanvasGroup = PreparePrompt(npcPromptRoot);
         worldPromptCanvasGroup = PreparePrompt(worldPromptRoot);
+
+        if (interactNameText == null)
+        {
+            interactNameText = FindNameText(npcPromptRoot) ?? FindNameText(worldPromptRoot);
+        }
+    }
+
+    private static TMP_Text FindNameText(GameObject promptRoot)
+    {
+        if (promptRoot == null)
+        {
+            return null;
+        }
+
+        Transform nameTransform = promptRoot.transform.Find("Name Text");
+        return nameTransform != null ? nameTransform.GetComponent<TMP_Text>() : null;
     }
 
     private static CanvasGroup PreparePrompt(GameObject promptRoot)
@@ -451,6 +475,15 @@ public sealed class PlayerVillagerInteraction : MonoBehaviour
     {
         SetPromptAlpha(npcPromptCanvasGroup, 0f);
         SetPromptAlpha(worldPromptCanvasGroup, 0f);
+        SetInteractName(string.Empty);
+    }
+
+    private void SetInteractName(string name)
+    {
+        if (interactNameText != null)
+        {
+            interactNameText.text = name ?? string.Empty;
+        }
     }
 
     private static void SetPromptAlpha(CanvasGroup canvasGroup, float alpha)

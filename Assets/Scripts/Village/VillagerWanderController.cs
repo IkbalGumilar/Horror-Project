@@ -69,6 +69,7 @@ public sealed class VillagerWanderController : MonoBehaviour
         {
             hasDestination = false;
             wasMovementLocked = true;
+            FaceConversationPartner();
             return;
         }
 
@@ -128,6 +129,28 @@ public sealed class VillagerWanderController : MonoBehaviour
         }
 
         transform.position = nextPosition;
+    }
+
+    private void FaceConversationPartner()
+    {
+        Transform partner = conversation != null ? conversation.ConversationPartner : null;
+        if (partner == null)
+        {
+            return;
+        }
+
+        Vector3 direction = partner.position - transform.position;
+        direction.y = 0f;
+        if (direction.sqrMagnitude <= 0.0001f)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+        transform.rotation = Quaternion.RotateTowards(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime);
     }
 
     private bool TryChooseDestination()

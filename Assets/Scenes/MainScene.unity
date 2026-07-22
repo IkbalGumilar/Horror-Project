@@ -1627,6 +1627,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 637297095}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1721,6 +1722,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraDepthTextureEnabler
   depthTextureMode: 1
+--- !u!114 &637297095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dda94a0486a6409ca92a59fc3b42e20e, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CameraPerformanceOptimizer
+  targetCamera: {fileID: 963194227}
+  applyCameraCulling: 1
+  farClipPlane: 325
+  useOcclusionCulling: 1
+  useLayerCullDistance: 0
+  layerCullDistance: 325
+  sphericalLayerCulling: 1
+  applyTextureStreaming: 1
+  applyGlobalTextureLimit: 1
+  globalTextureMipmapLimit: 1
+  streamingMipmapsMemoryBudget: 256
+  streamingMipmapsRenderersPerFrame: 128
+  applyTerrainSettings: 1
+  terrains: []
+  treeDistance: 80
+  treeBillboardDistance: 20
+  treeMaximumFullLODCount: 20
+  detailObjectDistance: 22.5
+  terrainPixelError: 12
+  terrainBaseMapDistance: 60
+  drawTerrainInstanced: 1
 --- !u!1 &1001660806
 GameObject:
   m_ObjectHideFlags: 0
@@ -8078,7 +8112,7 @@ TerrainCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: 3cab31820e4230903b3520a363d782b4, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: e2afa162f25d432c9204f119d08d6402, type: 2}
   m_EnableTreeColliders: 1
 --- !u!218 &2064159194
 Terrain:
@@ -8089,7 +8123,7 @@ Terrain:
   m_GameObject: {fileID: 2064159192}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: 3cab31820e4230903b3520a363d782b4, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: e2afa162f25d432c9204f119d08d6402, type: 2}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5

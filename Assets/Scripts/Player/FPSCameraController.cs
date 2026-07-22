@@ -324,19 +324,30 @@ public sealed class FPSCameraController : MonoBehaviour
         float pitchSensitivity = baseSensitivity * GameControlSettings.PitchSensitivityMultiplier;
         float pitchDirection = usingMouse && GameControlSettings.ReverseMouse ? -1f : 1f;
 
-        if (!isQuickTurning)
+        float previousYaw = yaw;
+        float previousPitch = pitch;
+
+        if (!isQuickTurning && lookInput.x != 0f)
         {
             yaw += lookInput.x * yawSensitivity;
         }
 
-        pitch = Mathf.Clamp(pitch - lookInput.y * pitchSensitivity * pitchDirection, minPitch, maxPitch);
-        if (cameraPivot != null)
+        if (lookInput.y != 0f)
+        {
+            pitch = Mathf.Clamp(pitch - lookInput.y * pitchSensitivity * pitchDirection, minPitch, maxPitch);
+        }
+
+        UpdateQuickTurnRotation();
+
+        if (cameraPivot != null && !Mathf.Approximately(pitch, previousPitch))
         {
             cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
         }
 
-        UpdateQuickTurnRotation();
-        yawRoot.rotation = Quaternion.Euler(0f, yaw, 0f);
+        if (!Mathf.Approximately(yaw, previousYaw))
+        {
+            yawRoot.rotation = Quaternion.Euler(0f, yaw, 0f);
+        }
     }
 
     private void UpdateQuickTurnRotation()

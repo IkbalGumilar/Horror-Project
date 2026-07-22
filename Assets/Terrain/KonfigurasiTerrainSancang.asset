@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444807db7da64f129f3e344e2c5b39df, type: 3}
+  m_Name: KonfigurasiTerrainSancang
+  m_EditorClassIdentifier:
+  ukuranDuniaMeter: {x: 2000, y: 2000}
+  ketinggianMaksimumMeter: 500
+  resolusiHeightmap: 1025
+  resolusiAlphamap: 512
+  resolusiDetail: 1024
+  seed: 20260721
+  lapisanNoise:
+  - nama: LapisanBentukDasar
+    jenis: 0
+    frekuensi: 0.0008
+    oktaf: 4
+    lacunarity: 2
+    persistence: 0.5
+    bobot: 1
+    pangkat: 2
+    rotasiDerajat: 0
+  - nama: LapisanPunggungan
+    jenis: 1
+    frekuensi: 0.0025
+    oktaf: 5
+    lacunarity: 2.1
+    persistence: 0.45
+    bobot: 0.65
+    pangkat: 2
+    rotasiDerajat: 315
+  - nama: LapisanDetail
+    jenis: 0
+    frekuensi: 0.012
+    oktaf: 3
+    lacunarity: 2
+    persistence: 0.4
+    bobot: 0.08
+    pangkat: 2
+    rotasiDerajat: 0
+  domainWarp:
+    aktif: 1
+    kekuatan: 120
+    frekuensi: 0.0015
+  erosiHidrolik:
+    aktif: 1
+    jumlahTetes: 150000
+    umurMaksimumTetes: 32
+    kapasitasSedimen: 4
+    lajuErosi: 0.3
+    lajuPengendapan: 0.3
+    inersia: 0.05
+    penguapan: 0.02
+    radiusKikis: 3
+  profilPesisir:
+    aktif: 1
+    lebarTransisiMeter: 400
+    ketinggianGarisPantaiMeter: 0
+    dataranPesisir:
+      lebarMeter: 250
+      ketinggianRataRataMeter: 25
+      variasiMeter: 10
+  kurvaKetinggian:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3
+      value: 0.12
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6
+      value: 0.45
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.85
+      value: 0.8
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lapisanPewarnaan:
+  - nama: Pasir
+    terrainLayer: {fileID: 0}
+    rentangKetinggianMeter: {x: 0, y: 20}
+    rentangKemiringanDerajat: {x: 0, y: 15}
+    prioritas: 1
+  - nama: Rumput
+    terrainLayer: {fileID: 0}
+    rentangKetinggianMeter: {x: 10, y: 280}
+    rentangKemiringanDerajat: {x: 0, y: 28}
+    prioritas: 2
+  - nama: Tanah
+    terrainLayer: {fileID: 0}
+    rentangKetinggianMeter: {x: 50, y: 400}
+    rentangKemiringanDerajat: {x: 22, y: 40}
+    prioritas: 3
+  - nama: Batu
+    terrainLayer: {fileID: 0}
+    rentangKetinggianMeter: {x: 0, y: 500}
+    rentangKemiringanDerajat: {x: 35, y: 90}
+    prioritas: 4
+  lebarPembauran: 0.15
+  aturanVegetasi:
+  - nama: HutanLebat
+    prefab: {fileID: 0}
+    sebagaiDetail: 0
+    kepadatanPerHektar: 400
+    rentangKetinggianMeter: {x: 15, y: 320}
+    kemiringanMinimumDerajat: 0
+    kemiringanMaksimumDerajat: 30
+    jarakMinimumMeter: 3.5
+    variasiSkala: {x: 0.8, y: 1.4}
+    rotasiAcak: 1
+  - nama: SemakLereng
+    prefab: {fileID: 0}
+    sebagaiDetail: 1
+    kepadatanPerHektar: 900
+    rentangKetinggianMeter: {x: 5, y: 400}
+    kemiringanMinimumDerajat: 0
+    kemiringanMaksimumDerajat: 42
+    jarakMinimumMeter: 1.2
+    variasiSkala: {x: 1, y: 1}
+    rotasiAcak: 1
+  - nama: BatuTersebar
+    prefab: {fileID: 0}
+    sebagaiDetail: 0
+    kepadatanPerHektar: 60
+    rentangKetinggianMeter: {x: 0, y: 500}
+    kemiringanMinimumDerajat: 25
+    kemiringanMaksimumDerajat: 90
+    jarakMinimumMeter: 8
+    variasiSkala: {x: 1, y: 1}
+    rotasiAcak: 1
+  performa:
+    pixelErrorLod: 8
+    jarakDasarPetaMeter: 1200
+    jarakPandangDetailMeter: 250
+    billboardPohonMulaiMeter: 180

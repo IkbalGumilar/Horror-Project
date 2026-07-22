@@ -41,6 +41,8 @@ public sealed class FPSPlayerController : MonoBehaviour
     [SerializeField] private float backTapThreshold = -0.75f;
     [SerializeField] private float doubleBackTapWindow = 0.28f;
 
+    private const float HeightSnapThreshold = 0.001f;
+
     private CharacterController characterController;
     private InputActionMap playerMap;
     private InputAction moveAction;
@@ -101,6 +103,10 @@ public sealed class FPSPlayerController : MonoBehaviour
         ResolveReferences();
         ResolveInputActions();
         ApplyControllerDimensions(standingHeight);
+        if (characterController != null)
+        {
+            characterController.center = Vector3.zero;
+        }
         cameraController?.SetCameraHeight(standingCameraHeight, true);
         initialized = true;
     }
@@ -159,6 +165,7 @@ public sealed class FPSPlayerController : MonoBehaviour
         }
 
         Vector2 moveInput = moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
+        isCrouching = IsCrouchPressed();
 
         UpdateQuickTurnDetection(moveInput.y);
         UpdateMovement(moveInput);
@@ -276,7 +283,6 @@ public sealed class FPSPlayerController : MonoBehaviour
             verticalVelocity = groundedStickForce;
         }
 
-        isCrouching = IsCrouchPressed();
         bool hasStamina = playerStamina == null || playerStamina.CanSprint;
         bool sprintRequested = ReadSprintRequested(hasStamina);
         isSprinting = sprintRequested && moveInput.y > 0.1f && !isCrouching && hasStamina;
@@ -310,10 +316,18 @@ public sealed class FPSPlayerController : MonoBehaviour
 
     private void UpdateCrouch()
     {
-        isCrouching = IsCrouchPressed();
         float targetHeight = isCrouching ? crouchingHeight : standingHeight;
-        float newHeight = Mathf.Lerp(characterController.height, targetHeight, crouchLerpSpeed * Time.deltaTime);
-        ApplyControllerDimensions(newHeight);
+        float currentHeight = characterController.height;
+        if (!Mathf.Approximately(currentHeight, targetHeight))
+        {
+            float newHeight = Mathf.Lerp(currentHeight, targetHeight, crouchLerpSpeed * Time.deltaTime);
+            if (Mathf.Abs(targetHeight - newHeight) < HeightSnapThreshold)
+            {
+                newHeight = targetHeight;
+            }
+
+            ApplyControllerDimensions(newHeight);
+        }
 
         float targetCameraHeight = isCrouching ? crouchingCameraHeight : standingCameraHeight;
         cameraController?.SetCameraHeight(targetCameraHeight, false);
@@ -358,7 +372,6 @@ public sealed class FPSPlayerController : MonoBehaviour
         }
 
         characterController.height = height;
-        characterController.center = Vector3.zero;
     }
 
     private void UpdateQuickTurnDetection(float moveY)

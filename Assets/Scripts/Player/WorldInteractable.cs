@@ -9,6 +9,7 @@ public sealed class WorldInteractable : MonoBehaviour
     private static readonly HashSet<WorldInteractable> ActiveInteractables = new();
 
     [SerializeField] private Transform interactionPoint;
+    [SerializeField] private string displayNameKey;
     [SerializeField] private bool oneShot;
     [SerializeField] private UnityEvent interacted;
 
@@ -17,6 +18,9 @@ public sealed class WorldInteractable : MonoBehaviour
     public event Action Triggered;
 
     public bool CanInteract => isActiveAndEnabled && !consumed;
+    public string DisplayName => string.IsNullOrWhiteSpace(displayNameKey)
+        ? string.Empty
+        : LocalizationManager.Get(displayNameKey);
     public Vector3 InteractionPosition => interactionPoint != null
         ? interactionPoint.position
         : transform.position;

@@ -17,6 +17,8 @@ public sealed class SubtitleController : MonoBehaviour
 
     public static SubtitleController Instance { get; private set; }
 
+    public bool IsRevealing => isRevealing;
+
     [Header("References")]
     [SerializeField] private LocalizationTable fallbackLocalizationTable;
     [SerializeField] private CanvasGroup canvasGroup;
@@ -36,6 +38,10 @@ public sealed class SubtitleController : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.2f;
     [SerializeField] private bool hideOnAwake = true;
 
+    [Header("Typewriter")]
+    [SerializeField] private bool useTypewriterEffect = true;
+    [SerializeField, Min(1f)] private float charactersPerSecond = 45f;
+
     [Header("Conversation Skip")]
     [SerializeField] private TMP_Text skipPromptText;
     [SerializeField, Min(0f)] private float skipPromptDelay = 1f;
@@ -45,6 +51,8 @@ public sealed class SubtitleController : MonoBehaviour
     [SerializeField] private string[] censoredWords = { "anjing", "fuck" };
 
     private Coroutine activeRoutine;
+    private Coroutine typewriterRoutine;
+    private bool isRevealing;
     private string currentSpeakerKey;
     private string currentTextKey;
     private string currentSpeakerText;
@@ -200,6 +208,8 @@ public sealed class SubtitleController : MonoBehaviour
 
     public void Hide()
     {
+        StopTypewriter();
+
         if (activeRoutine != null)
         {
             StopCoroutine(activeRoutine);
@@ -210,6 +220,8 @@ public sealed class SubtitleController : MonoBehaviour
 
     public void HideImmediate()
     {
+        StopTypewriter();
+
         if (activeRoutine != null)
         {
             StopCoroutine(activeRoutine);
@@ -224,8 +236,27 @@ public sealed class SubtitleController : MonoBehaviour
         }
     }
 
+    public void SkipTypewriter()
+    {
+        if (!isRevealing || subtitleText == null)
+        {
+            return;
+        }
+
+        if (typewriterRoutine != null)
+        {
+            StopCoroutine(typewriterRoutine);
+            typewriterRoutine = null;
+        }
+
+        subtitleText.maxVisibleCharacters = subtitleText.textInfo.characterCount;
+        isRevealing = false;
+    }
+
     public void BeginChoiceOverlay()
     {
+        StopTypewriter();
+
         if (activeRoutine != null)
         {
             StopCoroutine(activeRoutine);
@@ -397,7 +428,55 @@ public sealed class SubtitleController : MonoBehaviour
             }
 
             subtitleText.text = ApplyProfanityFilter(text);
+            StartTypewriter();
         }
+    }
+
+    private void StartTypewriter()
+    {
+        StopTypewriter();
+
+        subtitleText.ForceMeshUpdate();
+        int totalCharacters = subtitleText.textInfo.characterCount;
+
+        if (!useTypewriterEffect || charactersPerSecond <= 0f || totalCharacters <= 0)
+        {
+            subtitleText.maxVisibleCharacters = int.MaxValue;
+            return;
+        }
+
+        subtitleText.maxVisibleCharacters = 0;
+        isRevealing = true;
+        typewriterRoutine = StartCoroutine(RevealText(totalCharacters));
+    }
+
+    private void StopTypewriter()
+    {
+        if (typewriterRoutine != null)
+        {
+            StopCoroutine(typewriterRoutine);
+            typewriterRoutine = null;
+        }
+
+        isRevealing = false;
+    }
+
+    private IEnumerator RevealText(int totalCharacters)
+    {
+        float secondsPerCharacter = 1f / charactersPerSecond;
+        float elapsed = 0f;
+        int visibleCount = 0;
+
+        while (visibleCount < totalCharacters)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            visibleCount = Mathf.Min(totalCharacters, Mathf.FloorToInt(elapsed / secondsPerCharacter));
+            subtitleText.maxVisibleCharacters = visibleCount;
+            yield return null;
+        }
+
+        isRevealing = false;
+        typewriterRoutine = null;
     }
 
     private void ApplyAccessibilitySettings()

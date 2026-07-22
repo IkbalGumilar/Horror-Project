@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.Utilities;
 
 public static class NpcDialogueAdvanceInput
 {
@@ -14,26 +14,12 @@ public static class NpcDialogueAdvanceInput
     {
         yield return new WaitForSecondsRealtime(InputGuardDuration);
 
-        while (!WasPressedThisFrame())
+        bool pressed = false;
+        using IDisposable subscription = InputSystem.onAnyButtonPress.CallOnce(_ => pressed = true);
+        while (!pressed)
         {
             yield return null;
         }
-    }
-
-    private static bool WasPressedThisFrame()
-    {
-        foreach (InputDevice device in InputSystem.devices)
-        {
-            foreach (InputControl control in device.allControls)
-            {
-                if (control is ButtonControl button && button.wasPressedThisFrame)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 }
 
@@ -152,9 +138,16 @@ public sealed class VillagerConversation : MonoBehaviour
         return true;
     }
 
+    public Transform ConversationPartner { get; private set; }
+
     public void SetMovementLocked(bool locked)
     {
         movementLocked = locked;
+    }
+
+    public void SetConversationPartner(Transform partner)
+    {
+        ConversationPartner = partner;
     }
 
     public void StopConversation()
@@ -263,12 +256,33 @@ public sealed class VillagerConversation : MonoBehaviour
             SubtitleController.Instance.ShowLocalized(speakerKey, line.LocalizationKey, 0f);
         }
 
-        yield return NpcDialogueAdvanceInput.WaitForPress();
+        if (line.Duration > 0f)
+        {
+            yield return new WaitForSecondsRealtime(line.Duration);
+        }
+
+        yield return WaitForAdvanceOrSkipReveal();
         SubtitleController.Instance?.Hide();
 
         if (line.PauseAfter > 0f)
         {
             yield return new WaitForSecondsRealtime(line.PauseAfter);
+        }
+    }
+
+    private static IEnumerator WaitForAdvanceOrSkipReveal()
+    {
+        while (true)
+        {
+            yield return NpcDialogueAdvanceInput.WaitForPress();
+
+            if (SubtitleController.Instance != null && SubtitleController.Instance.IsRevealing)
+            {
+                SubtitleController.Instance.SkipTypewriter();
+                continue;
+            }
+
+            yield break;
         }
     }
 
